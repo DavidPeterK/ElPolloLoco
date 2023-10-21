@@ -13,7 +13,7 @@ class MovableObject {
 
     applyGravity() {
         setInterval(() => {
-            if (this.isNotOnGround()) {
+            if (this.isNotOnGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
@@ -47,12 +47,15 @@ class MovableObject {
     }
 
     moveRight() {
-
+        this.x += this.speed;
+        this.otherDirection = false;
     }
 
     moveLeft() {
-        setInterval(() => {
-            this.x -= 0.2;
-        }, 1000 / 60);
+        this.x -= this.speed;
+    }
+
+    jump() {
+        this.speedY = 25;
     }
 }

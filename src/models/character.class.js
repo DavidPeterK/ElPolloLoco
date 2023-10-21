@@ -40,16 +40,19 @@ class Character extends MovableObject {
 
             //taste rechts um bild x achse zu erhöhen
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.x += this.speed;
-                this.otherDirection = false;
+                this.moveRight();
                 this.WALKING_SOUND.play();
             }
 
             //taste links um bild x achse zu verringern
             if (this.world.keyboard.LEFT && this.x > 0) {
-                this.x -= this.speed;
+                this.moveLeft();
                 this.otherDirection = true;
                 this.WALKING_SOUND.play();
+            }
+
+            if (this.world.keyboard.SPACE && !this.isNotOnGround()) {
+                this.jump();
             }
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
@@ -68,8 +71,4 @@ class Character extends MovableObject {
             }
         }, 50);
     }
-
-
-    jump() { }
-
 }
