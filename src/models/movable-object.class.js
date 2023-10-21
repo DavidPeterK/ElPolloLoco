@@ -4,10 +4,10 @@ class MovableObject {
     height = 150;
     width = 100;
     img;
-    imageCache = [];
+    imageCache = {};
     currentImage = 0;
     speed = 0.2;
-
+    otherDirection = false;
 
     loadImage(path) {
         this.img = new Image();
@@ -15,9 +15,10 @@ class MovableObject {
     }
 
     loadImages(set) {
-        set.array.forEach((path) => {
+        set.forEach((path) => {
             let img = new Image();
             img.src = path;
+            img.style = 'transform: scaleX(-1)';
             this.imageCache[path] = img;
         });
 
