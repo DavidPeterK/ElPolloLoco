@@ -1,23 +1,10 @@
 class World {
-
     character = new Character();
-    enemies = [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-    ];
-    clouds = [
-        new Cloud()
-    ];
-    backgroundObjects = [
-        new BackgroundObject('src/img/5_background/layers/air.png', 0),
-        new BackgroundObject('src/img/5_background/layers/3_third_layer/1.png', 0),
-        new BackgroundObject('src/img/5_background/layers/2_second_layer/1.png', 0),
-        new BackgroundObject('src/img/5_background/layers/1_first_layer/1.png', 0),
-    ];
+    level = level1;
     canvas;
     ctx;
     keyboard;
+    camera_x = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -35,11 +22,16 @@ class World {
         //alle bilder im canvas löschen
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
+        this.ctx.translate(this.camera_x, 0);
+
         //bilder aus classen rendern (zeichnen) ebene für ebene
-        this.addObjects(this.backgroundObjects);
+        this.addObjects(this.level.backgroundObjects);
         this.addToMap(this.character);
-        this.addObjects(this.clouds);
-        this.addObjects(this.enemies);
+        this.addObjects(this.level.clouds);
+        this.addObjects(this.level.enemies);
+
+        this.ctx.translate(-this.camera_x, 0);
+
 
         //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
         let self = this;
@@ -56,6 +48,7 @@ class World {
 
     addToMap(draw) {
         if (draw.otherDirection) {
+            //save speichert alle ctx werte und mit restore() können wir mit diesen speicher fortfahren
             this.ctx.save();
             //bei bewegungung nach links wird die breite des bildes auf der stelle festgehalten
             this.ctx.translate(draw.width, 0);
