@@ -24,6 +24,19 @@ class MovableObject {
         return this.y < 180;
     }
 
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
+    }
+
+    drawHitBox(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = "4";
+        ctx.strokeStyle = "red";
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+    }
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
