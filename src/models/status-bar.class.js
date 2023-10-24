@@ -31,11 +31,15 @@ class StatusBar extends DrawableObject {
         'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
 
-
+    mainHealth = 100;
+    coinCounter = 0;
+    bottleCounter = 0;
 
     constructor() {
         this.loadImages(this.STATUS_HEALTH);
         this.loadImages(this.STATUS_COIN);
         this.loadImages(this.STATUS_BOTTLE);
     }
+
+
 }
