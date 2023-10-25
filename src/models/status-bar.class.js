@@ -36,10 +36,33 @@ class StatusBar extends DrawableObject {
     bottleCounter = 0;
 
     constructor() {
+        super();
         this.loadImages(this.STATUS_HEALTH);
         this.loadImages(this.STATUS_COIN);
         this.loadImages(this.STATUS_BOTTLE);
+        this.setMainHealth(100);
     }
 
+    mainHealthIndex() {
+        if (this.mainHealth == 100) {
+            return 5;
+        } else if (this.mainHealth > 80) {
+            return 4;
+        } else if (this.mainHealth > 60) {
+            return 3;
+        } else if (this.mainHealth > 40) {
+            return 2;
+        } else if (this.mainHealth > 20) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    setMainHealth(mainHealth) {
+        this.mainHealth = mainHealth;
+        let path = this.STATUS_HEALTH[this.mainHealthIndex()];
+        this.img = this.imageCache[path];
+    }
 
 }
