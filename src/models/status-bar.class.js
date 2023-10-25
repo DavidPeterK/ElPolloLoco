@@ -1,8 +1,11 @@
 class StatusBar extends DrawableObject {
-    height = '';
-    width = '';
-    x = '';
-    y = '';
+    height;
+    width;
+    x;
+    y;
+    mainHealth = 100;
+    coinCounter = 0;
+    bottleCounter = 0;
 
     STATUS_COIN = [
         'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
@@ -31,15 +34,16 @@ class StatusBar extends DrawableObject {
         'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
     ];
 
-    mainHealth = 100;
-    coinCounter = 0;
-    bottleCounter = 0;
 
     constructor() {
         super();
         this.loadImages(this.STATUS_HEALTH);
         this.loadImages(this.STATUS_COIN);
         this.loadImages(this.STATUS_BOTTLE);
+        this.x = 40;
+        this.y = 0;
+        this.width = 200;
+        this.height = 60;
         this.setMainHealth(100);
     }
 

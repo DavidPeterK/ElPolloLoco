@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     otherDirection = false;
     acceleration = 2;
-    energy = 100;
+    mainHealth = 100;
     lastHit = 0;
 
     applyGravity() {
@@ -16,7 +16,11 @@ class MovableObject extends DrawableObject {
     }
 
     isNotOnGround() {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
 
     playAnimation(images) {
@@ -42,9 +46,9 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        this.energy -= 5;
-        if (this.energy < 0) {
-            this.energy = 0;
+        this.mainHealth -= 5;
+        if (this.mainHealth < 0) {
+            this.mainHealth = 0;
         } else {
             this.lastHit = new Date().getTime();
         }
@@ -57,7 +61,7 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        return this.energy == 0;
+        return this.mainHealth == 0;
     }
 
     moveRight() {
@@ -72,4 +76,5 @@ class MovableObject extends DrawableObject {
     jump() {
         this.speedY = 25;
     }
+
 }
