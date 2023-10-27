@@ -37,6 +37,7 @@ class World {
         });
     }
 
+    //mit d flaschen werfen
     checkThrowObjects() {
         if (this.keyboard.D) {
             let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
@@ -52,15 +53,18 @@ class World {
         //bilder aus classen rendern (zeichnen) ebene für ebene
         this.addObjects(this.level.backgroundObjects);
 
+        this.addToMap(this.character);
+        this.addObjects(this.level.clouds);
+        this.addObjects(this.level.enemies);
+        this.addObjects(this.throwableObjects);
+
+
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.statusBar);
         this.ctx.translate(this.camera_x, 0);
 
-        this.addToMap(this.character);
-        this.addObjects(this.level.clouds);
-        this.addObjects(this.level.enemies);
-        this.addObjects(this.throwableObjects);
+
 
         this.ctx.translate(-this.camera_x, 0);
 

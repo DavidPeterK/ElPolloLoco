@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     mainHealth = 100;
     lastHit = 0;
+    offsetY = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -12,7 +13,7 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
-        }, 1000 / 25);
+        }, 1000 / 35);
     }
 
     isNotOnGround() {
@@ -30,6 +31,7 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+
     //update function
     //isColliding(obj) {
     //    return (this.x + this.width) >= obj.x && this.x <= (obj.x + obj.width) &&
@@ -40,11 +42,12 @@ class MovableObject extends DrawableObject {
 
     isColliding(obj) {
         return (this.x + this.width) >= obj.x &&
-            (this.y + this.height) >= obj.y &&
+            (this.y + this.offsetY) + this.height >= (obj.y + obj.offsetY) &&
             this.x <= (obj.x + obj.width) &&
-            this.y <= (obj.y + obj.height)
+            (this.y + this.offsetY) <= (obj.y + obj.offsetY) + obj.height;
     }
 
+    //schaden
     hit() {
         this.mainHealth -= 5;
         if (this.mainHealth < 0) {
@@ -54,6 +57,7 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    //abklinkzeit für nächsten schaden
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
@@ -66,7 +70,6 @@ class MovableObject extends DrawableObject {
 
     moveRight() {
         this.x += this.speed;
-        this.otherDirection = false;
     }
 
     moveLeft() {
@@ -75,6 +78,18 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 25;
+    }
+
+    jumpClipAnimation() {
+    }
+
+    stillStanding() {
+        if (!this.isNotOnGround()) {
+
+            let stillStandingClip = setInterval(() => {
+                this.playAnimation(this.STILL_STANDING_SET);
+            }, 1000);
+        }
     }
 
 }

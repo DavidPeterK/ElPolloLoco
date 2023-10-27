@@ -1,10 +1,27 @@
 class Character extends MovableObject {
 
+    width = 100;
     height = 250;
     y = 180;
     speed = 5;
+    speedY;
     world;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
+    offsetY = 100;
+    currentImage = 0;
+
+    STILL_STANDING_SET = [
+        'src/img/2_character_pepe/1_idle/idle/I-1.png',
+        'src/img/2_character_pepe/1_idle/idle/I-2.png',
+        'src/img/2_character_pepe/1_idle/idle/I-3.png',
+        'src/img/2_character_pepe/1_idle/idle/I-4.png',
+        'src/img/2_character_pepe/1_idle/idle/I-5.png',
+        'src/img/2_character_pepe/1_idle/idle/I-6.png',
+        'src/img/2_character_pepe/1_idle/idle/I-7.png',
+        'src/img/2_character_pepe/1_idle/idle/I-8.png',
+        'src/img/2_character_pepe/1_idle/idle/I-9.png',
+        'src/img/2_character_pepe/1_idle/idle/I-10.png'
+    ];
 
     WALKING_SET = [
         'src/img/2_character_pepe/2_walk/W-21.png',
@@ -44,7 +61,8 @@ class Character extends MovableObject {
     ];
 
     constructor() {
-        super().loadImage('src/img/2_character_pepe/2_walk/W-21.png');
+        super().loadImage('src/img/2_character_pepe/1_idle/idle/I-1.png');
+        this.loadImages(this.STILL_STANDING_SET);
         this.loadImages(this.WALKING_SET);
         this.loadImages(this.JUMP_SET);
         this.loadImages(this.DEAD_SET);
@@ -60,6 +78,7 @@ class Character extends MovableObject {
             //taste rechts um bild x achse zu erhöhen
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
                 this.moveRight();
+                this.otherDirection = false;
                 this.WALKING_SOUND.play();
             }
 
@@ -94,4 +113,5 @@ class Character extends MovableObject {
             }
         }, 50);
     }
+
 }
