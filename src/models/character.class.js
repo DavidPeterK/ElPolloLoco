@@ -5,6 +5,7 @@ class Character extends MovableObject {
     y = 180;
     speed = 5;
     speedY;
+    lastHit = 0;
     world;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     offsetY = 100;
@@ -99,19 +100,21 @@ class Character extends MovableObject {
 
         setInterval(() => {
 
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_SET);
-            } else if (this.isHurt()) {
+            //if (this.isDead()) {
+            //    this.playAnimation(this.DEAD_SET);
+            //} else 
+            if (this.isHurt()) {
                 this.playAnimation(this.HURT_SET);
-            } else if (this.isNotOnGround()) {
-                this.playAnimation(this.JUMP_SET);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    //lauf animation
-                    this.playAnimation(this.WALKING_SET);
-                }
             }
-        }, 50);
+            else if (this.isNotOnGround()) {
+                this.playAnimation(this.JUMP_SET);
+            }
+            else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                this.playAnimation(this.STILL_STANDING_SET);
+            }
+            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.WALKING_SET);
+            }
+        }, 100);
     }
-
 }
