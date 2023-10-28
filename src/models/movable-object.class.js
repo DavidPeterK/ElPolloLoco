@@ -49,7 +49,7 @@ class MovableObject extends DrawableObject {
 
     //schaden
     hit() {
-        this.mainHealth -= 5;
+        this.mainHealth -= 20;
         if (this.mainHealth < 0) {
             this.mainHealth = 0;
         } else {
@@ -61,7 +61,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
-        return timepassed < 2;
+        return timepassed < 3.5;
     }
 
     isDead() {
@@ -78,18 +78,6 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 25;
-    }
-
-    jumpClipAnimation() {
-    }
-
-    stillStanding() {
-        if (!this.isNotOnGround()) {
-
-            let stillStandingClip = setInterval(() => {
-                this.playAnimation(this.STILL_STANDING_SET);
-            }, 1000);
-        }
     }
 
 }

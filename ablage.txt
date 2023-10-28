@@ -1,1 +1,2 @@
 || this instanceof Chicken
+[0][0]

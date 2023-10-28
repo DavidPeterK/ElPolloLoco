@@ -26,7 +26,7 @@ class DrawableObject {
     }
 
     drawHitBox(ctx) {
-        if (this instanceof Character || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject) {
             ctx.beginPath();
             ctx.lineWidth = "4";
             ctx.strokeStyle = "red";

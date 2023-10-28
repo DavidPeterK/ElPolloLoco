@@ -8,19 +8,31 @@ class Character extends MovableObject {
     lastHit = 0;
     world;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
+    DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
     offsetY = 100;
     currentImage = 0;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
+        'src/img/2_character_pepe/1_idle/idle/I-1.png',
+        'src/img/2_character_pepe/1_idle/idle/I-2.png',
         'src/img/2_character_pepe/1_idle/idle/I-2.png',
         'src/img/2_character_pepe/1_idle/idle/I-3.png',
         'src/img/2_character_pepe/1_idle/idle/I-4.png',
+        'src/img/2_character_pepe/1_idle/idle/I-4.png',
         'src/img/2_character_pepe/1_idle/idle/I-5.png',
         'src/img/2_character_pepe/1_idle/idle/I-6.png',
+        'src/img/2_character_pepe/1_idle/idle/I-6.png',
+        'src/img/2_character_pepe/1_idle/idle/I-7.png',
         'src/img/2_character_pepe/1_idle/idle/I-7.png',
         'src/img/2_character_pepe/1_idle/idle/I-8.png',
+        'src/img/2_character_pepe/1_idle/idle/I-8.png',
+        'src/img/2_character_pepe/1_idle/idle/I-8.png',
         'src/img/2_character_pepe/1_idle/idle/I-9.png',
+        'src/img/2_character_pepe/1_idle/idle/I-9.png',
+        'src/img/2_character_pepe/1_idle/idle/I-9.png',
+        'src/img/2_character_pepe/1_idle/idle/I-10.png',
+        'src/img/2_character_pepe/1_idle/idle/I-10.png',
         'src/img/2_character_pepe/1_idle/idle/I-10.png'
     ];
 
@@ -38,9 +50,14 @@ class Character extends MovableObject {
         'src/img/2_character_pepe/3_jump/J-32.png',
         'src/img/2_character_pepe/3_jump/J-33.png',
         'src/img/2_character_pepe/3_jump/J-34.png',
+        'src/img/2_character_pepe/3_jump/J-34.png',
+        'src/img/2_character_pepe/3_jump/J-35.png',
+        'src/img/2_character_pepe/3_jump/J-35.png',
         'src/img/2_character_pepe/3_jump/J-35.png',
         'src/img/2_character_pepe/3_jump/J-36.png',
         'src/img/2_character_pepe/3_jump/J-37.png',
+        'src/img/2_character_pepe/3_jump/J-38.png',
+        'src/img/2_character_pepe/3_jump/J-38.png',
         'src/img/2_character_pepe/3_jump/J-38.png',
         'src/img/2_character_pepe/3_jump/J-39.png'
     ];
@@ -57,7 +74,10 @@ class Character extends MovableObject {
 
     HURT_SET = [
         'src/img/2_character_pepe/4_hurt/H-41.png',
+        'src/img/2_character_pepe/4_hurt/H-41.png',
         'src/img/2_character_pepe/4_hurt/H-42.png',
+        'src/img/2_character_pepe/4_hurt/H-42.png',
+        'src/img/2_character_pepe/4_hurt/H-43.png',
         'src/img/2_character_pepe/4_hurt/H-43.png'
     ];
 

@@ -6,12 +6,15 @@ class World {
     keyboard;
     camera_x = 0;
     statusBar = new StatusBar();
-    throwableObjects = [];
+    throwableObject = [];
+    throwableObjects;
+    lastThrow = 0;
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, throwableObjects) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.throwableObjects = throwableObjects;
         this.draw();
         this.setWorld();
         this.checkMoments();
@@ -19,31 +22,55 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.throwableObjects.world = this;
     }
 
     checkMoments() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObjects();
-        }, 200);
+        }, 1000 / 60);
     }
 
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !this.character.isHurt()) {
+                this.character.DAMAGE_SOUND.play();
                 this.character.hit();
                 this.statusBar.setMainHealth(this.character.mainHealth);
+            }
+            if (this.throwableObjects.isColliding(enemy) && !this.throwableObjects.isThrowing()) {
+                this.throwableObjects.BROKEN_BOTTLE.play();
+                //this.throwableObjects.hit();
+                //this.statusBar.setMainHealth(this.character.mainHealth);
             }
         });
     }
 
     //mit d flaschen werfen
     checkThrowObjects() {
-        if (this.keyboard.D) {
-            let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
-            this.throwableObjects.push(bottle);
+        if (this.keyboard.D && !this.isThrowing()) {
+            this.throwableObjects.FLYING_BOTTLE.play();
+            let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
+            this.throwableObject.push(bottle);
+            this.lastThrow = new Date().getTime();
         }
+        if (this.throwableObject.length - 1 >= 0) {
+            setTimeout(() => {
+                if (this.throwableObject[this.throwableObject.length - 1].y >= 479) {
+                    this.throwableObjects.FLYING_BOTTLE.pause();
+                }
+            }, 100);
+        }
+
     }
+
+    isThrowing() {
+        let timepassed = new Date().getTime() - this.lastThrow;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
+    }
+
 
     draw() {
         //alle bilder im canvas löschen
@@ -56,7 +83,7 @@ class World {
         this.addToMap(this.character);
         this.addObjects(this.level.clouds);
         this.addObjects(this.level.enemies);
-        this.addObjects(this.throwableObjects);
+        this.addObjects(this.throwableObject);
 
 
         //------Fixed-Object---------//

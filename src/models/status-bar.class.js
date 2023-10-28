@@ -50,13 +50,13 @@ class StatusBar extends DrawableObject {
     mainHealthIndex() {
         if (this.mainHealth == 100) {
             return 5;
-        } else if (this.mainHealth > 80) {
+        } else if (this.mainHealth >= 80) {
             return 4;
-        } else if (this.mainHealth > 60) {
+        } else if (this.mainHealth >= 60) {
             return 3;
-        } else if (this.mainHealth > 40) {
+        } else if (this.mainHealth >= 40) {
             return 2;
-        } else if (this.mainHealth > 20) {
+        } else if (this.mainHealth >= 20) {
             return 1;
         } else {
             return 0;

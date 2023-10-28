@@ -1,11 +1,12 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let throwableObjects = new ThrowableObject();
 
 //läd canvas und world class und gibt das canvas weiter
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, throwableObjects);
 }
 
 //herausfinden der keycodes für jede taste mit console.log
