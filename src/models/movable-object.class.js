@@ -5,6 +5,7 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     mainHealth = 100;
     lastHit = 0;
+    lastThrow = 0;
     offsetY = 0;
 
     applyGravity() {
@@ -62,6 +63,12 @@ class MovableObject extends DrawableObject {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 3.5;
+    }
+
+    isThrowing() {
+        let timepassed = new Date().getTime() - this.lastThrow;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
     }
 
     isDead() {

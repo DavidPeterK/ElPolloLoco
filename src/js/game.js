@@ -1,17 +1,15 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let throwableObjects = new ThrowableObject();
 
 //läd canvas und world class und gibt das canvas weiter
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard, throwableObjects);
+    world = new World(canvas, keyboard);
 }
 
 //herausfinden der keycodes für jede taste mit console.log
 window.addEventListener("keydown", (e) => {
-    console.log(e);
     if (e.keyCode == 39) {
         keyboard.RIGHT = true;
     }
@@ -38,7 +36,6 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-    console.log(e);
     if (e.keyCode == 39) {
         keyboard.RIGHT = false;
     }

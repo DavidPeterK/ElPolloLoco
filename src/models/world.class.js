@@ -7,14 +7,13 @@ class World {
     camera_x = 0;
     statusBar = new StatusBar();
     throwableObject = [];
-    throwableObjects;
-    lastThrow = 0;
+    throwableObjects = new ThrowableObject();
+    collidingStatus = false;
 
-    constructor(canvas, keyboard, throwableObjects) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.throwableObjects = throwableObjects;
         this.draw();
         this.setWorld();
         this.checkMoments();
@@ -39,37 +38,35 @@ class World {
                 this.character.hit();
                 this.statusBar.setMainHealth(this.character.mainHealth);
             }
-            if (this.throwableObjects.isColliding(enemy) && !this.throwableObjects.isThrowing()) {
-                this.throwableObjects.BROKEN_BOTTLE.play();
-                //this.throwableObjects.hit();
-                //this.statusBar.setMainHealth(this.character.mainHealth);
+            if (this.throwableObject.length - 1 >= 0) {
+                if (this.throwableObject[0].isColliding(enemy)) {
+                    this.collidingStatus = true;
+                    this.throwableObjects.FLYING_BOTTLE.pause();
+                    this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+                    //this.throwableObjects.hit();
+                    //this.statusBar.setMainHealth(this.character.mainHealth);
+                }
             }
         });
     }
 
     //mit d flaschen werfen
     checkThrowObjects() {
-        if (this.keyboard.D && !this.isThrowing()) {
+        if (this.keyboard.D && !this.throwableObjects.isThrowing()) {
             this.throwableObjects.FLYING_BOTTLE.play();
             let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
             this.throwableObject.push(bottle);
-            this.lastThrow = new Date().getTime();
+            this.throwableObjects.lastThrow = new Date().getTime();
         }
         if (this.throwableObject.length - 1 >= 0) {
-            setTimeout(() => {
-                if (this.throwableObject[this.throwableObject.length - 1].y >= 479) {
-                    this.throwableObjects.FLYING_BOTTLE.pause();
-                }
-            }, 100);
+            if (this.throwableObject[this.throwableObject.length - 1].y >= 479) {
+                this.throwableObjects.FLYING_BOTTLE.pause();
+                this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+                this.throwableObject.splice(0, 1);
+            }
         }
-
     }
 
-    isThrowing() {
-        let timepassed = new Date().getTime() - this.lastThrow;
-        timepassed = timepassed / 1000;
-        return timepassed < 1;
-    }
 
 
     draw() {

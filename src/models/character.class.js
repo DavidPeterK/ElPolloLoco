@@ -4,13 +4,10 @@ class Character extends MovableObject {
     height = 250;
     y = 180;
     speed = 5;
-    speedY;
-    lastHit = 0;
     world;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
     offsetY = 100;
-    currentImage = 0;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -110,7 +107,7 @@ class Character extends MovableObject {
                 this.WALKING_SOUND.play();
             }
 
-            if (this.world.keyboard.SPACE && !this.isNotOnGround()) {
+            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isNotOnGround()) {
                 this.jump();
             }
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
