@@ -19,7 +19,7 @@ class MovableObject extends DrawableObject {
 
     isNotOnGround() {
         if (this instanceof ThrowableObject) {
-            return true;
+            return this.y <= 479;
         } else {
             return this.y < 180;
         }
@@ -68,7 +68,7 @@ class MovableObject extends DrawableObject {
     isThrowing() {
         let timepassed = new Date().getTime() - this.lastThrow;
         timepassed = timepassed / 1000;
-        return timepassed < 1;
+        return timepassed < 2;
     }
 
     isDead() {

@@ -35,7 +35,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        this.speedY = 30;
+        this.speedY = 23;
         this.applyGravity();
         setInterval(() => {
             if (world.character.otherDirection === true) {
@@ -43,31 +43,29 @@ class ThrowableObject extends MovableObject {
             } else {
                 this.x += 11;
             }
-        }, 25);
+        }, 20);
     }
 
     animate() {
+        let isAudioPlaying = false;
         setInterval(() => {
             if (world.throwableObject.length >= 0) {
                 if (world.collidingStatus == true) {
-                    this.shortClip(this.BROKEN_SET);
+                    if (!isAudioPlaying) {
+                        this.BROKEN_BOTTLE.play();
+                        isAudioPlaying = true;
+                    }
+                    this.playAnimation(this.BROKEN_SET);
+                    setTimeout(() => {
+                        world.collidingStatus = false;
+                        isAudioPlaying = false;
+                        world.throwableObject.splice(0, 1);
+                    }, 500);
                 } else {
                     this.playAnimation(this.THROW_SET);
                 }
             }
-        }, 100);
+        }, 150);
     }
 
-    shortClip(array) {
-        this.BROKEN_BOTTLE.play();
-        for (let index = 0; index < array.length; index++) {
-            const pic = array[index];
-            if (index == array.length - 1) {
-                world.collidingStatus = false;
-                world.throwableObject.splice(0, 1);
-            } else {
-                this.loadImage(pic);
-            }
-        }
-    }
 }
