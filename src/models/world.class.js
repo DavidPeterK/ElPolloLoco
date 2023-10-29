@@ -5,7 +5,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = new StatusBar();
+    statusBarMainHealth = new StatusBar();
     throwableObject = [];
     throwableObjects = new ThrowableObject();
     collidingStatus = false;
@@ -18,11 +18,13 @@ class World {
         this.draw();
         this.setWorld();
         this.checkMoments();
+
     }
 
     setWorld() {
         this.character.world = this;
         this.throwableObjects.world = this;
+        this.statusBarMainHealth.world = this;
     }
 
     checkMoments() {
@@ -37,7 +39,7 @@ class World {
             if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.DAMAGE_SOUND.play();
                 this.character.hit();
-                this.statusBar.setMainHealth(this.character.mainHealth);
+                this.statusBarMainHealth.setMainHealth(this.character.mainHealth);
             }
             if (this.throwableObject.length - 1 >= 0) {
                 if (this.throwableObject[0].isColliding(enemy)) {
@@ -86,7 +88,7 @@ class World {
 
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBar);
+        this.addToMap(this.statusBarMainHealth);
         this.ctx.translate(this.camera_x, 0);
 
 

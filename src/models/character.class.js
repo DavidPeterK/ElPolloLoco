@@ -1,5 +1,6 @@
 class Character extends MovableObject {
 
+    mainHealth = 100;
     width = 100;
     height = 250;
     y = 180;
@@ -9,8 +10,8 @@ class Character extends MovableObject {
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
     offsetYU = 100;
-    offsetYD = 100;
-    offsetXL = 10;
+    offsetYD = 5;
+    offsetXL = 20;
     offsetXR = 30;
 
     STILL_STANDING_SET = [

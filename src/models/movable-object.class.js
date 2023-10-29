@@ -1,9 +1,11 @@
+const HURT_TIME = 1.5; // Sekunden
+const THROW_TIME = 2; // Sekunden
+
 class MovableObject extends DrawableObject {
     speed = 0.2;
     speedY = 0;
     otherDirection = false;
     acceleration = 2;
-    mainHealth = 100;
     lastHit = 0;
     lastThrow = 0;
 
@@ -41,18 +43,21 @@ class MovableObject extends DrawableObject {
     //        obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     //}
 
-    isColliding(obj) {
-        if (!this.otherDirection) {
-            return ((this.x + this.width) - this.offsetXR) >= (obj.x + obj.offsetXL) &&
-                (((this.y + this.offsetYU) + this.height) - this.offsetYD) >= (obj.y + obj.offsetYU) &&
-                (this.x + this.offsetXL) <= ((obj.x + obj.width) - obj.offsetXR) &&
-                (this.y + this.offsetYU) <= (((obj.y + obj.offsetYU) + obj.height) - obj.offsetYD);
+    isColliding(object) {
+        let thisLeftOffset, thisRightOffset;
+
+        if (this.otherDirection) {
+            thisLeftOffset = this.offsetXR;
+            thisRightOffset = this.offsetXL;
         } else {
-            return ((this.x - this.width) + this.offsetXL) >= (obj.x + obj.offsetXL) &&
-                (((this.y + this.offsetYU) + this.height) - this.offsetYD) >= (obj.y + obj.offsetYU) &&
-                (this.x - this.offsetXR) <= ((obj.x + obj.width) - obj.offsetXR) &&
-                (this.y + this.offsetYU) <= (((obj.y + obj.offsetYU) + obj.height) - obj.offsetYD);
+            thisLeftOffset = this.offsetXL;
+            thisRightOffset = this.offsetXR;
         }
+
+        return !(this.x + thisLeftOffset > object.x + object.width - object.offsetXR ||
+            this.x + this.width - thisRightOffset < object.x + object.offsetXL ||
+            this.y + this.offsetYU > object.y + object.height - object.offsetYD ||
+            this.y + this.height - this.offsetYD < object.y + object.offsetYU);
     }
 
     //schaden
@@ -65,19 +70,17 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    //abklinkzeit für nächsten schaden
+    timeSince(eventTime) {
+        return (new Date().getTime() - eventTime) / 1000;
+    }
+
     isHurt() {
-        let timepassed = new Date().getTime() - this.lastHit;
-        timepassed = timepassed / 1000;
-        return timepassed < 3.5;
+        return this.timeSince(this.lastHit) < HURT_TIME;
     }
 
     isThrowing() {
-        let timepassed = new Date().getTime() - this.lastThrow;
-        timepassed = timepassed / 1000;
-        return timepassed < 2;
+        return this.timeSince(this.lastThrow) < THROW_TIME;
     }
-
     isDead() {
         return this.mainHealth == 0;
     }

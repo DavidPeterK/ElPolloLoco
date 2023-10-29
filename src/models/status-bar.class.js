@@ -6,6 +6,7 @@ class StatusBar extends DrawableObject {
     mainHealth = 100;
     coinCounter = 0;
     bottleCounter = 0;
+    world;
 
     STATUS_COIN = [
         'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
@@ -18,11 +19,20 @@ class StatusBar extends DrawableObject {
 
     STATUS_HEALTH = [
         'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
-        'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
-        'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
+        'src/img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png',
+        'src/img/7_statusbars/1_statusbar/2_statusbar_health/blue/40.png',
         'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
         'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
         'src/img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png'
+    ];
+
+    STATUS_BOSS = [
+        'src/img/7_statusbars/2_statusbar_endboss/orange.png',
+        'src/img/7_statusbars/2_statusbar_endboss/orange.png',
+        'src/img/7_statusbars/2_statusbar_endboss/green.png',
+        'src/img/7_statusbars/2_statusbar_endboss/green.png',
+        'src/img/7_statusbars/2_statusbar_endboss/blue.png',
+        'src/img/7_statusbars/2_statusbar_endboss/blue.png'
     ];
 
     STATUS_BOTTLE = [
@@ -48,19 +58,7 @@ class StatusBar extends DrawableObject {
     }
 
     mainHealthIndex() {
-        if (this.mainHealth == 100) {
-            return 5;
-        } else if (this.mainHealth >= 80) {
-            return 4;
-        } else if (this.mainHealth >= 60) {
-            return 3;
-        } else if (this.mainHealth >= 40) {
-            return 2;
-        } else if (this.mainHealth >= 20) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return Math.min(Math.floor(this.mainHealth / 20), 5);
     }
 
     setMainHealth(mainHealth) {

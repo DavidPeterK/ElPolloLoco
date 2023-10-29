@@ -31,9 +31,14 @@ class DrawableObject {
     drawHitBox(ctx) {
         if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject) {
             ctx.beginPath();
-            ctx.lineWidth = "4";
-            ctx.strokeStyle = "red";
-            ctx.rect((this.x + this.offsetXL), (this.y + this.offsetYU), (this.width - this.offsetXR), (this.height - this.offsetYD));
+            ctx.rect(
+                this.x + this.offsetXL,
+                this.y + this.offsetYU,
+                this.width - this.offsetXL - this.offsetXR,
+                this.height - this.offsetYU - this.offsetYD
+            );
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'red';
             ctx.stroke();
         }
     }
