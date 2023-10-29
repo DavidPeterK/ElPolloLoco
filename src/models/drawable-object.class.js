@@ -6,7 +6,10 @@ class DrawableObject {
     img;
     imageCache = {};
     currentImage = 0;
-
+    offsetYU = 0;
+    offsetYD = 0;
+    offsetXR = 0;
+    offsetXL = 0;
 
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
@@ -30,7 +33,7 @@ class DrawableObject {
             ctx.beginPath();
             ctx.lineWidth = "4";
             ctx.strokeStyle = "red";
-            ctx.rect(this.x, this.y + this.offsetY, this.width, this.height - this.offsetY);
+            ctx.rect((this.x + this.offsetXL), (this.y + this.offsetYU), (this.width - this.offsetXR), (this.height - this.offsetYD));
             ctx.stroke();
         }
     }

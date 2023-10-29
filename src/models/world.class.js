@@ -9,6 +9,7 @@ class World {
     throwableObject = [];
     throwableObjects = new ThrowableObject();
     collidingStatus = false;
+    collidingEnemyStatus = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -40,7 +41,7 @@ class World {
             }
             if (this.throwableObject.length - 1 >= 0) {
                 if (this.throwableObject[0].isColliding(enemy)) {
-                    this.collidingStatus = true;
+                    this.collidingEnemyStatus = true;
                     this.throwableObjects.FLYING_BOTTLE.pause();
                     this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
                     //this.throwableObjects.hit();
@@ -59,10 +60,10 @@ class World {
             this.throwableObjects.lastThrow = new Date().getTime();
         }
         if (this.throwableObject.length - 1 >= 0) {
-            if (this.throwableObject[this.throwableObject.length - 1].y >= 479) {
+            if (!this.throwableObject[this.throwableObject.length - 1].isNotOnGround()) {
+                this.collidingStatus = true;
                 this.throwableObjects.FLYING_BOTTLE.pause();
                 this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
-                this.throwableObject.splice(0, 1);
             }
         }
     }

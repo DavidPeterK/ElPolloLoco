@@ -3,11 +3,15 @@ class Character extends MovableObject {
     width = 100;
     height = 250;
     y = 180;
+    x = 120;
     speed = 5;
     world;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
-    offsetY = 100;
+    offsetYU = 100;
+    offsetYD = 100;
+    offsetXL = 10;
+    offsetXR = 30;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',

@@ -1,7 +1,10 @@
 class ThrowableObject extends MovableObject {
 
+    offsetYU = 0;
+    offsetYD = 0;
+    offsetXR = 0;
+    offsetXL = 0;
     world;
-    y;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
 
@@ -38,10 +41,14 @@ class ThrowableObject extends MovableObject {
         this.speedY = 23;
         this.applyGravity();
         setInterval(() => {
-            if (world.character.otherDirection === true) {
-                this.x -= 11;
+            if (this.isNotOnGround() && world.collidingEnemyStatus == false) {
+                if (world.character.otherDirection == true) {
+                    this.x -= 11;
+                } else {
+                    this.x += 11;
+                }
             } else {
-                this.x += 11;
+                this.speedY = 0;
             }
         }, 20);
     }
@@ -50,7 +57,7 @@ class ThrowableObject extends MovableObject {
         let isAudioPlaying = false;
         setInterval(() => {
             if (world.throwableObject.length >= 0) {
-                if (world.collidingStatus == true) {
+                if (world.collidingStatus == true || world.collidingEnemyStatus == true) {
                     if (!isAudioPlaying) {
                         this.BROKEN_BOTTLE.play();
                         isAudioPlaying = true;
@@ -58,6 +65,7 @@ class ThrowableObject extends MovableObject {
                     this.playAnimation(this.BROKEN_SET);
                     setTimeout(() => {
                         world.collidingStatus = false;
+                        world.collidingEnemyStatus = false;
                         isAudioPlaying = false;
                         world.throwableObject.splice(0, 1);
                     }, 500);

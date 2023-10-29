@@ -6,7 +6,6 @@ class MovableObject extends DrawableObject {
     mainHealth = 100;
     lastHit = 0;
     lastThrow = 0;
-    offsetY = 0;
 
     applyGravity() {
         setInterval(() => {
@@ -19,7 +18,7 @@ class MovableObject extends DrawableObject {
 
     isNotOnGround() {
         if (this instanceof ThrowableObject) {
-            return this.y <= 479;
+            return this.y <= 419 - this.height;
         } else {
             return this.y < 180;
         }
@@ -35,17 +34,25 @@ class MovableObject extends DrawableObject {
 
     //update function
     //isColliding(obj) {
-    //    return (this.x + this.width) >= obj.x && this.x <= (obj.x + obj.width) &&
+    //    return (this.x + this.width) >= obj.x && 
+    //         this.x <= (obj.x + obj.width) &&
     //        (this.y + this.offsetY + this.height) >= obj.y &&
     //        (this.y + this.offsetY) <= (obj.y + obj.height) &&
     //        obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
     //}
 
     isColliding(obj) {
-        return (this.x + this.width) >= obj.x &&
-            (this.y + this.offsetY) + this.height >= (obj.y + obj.offsetY) &&
-            this.x <= (obj.x + obj.width) &&
-            (this.y + this.offsetY) <= (obj.y + obj.offsetY) + obj.height;
+        if (!this.otherDirection) {
+            return ((this.x + this.width) - this.offsetXR) >= (obj.x + obj.offsetXL) &&
+                (((this.y + this.offsetYU) + this.height) - this.offsetYD) >= (obj.y + obj.offsetYU) &&
+                (this.x + this.offsetXL) <= ((obj.x + obj.width) - obj.offsetXR) &&
+                (this.y + this.offsetYU) <= (((obj.y + obj.offsetYU) + obj.height) - obj.offsetYD);
+        } else {
+            return ((this.x - this.width) + this.offsetXL) >= (obj.x + obj.offsetXL) &&
+                (((this.y + this.offsetYU) + this.height) - this.offsetYD) >= (obj.y + obj.offsetYU) &&
+                (this.x - this.offsetXR) <= ((obj.x + obj.width) - obj.offsetXR) &&
+                (this.y + this.offsetYU) <= (((obj.y + obj.offsetYU) + obj.height) - obj.offsetYD);
+        }
     }
 
     //schaden
