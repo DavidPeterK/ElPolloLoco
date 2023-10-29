@@ -110,17 +110,19 @@ class Character extends MovableObject {
             if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isNotOnGround()) {
                 this.jump();
             }
+
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
+
         }, 1000 / 60);
 
 
         setInterval(() => {
 
-            //if (this.isDead()) {
-            //    this.playAnimation(this.DEAD_SET);
-            //} else 
-            if (this.isHurt()) {
+            if (this.isDead()) {
+                this.playAnimation(this.DEAD_SET);
+            }
+            else if (this.isHurt()) {
                 this.playAnimation(this.HURT_SET);
             }
             else if (this.isNotOnGround()) {
