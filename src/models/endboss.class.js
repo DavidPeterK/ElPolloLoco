@@ -1,13 +1,15 @@
 class Endboss extends MovableObject {
-    mainHealth = 100;
+    endbossHealth = 1000;
     height = 400;
     width = 250;
+    world;
     y = 60;
     x = 400;
     offsetYU = 75;
     offsetYD = 30;
     offsetXR = 50;
     offsetXL = 55;
+    lastHit = 0;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -27,5 +29,14 @@ class Endboss extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.WALKING_SET);
         }, 100);
+    }
+
+    hit() {
+        this.endbossHealth -= 200;
+        if (this.endbossHealth < 0) {
+            this.endbossHealth = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
     }
 }

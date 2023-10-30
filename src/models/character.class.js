@@ -92,7 +92,7 @@ class Character extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.applyGravity();
         this.animate();
-        this.characterMoments();
+        this.characterStatus();
     }
 
     animate() {
@@ -124,7 +124,7 @@ class Character extends MovableObject {
 
     }
 
-    characterMoments() {
+    characterStatus() {
         setInterval(() => {
 
             if (this.isDead()) {

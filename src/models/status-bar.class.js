@@ -4,9 +4,12 @@ class StatusBar extends DrawableObject {
     x;
     y;
     mainHealth = 100;
+    endbossHealth;
+    chickenHealth;
     coinCounter = 0;
     bottleCounter = 0;
     world;
+
 
     STATUS_COIN = [
         'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
@@ -45,26 +48,37 @@ class StatusBar extends DrawableObject {
     ];
 
 
-    constructor() {
+    constructor(x, y, health, type) {
         super();
         this.loadImages(this.STATUS_HEALTH);
         this.loadImages(this.STATUS_COIN);
         this.loadImages(this.STATUS_BOTTLE);
-        this.x = 40;
-        this.y = 0;
+        this.loadImages(this.STATUS_BOSS);
+        this.x = x;
+        this.y = y;
         this.width = 200;
         this.height = 60;
-        this.setMainHealth(100);
+        this.type = type;
+        this.setMainHealth(health);
     }
 
-    mainHealthIndex() {
-        return Math.min(Math.floor(this.mainHealth / 20), 5);
+    healthIndex(object) {
+        if (object == 'character') {
+            return Math.min(Math.floor(this.mainHealth / 20), 5);
+        } else if (object == 'endboss') {
+            return Math.min(Math.floor(this.endbossHealth / 200), 5);
+        }
     }
 
-    setMainHealth(mainHealth) {
-        this.mainHealth = mainHealth;
-        let path = this.STATUS_HEALTH[this.mainHealthIndex()];
-        this.img = this.imageCache[path];
+    setMainHealth(health) {
+        if (this.type == 'character') {
+            this.mainHealth = health;
+            let path = this.STATUS_HEALTH[this.healthIndex(this.type)];
+            this.img = this.imageCache[path];
+        } else if (this.type == 'endboss') {
+            this.endbossHealth = health;
+            let path = this.STATUS_BOSS[this.healthIndex(this.type)];
+            this.img = this.imageCache[path];
+        }
     }
-
 }

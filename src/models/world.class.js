@@ -5,11 +5,15 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    statusBarMainHealth = new StatusBar();
+    statusBar = [
+        new StatusBar(40, 0, 100, 'character'),
+        new StatusBar(480, 0, 1000, 'endboss'),
+    ];
     throwableObject = [];
     throwableObjects = new ThrowableObject();
     collidingStatus = false;
     collidingEnemyStatus = false;
+    endboss = new Endboss();
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -18,13 +22,13 @@ class World {
         this.draw();
         this.setWorld();
         this.checkMoments();
-
     }
 
     setWorld() {
         this.character.world = this;
         this.throwableObjects.world = this;
-        this.statusBarMainHealth.world = this;
+        this.statusBar.world = this;
+        this.endboss.world = this;
     }
 
     checkMoments() {
@@ -39,7 +43,9 @@ class World {
             if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.DAMAGE_SOUND.play();
                 this.character.hit();
-                this.statusBarMainHealth.setMainHealth(this.character.mainHealth);
+                this.endboss.hit();
+                this.statusBar[0].setMainHealth(this.character.mainHealth);
+                this.statusBar[1].setMainHealth(this.endboss.endbossHealth);
             }
             if (this.throwableObject.length - 1 >= 0) {
                 if (this.throwableObject[0].isColliding(enemy)) {
@@ -80,15 +86,15 @@ class World {
         //bilder aus classen rendern (zeichnen) ebene für ebene
         this.addObjects(this.level.backgroundObjects);
 
-        this.addToMap(this.character);
         this.addObjects(this.level.clouds);
         this.addObjects(this.level.enemies);
         this.addObjects(this.throwableObject);
+        this.addToMap(this.character);
 
 
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.statusBarMainHealth);
+        this.addObjects(this.statusBar);
         this.ctx.translate(this.camera_x, 0);
 
 
