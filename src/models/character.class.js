@@ -92,6 +92,7 @@ class Character extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.applyGravity();
         this.animate();
+        this.characterMoments();
     }
 
     animate() {
@@ -119,9 +120,11 @@ class Character extends MovableObject {
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
 
-        }, 1000 / 60);
+        }, 1000 / 55);
 
+    }
 
+    characterMoments() {
         setInterval(() => {
 
             if (this.isDead()) {
