@@ -43,15 +43,17 @@ class World {
             if (this.character.isColliding(enemy) && !this.character.isHurt()) {
                 this.character.DAMAGE_SOUND.play();
                 this.character.hit();
-                this.endboss.hit();
                 this.statusBar[0].setMainHealth(this.character.mainHealth);
-                this.statusBar[1].setMainHealth(this.endboss.endbossHealth);
             }
             if (this.throwableObject.length - 1 >= 0) {
                 if (this.throwableObject[0].isColliding(enemy)) {
                     this.collidingEnemyStatus = true;
                     this.throwableObjects.FLYING_BOTTLE.pause();
                     this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+                    if (enemy = Endboss && !this.endboss.isHurt()) {
+                        this.endboss.hit();
+                        this.statusBar[1].setMainHealth(this.endboss.endbossHealth);
+                    }
                     //this.throwableObjects.hit();
                     //this.statusBar.setMainHealth(this.character.mainHealth);
                 }
