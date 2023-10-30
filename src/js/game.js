@@ -1,10 +1,15 @@
+// Initialize variables
 let canvas;
 let world;
 let keyboard = new Keyboard();
 
-//läd canvas und world class und gibt das canvas weiter
+/**
+ * Initializes the game by setting up the canvas and the world.
+ */
 function init() {
+    // Get the canvas element from the DOM
     canvas = document.getElementById('canvas');
+
+    // Create a new World instance and pass the canvas and keyboard to it
     world = new World(canvas, keyboard);
 }
-
