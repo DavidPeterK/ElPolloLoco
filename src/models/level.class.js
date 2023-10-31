@@ -1,12 +1,19 @@
 class Level {
-    enemies;
-    clouds;
+    endboss;
+    chicken;
     backgroundObjects;
+    clouds;
+    bottle;
+    statusBarChar;
+    statusBarEndboss;
     level_end_x = 2776;
 
-    constructor(enemies, clouds, backgroundObjects) {
-        this.enemies = enemies;
+    constructor(endboss, chicken, backgroundObjects, clouds, bottle, statusBarChar, statusBarEndboss) {
+        this.endboss = endboss;
+        this.chicken = chicken;
         this.clouds = clouds;
-        this.backgroundObjects = backgroundObjects;
+        this.bottle = bottle;
+        this.statusBarChar = statusBarChar;
+        this.statusBarEndboss = statusBarEndboss;
     }
 }

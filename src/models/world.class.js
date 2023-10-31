@@ -1,20 +1,15 @@
 class World {
     character = new Character();
+    statusBar = new StatusBar();
+    throwableObjects = new ThrowableObject();
     level = level1;
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
-    statusBar = [
-        new StatusBar(40, 0, 100, 'character'),
-        new StatusBar(480, 0, 1000, 'endboss'),
-    ];
-    throwableObject = [];
-    throwableObjects = new ThrowableObject();
     collidingStatus = false;
     collidingEnemyStatus = false;
-    endboss = new Endboss();
-
+    allEnemys = [this.level.endboss, this.level.chicken];
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -28,7 +23,7 @@ class World {
         this.character.world = this;
         this.throwableObjects.world = this;
         this.statusBar.world = this;
-        this.endboss.world = this;
+        this.level.endboss.world = this;
     }
 
     checkMoments() {
@@ -39,23 +34,17 @@ class World {
     }
 
     checkCollisions() {
-        this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.isHurt()) {
-                this.character.DAMAGE_SOUND.play();
-                this.character.hit();
-                this.statusBar[0].setMainHealth(this.character.mainHealth);
+        this.allEnemys.forEach((enemies) => {
+            if (this.charTouchWithoutHurt) {
+                this.characterTouchEnemy();
             }
-            if (this.throwableObject.length - 1 >= 0) {
-                if (this.throwableObject[0].isColliding(enemy)) {
-                    this.collidingEnemyStatus = true;
-                    this.throwableObjects.FLYING_BOTTLE.pause();
-                    this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
-                    if (enemy = Endboss && !this.endboss.isHurt()) {
+            if (this.isBottleReady()) {
+                if (this.level.bottle[0].isColliding(enemies)) {
+                    this.bottleTouchEnemy();
+                    if (enemies = Endboss && !this.endboss.isHurt()) {
                         this.endboss.hit();
                         this.statusBar[1].setMainHealth(this.endboss.endbossHealth);
                     }
-                    //this.throwableObjects.hit();
-                    //this.statusBar.setMainHealth(this.character.mainHealth);
                 }
             }
         });
@@ -64,21 +53,47 @@ class World {
     //mit d flaschen werfen
     checkThrowObjects() {
         if (this.keyboard.D && !this.throwableObjects.isThrowing()) {
-            this.throwableObjects.FLYING_BOTTLE.play();
-            let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
-            this.throwableObject.push(bottle);
-            this.throwableObjects.lastThrow = new Date().getTime();
+            this.throwBottle();
         }
-        if (this.throwableObject.length - 1 >= 0) {
-            if (!this.throwableObject[this.throwableObject.length - 1].isNotOnGround()) {
-                this.collidingStatus = true;
-                this.throwableObjects.FLYING_BOTTLE.pause();
-                this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+        if (this.isBottleReady()) {
+            if (!this.level.bottle[this.level.bottle.length - 1].isNotOnGround()) {
+                this.bottleBrokeOnGround();
             }
         }
     }
 
+    charTouchWithoutHurt() {
+        return this.character.isColliding(enemies) && !this.character.isHurt()
+    }
 
+    characterTouchEnemy() {
+        this.character.DAMAGE_SOUND.play();
+        this.character.hit();
+        this.level.statusBarChar.setMainHealth(this.character.mainHealth);
+    }
+
+    isBottleReady() {
+        return this.level.bottle.length - 1 >= 0;
+    }
+
+    bottleTouchEnemy() {
+        this.collidingEnemyStatus = true;
+        this.throwableObjects.FLYING_BOTTLE.pause();
+        this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+    }
+
+    bottleBrokeOnGround() {
+        this.collidingStatus = true;
+        this.throwableObjects.FLYING_BOTTLE.pause();
+        this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+    }
+
+    throwBottle() {
+        this.throwableObjects.FLYING_BOTTLE.play();
+        let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
+        this.level.bottle.push(bottle);
+        this.throwableObjects.lastThrow = new Date().getTime();
+    }
 
     draw() {
         //alle bilder im canvas löschen

@@ -4,9 +4,6 @@ const LAYER_PATH = 'src/img/5_background/layers/';
 
 const level1 = new Level(
     [
-        //new Chicken(),
-        //new Chicken(),
-        //new Chicken(),
         new Endboss(),
     ],
     [
@@ -50,5 +47,19 @@ const level1 = new Level(
         new BackgroundObject(LAYER_PATH + '2_second_layer/1.png', 719 * 4),
         new BackgroundObject(LAYER_PATH + '1_first_layer/1.png', 719 * 4),
 
+    ],
+    [
+        //new Chicken(),
+        //new Chicken(),
+        //new Chicken(),
+    ],
+    [
+
+    ],
+    [
+        new StatusBar(40, 0, 100, 'character'),
+    ],
+    [
+        new StatusBar(480, 0, 1000, 'endboss'),
     ],
 );
