@@ -13,6 +13,7 @@ class Level {
         this.chicken = chicken;
         this.clouds = clouds;
         this.bottle = bottle;
+        this.backgroundObjects = backgroundObjects;
         this.statusBarChar = statusBarChar;
         this.statusBarEndboss = statusBarEndboss;
     }

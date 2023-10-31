@@ -2,6 +2,7 @@ class World {
     character = new Character();
     statusBar = new StatusBar();
     throwableObjects = new ThrowableObject();
+    endBoss = new Endboss();
     level = level1;
     canvas;
     ctx;
@@ -9,7 +10,12 @@ class World {
     camera_x = 0;
     collidingStatus = false;
     collidingEnemyStatus = false;
-    allEnemys = [this.level.endboss, this.level.chicken];
+
+    allEnemys =
+        [
+            this.level.endboss, this.level.chicken
+        ];
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -23,7 +29,7 @@ class World {
         this.character.world = this;
         this.throwableObjects.world = this;
         this.statusBar.world = this;
-        this.level.endboss.world = this;
+        this.endBoss.world = this;
     }
 
     checkMoments() {
@@ -35,15 +41,15 @@ class World {
 
     checkCollisions() {
         this.allEnemys.forEach((enemies) => {
-            if (this.charTouchWithoutHurt) {
+            if (this.charTouchWithoutHurt(enemies)) {
                 this.characterTouchEnemy();
             }
             if (this.isBottleReady()) {
                 if (this.level.bottle[0].isColliding(enemies)) {
                     this.bottleTouchEnemy();
-                    if (enemies = Endboss && !this.endboss.isHurt()) {
-                        this.endboss.hit();
-                        this.statusBar[1].setMainHealth(this.endboss.endbossHealth);
+                    if (enemies = Endboss && !this.level.endboss[0].isHurt()) {
+                        this.level.endboss[0].hit();
+                        this.level.statusBarEndboss[0].setMainHealth(this.endBoss.endbossHealth);
                     }
                 }
             }
@@ -62,18 +68,20 @@ class World {
         }
     }
 
-    charTouchWithoutHurt() {
-        return this.character.isColliding(enemies) && !this.character.isHurt()
+    charTouchWithoutHurt(enemies) {
+        if (this.character.isColliding(enemies) && !this.character.isHurt()) {
+            return
+        }
     }
 
     characterTouchEnemy() {
         this.character.DAMAGE_SOUND.play();
         this.character.hit();
-        this.level.statusBarChar.setMainHealth(this.character.mainHealth);
+        this.statusBarChar[0].setMainHealth(this.character.mainHealth);
     }
 
     isBottleReady() {
-        return this.level.bottle.length - 1 >= 0;
+        this.level.bottle.length - 1 >= 0;
     }
 
     bottleTouchEnemy() {
@@ -90,8 +98,8 @@ class World {
 
     throwBottle() {
         this.throwableObjects.FLYING_BOTTLE.play();
-        let bottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
-        this.level.bottle.push(bottle);
+        let newBottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
+        this.level.bottle.push(newBottle);
         this.throwableObjects.lastThrow = new Date().getTime();
     }
 
@@ -104,14 +112,16 @@ class World {
         this.addObjects(this.level.backgroundObjects);
 
         this.addObjects(this.level.clouds);
-        this.addObjects(this.level.enemies);
-        this.addObjects(this.throwableObject);
+        this.addObjects(this.level.chicken);
+        this.addObjects(this.level.endboss);
+        this.addObjects(this.level.bottle);
         this.addToMap(this.character);
 
 
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
-        this.addObjects(this.statusBar);
+        this.addObjects(this.level.statusBarChar);
+        this.addObjects(this.level.statusBarEndboss);
         this.ctx.translate(this.camera_x, 0);
 
 
@@ -132,17 +142,17 @@ class World {
         });
     }
 
-    addToMap(draw) {
-        if (draw.otherDirection) {
-            this.flipImage(draw);
+    addToMap(object) {
+        if (object.otherDirection) {
+            this.flipImage(object);
         }
 
-        draw.draw(this.ctx);
-        draw.drawHitBox(this.ctx);
+        object.draw(this.ctx);
+        object.drawHitBox(this.ctx);
 
 
-        if (draw.otherDirection) {
-            this.flipImageBack(draw);
+        if (object.otherDirection) {
+            this.flipImageBack(object);
         }
     }
 

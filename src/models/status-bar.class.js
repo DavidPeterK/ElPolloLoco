@@ -9,7 +9,7 @@ class StatusBar extends DrawableObject {
     coinCounter = 0;
     bottleCounter = 0;
     world;
-
+    type;
 
     STATUS_COIN = [
         'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',

@@ -7,14 +7,9 @@ const level1 = new Level(
         new Endboss(),
     ],
     [
-        new Cloud(CLOUD_PATH + '1.png', 200),
-        new Cloud(CLOUD_PATH + '2.png', 700),
-        new Cloud(CLOUD_PATH + '1.png', 1200),
-        new Cloud(CLOUD_PATH + '2.png', 1700),
-        new Cloud(CLOUD_PATH + '1.png', 2200),
-        new Cloud(CLOUD_PATH + '2.png', 2700),
-        new Cloud(CLOUD_PATH + '1.png', 3200),
-
+        //new Chicken(),
+        //new Chicken(),
+        new Chicken(),
     ],
     [
         new BackgroundObject(LAYER_PATH + 'air.png', -719),
@@ -46,12 +41,15 @@ const level1 = new Level(
         new BackgroundObject(LAYER_PATH + '3_third_layer/1.png', 719 * 4),
         new BackgroundObject(LAYER_PATH + '2_second_layer/1.png', 719 * 4),
         new BackgroundObject(LAYER_PATH + '1_first_layer/1.png', 719 * 4),
-
     ],
     [
-        //new Chicken(),
-        //new Chicken(),
-        //new Chicken(),
+        new Cloud(CLOUD_PATH + '1.png', 200),
+        new Cloud(CLOUD_PATH + '2.png', 700),
+        new Cloud(CLOUD_PATH + '1.png', 1200),
+        new Cloud(CLOUD_PATH + '2.png', 1700),
+        new Cloud(CLOUD_PATH + '1.png', 2200),
+        new Cloud(CLOUD_PATH + '2.png', 2700),
+        new Cloud(CLOUD_PATH + '1.png', 3200),
     ],
     [
 

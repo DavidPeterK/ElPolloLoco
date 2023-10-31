@@ -56,7 +56,7 @@ class ThrowableObject extends MovableObject {
     animate() {
         let isAudioPlaying = false;
         setInterval(() => {
-            if (world.throwableObject.length >= 0) {
+            if (world.level.bottle.length >= 0) {
                 if (world.collidingStatus == true || world.collidingEnemyStatus == true) {
                     if (!isAudioPlaying) {
                         isAudioPlaying = true;
@@ -67,7 +67,7 @@ class ThrowableObject extends MovableObject {
                         isAudioPlaying = false;
                         world.collidingStatus = false;
                         world.collidingEnemyStatus = false;
-                        world.throwableObject.splice(0, 1);
+                        world.level.bottle.splice(0, 1);
                     }, 500);
                 } else {
                     this.playAnimation(this.THROW_SET);
