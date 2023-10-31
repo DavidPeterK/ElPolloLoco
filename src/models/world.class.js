@@ -11,11 +11,6 @@ class World {
     collidingStatus = false;
     collidingEnemyStatus = false;
 
-    allEnemys =
-        [
-            this.level.endboss, this.level.chicken
-        ];
-
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -40,7 +35,8 @@ class World {
     }
 
     checkCollisions() {
-        this.allEnemys.forEach((enemies) => {
+        let allEnemies = this.level.slice(0, 2);
+        allEnemies.forEach((enemies) => {
             if (this.charTouchWithoutHurt(enemies)) {
                 this.characterTouchEnemy();
             }
