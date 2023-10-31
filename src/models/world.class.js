@@ -35,18 +35,10 @@ class World {
     }
 
     checkCollisions() {
-<<<<<<< HEAD
         let allEnemys = [this.endBoss, ...this.level.chicken];
 
         allEnemys.forEach((enemies) => {
             this.charTouchEnemy(enemies);
-=======
-        let allEnemies = this.level.slice(0, 2);
-        allEnemies.forEach((enemies) => {
-            if (this.charTouchWithoutHurt(enemies)) {
-                this.characterTouchEnemy();
-            }
->>>>>>> 4e41568116d674402932789132d832f5b9b52502
             if (this.isBottleReady()) {
                 this.bottleTouchEnemy(enemies);
             }
