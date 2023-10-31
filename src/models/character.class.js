@@ -3,6 +3,7 @@ class Character extends MovableObject {
     mainHealth = 100;
     width = 100;
     height = 250;
+    previousY = 200;
     y = 180;
     x = 120;
     speed = 5;
@@ -119,7 +120,6 @@ class Character extends MovableObject {
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
-
         }, 1000 / 55);
 
     }

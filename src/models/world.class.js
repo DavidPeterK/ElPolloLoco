@@ -1,20 +1,15 @@
 class World {
+    level = level1;
     character = new Character();
     statusBar = new StatusBar();
     throwableObjects = new ThrowableObject();
-    endBoss = new Endboss();
-    level = level1;
+    endBoss = this.level.endboss[0];
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
     collidingStatus = false;
     collidingEnemyStatus = false;
-
-    allEnemys =
-        [
-            this.level.endboss, this.level.chicken
-        ];
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -40,18 +35,12 @@ class World {
     }
 
     checkCollisions() {
-        this.allEnemys.forEach((enemies) => {
-            if (this.charTouchWithoutHurt(enemies)) {
-                this.characterTouchEnemy();
-            }
+        let allEnemys = [this.endBoss, ...this.level.chicken];
+
+        allEnemys.forEach((enemies) => {
+            this.charTouchEnemy(enemies);
             if (this.isBottleReady()) {
-                if (this.level.bottle[0].isColliding(enemies)) {
-                    this.bottleTouchEnemy();
-                    if (enemies = Endboss && !this.level.endboss[0].isHurt()) {
-                        this.level.endboss[0].hit();
-                        this.level.statusBarEndboss[0].setMainHealth(this.endBoss.endbossHealth);
-                    }
-                }
+                this.bottleTouchEnemy(enemies);
             }
         });
     }
@@ -62,32 +51,40 @@ class World {
             this.throwBottle();
         }
         if (this.isBottleReady()) {
-            if (!this.level.bottle[this.level.bottle.length - 1].isNotOnGround()) {
+            if (!this.level.bottle[0].isNotOnGround()) {
                 this.bottleBrokeOnGround();
             }
         }
     }
 
-    charTouchWithoutHurt(enemies) {
-        if (this.character.isColliding(enemies) && !this.character.isHurt()) {
-            return
+    charTouchEnemy(enemies) {
+        let collisionResult = this.character.isColliding(enemies);
+        if (collisionResult === 'fallingCollision') {
+            this.character.speedY += 25;
+        } else if (collisionResult === 'generalCollision' && !this.character.isHurt()) {
+            this.character.DAMAGE_SOUND.play();
+            this.character.hit();
+            this.level.statusBarChar[0].setMainHealth(this.character.mainHealth);
         }
     }
-
-    characterTouchEnemy() {
-        this.character.DAMAGE_SOUND.play();
-        this.character.hit();
-        this.statusBarChar[0].setMainHealth(this.character.mainHealth);
-    }
-
     isBottleReady() {
-        this.level.bottle.length - 1 >= 0;
+        return this.level.bottle.length - 1 >= 0;
     }
 
-    bottleTouchEnemy() {
-        this.collidingEnemyStatus = true;
-        this.throwableObjects.FLYING_BOTTLE.pause();
-        this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+    bottleTouchEnemy(enemies) {
+        let collisionResult = this.level.bottle[0].isColliding(enemies);
+        if (collisionResult === 'fallingCollision' || collisionResult === 'generalCollision') {
+            this.collidingEnemyStatus = true;
+            this.throwableObjects.FLYING_BOTTLE.pause();
+            this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
+            this.bottleTouchEndboss(enemies);
+        }
+    }
+    bottleTouchEndboss(enemies) {
+        if (enemies = Endboss && !this.endBoss.isHurt()) {
+            this.endBoss.hit();
+            this.level.statusBarEndboss[0].setMainHealth(this.endBoss.endbossHealth);
+        }
     }
 
     bottleBrokeOnGround() {
@@ -113,15 +110,15 @@ class World {
 
         this.addObjects(this.level.clouds);
         this.addObjects(this.level.chicken);
-        this.addObjects(this.level.endboss);
+        this.addToMap(this.endBoss);
         this.addObjects(this.level.bottle);
         this.addToMap(this.character);
 
 
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
-        this.addObjects(this.level.statusBarChar);
-        this.addObjects(this.level.statusBarEndboss);
+        this.addToMap(this.level.statusBarChar[0]);
+        this.addToMap(this.level.statusBarEndboss[0]);
         this.ctx.translate(this.camera_x, 0);
 
 

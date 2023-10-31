@@ -1,5 +1,6 @@
 class ThrowableObject extends MovableObject {
-
+    y;
+    x;
     offsetYU = 0;
     offsetYD = 0;
     offsetXR = 0;
@@ -7,6 +8,7 @@ class ThrowableObject extends MovableObject {
     speedY = 23;
     height = 60;
     width = 50;
+    previousY;
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
@@ -39,6 +41,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
+        this.previousY = this.y;
         this.applyGravity();
         setInterval(() => {
             if (this.isNotOnGround() && world.collidingEnemyStatus == false) {

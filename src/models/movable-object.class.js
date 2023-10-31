@@ -8,6 +8,8 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     lastHit = 0;
     lastThrow = 0;
+    y;
+    x;
 
     applyGravity() {
         setInterval(() => {
@@ -45,10 +47,29 @@ class MovableObject extends DrawableObject {
             thisRightOffset = this.offsetXR;
         }
 
-        return !(this.x + thisLeftOffset > object.x + object.width - object.offsetXR ||
+        let isFalling = this.y > this.previousY;
+
+        let generalCollision = !(
+            this.x + thisLeftOffset > object.x + object.width - object.offsetXR ||
             this.x + this.width - thisRightOffset < object.x + object.offsetXL ||
             this.y + this.offsetYU > object.y + object.height - object.offsetYD ||
-            this.y + this.height - this.offsetYD < object.y + object.offsetYU);
+            this.y + this.height - this.offsetYD < object.y + object.offsetYU
+        );
+
+        if (generalCollision) {
+            let topCollision =
+                isFalling &&
+                object.y + object.height - object.offsetYD <= this.y + this.offsetYU &&
+                object.y + object.height - object.offsetYD > this.y;
+
+            if (topCollision) {
+                return 'fallingCollision';  // Kollision von oben während des Fallens
+            } else {
+                return 'generalCollision';  // Allgemeine Kollision
+            }
+        }
+
+        return null;  // Keine Kollision
     }
 
     //schaden
