@@ -8,8 +8,6 @@ class World {
     throwableObjects = new ThrowableObject();
     endBoss = this.level.endboss[0];
     camera_x = 0;
-    collidingStatus = false;
-    collidingEnemyStatus = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -17,7 +15,6 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkMoments();
     }
 
     setWorld() {
@@ -27,81 +24,7 @@ class World {
         this.endBoss.world = this;
     }
 
-    checkMoments() {
-        setInterval(() => {
-            this.checkCollisions();
-            this.checkThrowObjects();
-        }, 1000 / 60);
-    }
 
-    checkCollisions() {
-        let allEnemys = [this.endBoss, ...this.level.chicken];
-
-        allEnemys.forEach((enemies) => {
-            this.charTouchEnemy(enemies);
-            if (this.isBottleReady()) {
-                this.bottleTouchEnemy(enemies);
-            }
-        });
-    }
-
-    //mit d flaschen werfen
-    checkThrowObjects() {
-        if (this.keyboard.D && !this.throwableObjects.isThrowing()) {
-            this.throwBottle();
-        }
-        if (this.isBottleReady()) {
-            if (!this.level.bottle[0].isNotOnGround()) {
-                this.bottleBrokeOnGround();
-            }
-        }
-    }
-
-    charTouchEnemy(enemies) {
-        let collisionResult = this.character.isColliding(enemies);
-        if (collisionResult === 'fallingCollision') {
-            this.character.jump();
-            setTimeout(() => {
-
-            }, 200);
-        } else if (collisionResult === 'generalCollision' && !this.character.isHurt()) {
-            this.character.DAMAGE_SOUND.play();
-            this.character.hit();
-            this.level.statusBarChar[0].setMainHealth(this.character.mainHealth);
-        }
-    }
-    isBottleReady() {
-        return this.level.bottle.length - 1 >= 0;
-    }
-
-    bottleTouchEnemy(enemies) {
-        let collisionResult = this.level.bottle[0].isColliding(enemies);
-        if (collisionResult === 'fallingCollision' || collisionResult === 'generalCollision') {
-            this.collidingEnemyStatus = true;
-            this.throwableObjects.FLYING_BOTTLE.pause();
-            this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
-            this.bottleTouchEndboss(enemies);
-        }
-    }
-    bottleTouchEndboss(enemies) {
-        if (enemies = Endboss && !this.endBoss.isHurt()) {
-            this.endBoss.hit();
-            this.level.statusBarEndboss[0].setMainHealth(this.endBoss.endbossHealth);
-        }
-    }
-
-    bottleBrokeOnGround() {
-        this.collidingStatus = true;
-        this.throwableObjects.FLYING_BOTTLE.pause();
-        this.throwableObjects.FLYING_BOTTLE.currentTime = 0;
-    }
-
-    throwBottle() {
-        this.throwableObjects.FLYING_BOTTLE.play();
-        let newBottle = new ThrowableObject(this.character.x + 80, this.character.y + 100);
-        this.level.bottle.push(newBottle);
-        this.throwableObjects.lastThrow = new Date().getTime();
-    }
 
     draw() {
         //alle bilder im canvas löschen

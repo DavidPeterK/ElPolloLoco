@@ -5,13 +5,18 @@ class ThrowableObject extends MovableObject {
     offsetYD = 0;
     offsetXR = 0;
     offsetXL = 0;
-    speedY = 23;
+    speed = 0;
+    speedY = 20;
     height = 60;
     width = 50;
+    lastThrow = 0;
     previousY;
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
+    collidingStatus = false;
+    collidingEnemyStatus = false;
+
 
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -36,46 +41,135 @@ class ThrowableObject extends MovableObject {
         this.loadImages(this.BROKEN_SET);
         this.x = x;
         this.y = y;
-        this.throw();
-        this.animate();
+        this.applyGravity();
+        this.checkMoments();
+    }
+
+    checkMoments() {
+        this.previousY = this.y;
+        let isAudioPlaying = false;
+
+        setInterval(() => {
+            this.bottleBroke(isAudioPlaying);
+        }, 150);
+
+        setInterval(() => {
+            this.throw();
+        }, 20);
+
+        setInterval(() => {
+            this.checkCollisions();
+            this.checkThrowObjects();
+        }, 1000 / 60);
     }
 
     throw() {
-        this.previousY = this.y;
-        this.applyGravity();
+        if (this.isNotOnGround() && this.collidingEnemyStatus == false) {
+            if (world.character.otherDirection === true && !this.isThrowing()) {
+                this.throwLeft();
+            } else if (world.character.otherDirection === false && !this.isThrowing()) {
+                this.throwRight();
+            }
+        }
+    }
+
+    checkCollisions() {
+        let allEnemys = [world.endBoss, ...world.level.chicken];
+        allEnemys.forEach((enemies) => {
+            if (this.isBottleReady()) {
+                this.bottleTouchEnemy(enemies);
+            }
+        });
+    }
+
+    checkThrowObjects() {
+        if (this.isBottleReady()) {
+            if (!world.level.bottle[0].isNotOnGround()) {
+                this.bottleBrokeOnGround();
+            }
+        }
+    }
+
+    bottleTouchEnemy(enemies) {
+        let collisionResult = world.level.bottle[0].isColliding(enemies);
+        if (collisionResult === 'fallingCollision' || collisionResult === 'generalCollision') {
+            this.collidingEnemyStatus = true;
+            this.FLYING_BOTTLE.pause();
+            this.FLYING_BOTTLE.currentTime = 0;
+            this.bottleTouchEndboss(enemies);
+        }
+    }
+
+    bottleTouchEndboss(enemies) {
+        if (enemies = Endboss && !world.endBoss.isHurt()) {
+            world.endBoss.hit();
+            world.level.statusBarEndboss[0].setMainHealth(world.endBoss.endbossHealth);
+        }
+    }
+
+    throwBottle() {
+        this.FLYING_BOTTLE.play();
+        let newBottle = new ThrowableObject(world.character.x + 30, world.character.y + 170);
+        world.level.bottle.push(newBottle);
+        this.lastThrow = new Date().getTime();
+    }
+
+    throwLeft() {
         setInterval(() => {
-            if (this.isNotOnGround() && world.collidingEnemyStatus == false) {
-                if (world.character.otherDirection == true) {
-                    this.x -= 11;
-                } else {
-                    this.x += 11;
-                }
+            if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
+                this.x -= 5;
             } else {
                 this.speedY = 0;
             }
-        }, 20);
+
+        }, 80);
     }
 
-    animate() {
-        let isAudioPlaying = false;
+    throwRight() {
         setInterval(() => {
-            if (world.level.bottle.length >= 0) {
-                if (world.collidingStatus == true || world.collidingEnemyStatus == true) {
-                    if (!isAudioPlaying) {
-                        isAudioPlaying = true;
-                        this.BROKEN_BOTTLE.play();
-                    }
-                    this.playAnimation(this.BROKEN_SET);
-                    setTimeout(() => {
-                        isAudioPlaying = false;
-                        world.collidingStatus = false;
-                        world.collidingEnemyStatus = false;
-                        world.level.bottle.splice(0, 1);
-                    }, 500);
-                } else {
-                    this.playAnimation(this.THROW_SET);
-                }
+            if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
+                this.x += 5;
+            } else {
+                this.speedY = 0;
             }
-        }, 150);
+
+        }, 100);
     }
+
+    bottleBrokeOnGround() {
+        this.collidingStatus = true;
+        this.FLYING_BOTTLE.pause();
+        this.FLYING_BOTTLE.currentTime = 0;
+    }
+
+    bottleBroke(isAudioPlaying) {
+        if (this.isBottleReady()) {
+            if (this.collidingStatus == true || this.collidingEnemyStatus == true) {
+                this.playBrokeSound(isAudioPlaying);
+                this.playAnimation(this.BROKEN_SET);
+
+                //setTimeout
+                this.deleteBottle(isAudioPlaying);
+            } else {
+                this.playAnimation(this.THROW_SET);
+            }
+        }
+    }
+
+    deleteBottle(isAudioPlaying) {
+        setTimeout(() => {
+            isAudioPlaying = false;
+            this.collidingStatus = false;
+            this.collidingEnemyStatus = false;
+            world.level.bottle.splice(0, 1);
+        }, 500);
+    }
+
+    playBrokeSound(isAudioPlaying) {
+        if (!isAudioPlaying) {
+            isAudioPlaying = true;
+            this.BROKEN_BOTTLE.play();
+        }
+    }
+
 }
