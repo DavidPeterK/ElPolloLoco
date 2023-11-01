@@ -1,4 +1,16 @@
 class DrawableObject extends World {
+    x = 120;               // default x-coordinate
+    y = 280;               // default y-coordinate
+    height = 150;          // default height
+    width = 100;           // default width
+    img;                   // image object
+    imageCache = {};       // cache for multiple images
+    currentImage = 0;      // current image index for animations
+    offsetYU = 0;          // offset for hitbox from top
+    offsetYD = 0;          // offset for hitbox from bottom
+    offsetXR = 0;          // offset for hitbox from right
+    offsetXL = 0;          // offset for hitbox from left
+    camera_x = 0;
 
     constructor() {
         super();

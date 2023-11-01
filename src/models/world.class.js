@@ -9,10 +9,10 @@ class World {
     endBoss = this.level.endboss[0];
     collidingStatus = false;
     collidingEnemyStatus = false;
-    x = 120;               // default x-coordinate
-    y = 280;               // default y-coordinate
-    height = 150;          // default height
-    width = 100;           // default width
+    x;              // default x-coordinate
+    y;              // default y-coordinate
+    height;         // default height
+    width;          // default width
     img;                   // image object
     imageCache = {};       // cache for multiple images
     currentImage = 0;      // current image index for animations
