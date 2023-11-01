@@ -10,7 +10,7 @@ class DrawableObject {
     offsetYD = 0;          // offset for hitbox from bottom
     offsetXR = 0;          // offset for hitbox from right
     offsetXL = 0;          // offset for hitbox from left
-
+    world;
     /**
      * Draw the object on the canvas.
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
@@ -41,7 +41,7 @@ class DrawableObject {
     }
 
     drawHitBox(ctx) {
-        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject) {
+        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Chicken) {
             ctx.beginPath();
             ctx.rect(
                 this.x + this.offsetXL,

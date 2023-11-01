@@ -14,7 +14,7 @@ class Character extends MovableObject {
     offsetYD = 5;
     offsetXL = 20;
     offsetXR = 30;
-
+    speedY = 0;
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
         'src/img/2_character_pepe/1_idle/idle/I-1.png',

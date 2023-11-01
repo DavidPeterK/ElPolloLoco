@@ -1,12 +1,12 @@
 class World {
+    ctx;
+    canvas;
+    keyboard;
     level = level1;
     character = new Character();
     statusBar = new StatusBar();
     throwableObjects = new ThrowableObject();
     endBoss = this.level.endboss[0];
-    canvas;
-    ctx;
-    keyboard;
     camera_x = 0;
     collidingStatus = false;
     collidingEnemyStatus = false;
@@ -60,7 +60,10 @@ class World {
     charTouchEnemy(enemies) {
         let collisionResult = this.character.isColliding(enemies);
         if (collisionResult === 'fallingCollision') {
-            this.character.speedY += 25;
+            this.character.jump();
+            setTimeout(() => {
+
+            }, 200);
         } else if (collisionResult === 'generalCollision' && !this.character.isHurt()) {
             this.character.DAMAGE_SOUND.play();
             this.character.hit();
