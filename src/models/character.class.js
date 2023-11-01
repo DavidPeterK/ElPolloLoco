@@ -112,7 +112,7 @@ class Character extends MovableObject {
             }
 
             //taste links um bild x achse zu verringern
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.WALKING_SOUND.play();
