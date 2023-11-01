@@ -4,17 +4,19 @@ class DrawableObject extends World {
     height = 150;          // default height
     width = 100;           // default width
     img;                   // image object
-    imageCache = {};       // cache for multiple images
-    currentImage = 0;      // current image index for animations
-    offsetYU = 0;          // offset for hitbox from top
-    offsetYD = 0;          // offset for hitbox from bottom
-    offsetXR = 0;          // offset for hitbox from right
-    offsetXL = 0;          // offset for hitbox from left
-    camera_x = 0;
+    character;
+    statusBar;
+    throwableObjects;
+    endBoss;
+    collidingStatus = false;
+    collidingEnemyStatus = false;
 
-    constructor() {
+    constructor(start) {
         super();
-        this.draw();
+        if (start === 'start') {
+
+            this.draw()
+        }
     }
 
 
@@ -24,25 +26,21 @@ class DrawableObject extends World {
 
         this.ctx.translate(this.camera_x, 0);
         //bilder aus classen rendern (zeichnen) ebene für ebene
-        this.addObjects(this.level.backgroundObjects);
+        this.addObjects(Level.backgroundObjects);
 
-        this.addObjects(this.level.clouds);
-        this.addObjects(this.level.chicken);
+        this.addObjects(Level.clouds);
+        this.addObjects(Level.chicken);
         this.addToMap(this.endBoss);
-        this.addObjects(this.level.bottle);
+        this.addObjects(Level.bottle);
         this.addToMap(this.character);
-
 
         //------Fixed-Object---------//
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.level.statusBarChar[0]);
-        this.addToMap(this.level.statusBarEndboss[0]);
+        this.addToMap(Level.statusBarChar[0]);
+        this.addToMap(Level.statusBarEndboss[0]);
         this.ctx.translate(this.camera_x, 0);
 
-
-
         this.ctx.translate(-this.camera_x, 0);
-
 
         //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
         let self = this;

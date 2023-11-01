@@ -1,12 +1,13 @@
 class World {
-    ctx;
-    canvas;
-    level = level1;
-    keyboard = new Keyboard();
-    character = new Character();
-    statusBar = new StatusBar();
-    throwableObjects = new ThrowableObject();
-    endBoss = this.level.endboss[0];
+    canvas = document.getElementById('canvas');;
+    ctx = canvas.getContext('2d');
+    keyboard;
+    character;
+    statusBar;
+    throwableObjects;
+    drawableObjects;
+    level;
+    endBoss;
     collidingStatus = false;
     collidingEnemyStatus = false;
     x;              // default x-coordinate
@@ -22,11 +23,16 @@ class World {
     offsetXL = 0;          // offset for hitbox from left
     camera_x = 0;
 
-    constructor(canvas) {
-        this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
-        this.setWorld();
-        this.checkMoments();
+    constructor(start) {
+        if (start === 'start') {
+            this.level = level1;
+            this.endBoss = new Endboss();
+            this.keyboard = new Keyboard();
+            this.character = new Character();
+            this.statusBar = new StatusBar();
+            this.throwableObjects = new ThrowableObject();
+            this.drawableObjects = new DrawableObject(start);
+        }
     }
 
     /**

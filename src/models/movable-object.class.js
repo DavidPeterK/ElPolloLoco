@@ -11,6 +11,9 @@ class MovableObject extends DrawableObject {
     y;
     x;
 
+    constructor() {
+        super();
+    }
     applyGravity() {
         setInterval(() => {
             if (this.isNotOnGround() || this.speedY > 0) {

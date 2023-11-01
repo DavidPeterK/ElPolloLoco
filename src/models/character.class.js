@@ -101,25 +101,25 @@ class Character extends MovableObject {
             this.WALKING_SOUND.pause();
 
             //taste rechts um bild x achse zu erhöhen
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            if (Keyboard.RIGHT && this.x < level.level_end_x) {
                 this.moveRight();
                 this.otherDirection = false;
                 this.WALKING_SOUND.play();
             }
 
             //taste links um bild x achse zu verringern
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (Keyboard.LEFT && this.x > 0) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.WALKING_SOUND.play();
             }
 
-            if ((this.world.keyboard.SPACE || this.world.keyboard.UP) && !this.isNotOnGround()) {
+            if ((Keyboard.SPACE || Keyboard.UP) && !this.isNotOnGround()) {
                 this.jump();
             }
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
-            this.world.camera_x = -this.x + 100;
+            this.camera_x = -this.x + 100;
         }, 1000 / 55);
 
     }
@@ -138,10 +138,10 @@ class Character extends MovableObject {
                 else if (this.isNotOnGround()) {
                     this.playAnimation(this.JUMP_SET);
                 }
-                else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                else if (!this.isNotOnGround() && !Keyboard.RIGHT && !Keyboard.LEFT) {
                     this.playAnimation(this.STILL_STANDING_SET);
                 }
-                else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                else if (Keyboard.RIGHT || Keyboard.LEFT) {
                     this.playAnimation(this.WALKING_SET);
                 }
             }
