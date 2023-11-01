@@ -1,7 +1,6 @@
 // Initialize variables
 let canvas;
 let world;
-let keyboard = new Keyboard();
 
 /**
  * Initializes the game by setting up the canvas and the world.
@@ -11,5 +10,5 @@ function init() {
     canvas = document.getElementById('canvas');
 
     // Create a new World instance and pass the canvas and keyboard to it
-    world = new World(canvas, keyboard);
+    world = new World(canvas);
 }
