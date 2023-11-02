@@ -2,6 +2,11 @@
 const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
 const LAYER_PATH = 'src/img/5_background/layers/';
 let level1;
+// Initialize variables
+let canvas;
+let world;
+let keyboard;
+
 function initLevel1() {
     level1 = new Level(
         [
@@ -9,9 +14,9 @@ function initLevel1() {
         ],
 
         [
-            new Chicken(),
-            new Chicken(),
-            new Chicken(),
+            new Chicken(450),
+            new Chicken(450),
+            new Chicken(450),
         ],
 
         [
@@ -54,6 +59,10 @@ function initLevel1() {
             new Cloud(CLOUD_PATH + '1.png', 2200),
             new Cloud(CLOUD_PATH + '2.png', 2700),
             new Cloud(CLOUD_PATH + '1.png', 3200),
+            new Cloud(CLOUD_PATH + '2.png', 3700),
+            new Cloud(CLOUD_PATH + '1.png', 4200),
+            new Cloud(CLOUD_PATH + '2.png', 4700),
+            new Cloud(CLOUD_PATH + '1.png', 5200),
         ],
 
         [
@@ -66,6 +75,14 @@ function initLevel1() {
 
         [
             new StatusBar(480, 0, 1000, 'endboss'),
+        ],
+
+        [
+            new Coin(420, 280),
+        ],
+
+        [
+            new SalsaBottle(320, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
 }

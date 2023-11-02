@@ -76,7 +76,6 @@ class Endboss extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.loadImages(this.DEAD_SET);
         this.waitOfCharacter();
-        this.endbossStatus();
     }
 
     waitOfCharacter() {
@@ -88,16 +87,12 @@ class Endboss extends MovableObject {
     }
 
     wasTriggert() {
-        if (this.x > 2770 && world.character.x > 2415 && this.triggerAnimation === false) {
+        if (this.characterTriggerPosition()) {
             world.level.level_start_x = 2415;
             world.level.level_end_x = 2425;
             setInterval(() => {
                 if (this.triggerAnimation === false) {
-                    this.playAnimation(this.ALERT_SET);
-                    setTimeout(() => {
-                        this.triggerAnimation = true;
-                        this.triggertEnds();
-                    }, 2500);
+                    this.triggerAnimationClip();
                 }
             }, 800);
         }
@@ -105,43 +100,29 @@ class Endboss extends MovableObject {
 
     triggertEnds() {
         setInterval(() => {
-            if (this.triggerAnimation === true && this.isTriggert === false) {
+            if (this.isIntroNotOver()) {
                 this.playAnimation(this.ATTACK_SET);
                 setTimeout(() => {
-                    this.isTriggert = true;
-                    world.level.level_start_x = 0;
-                    world.level.level_end_x = 2776;
-                    this.bossSkills();
+                    this.introEnds();
                 }, 2500);
             }
         }, 800);
     }
 
     bossSkills() {
-        if (this.isTriggert === true) {
-            setInterval(() => {
-
-                if (world.character.x < this.x && !this.isDead() && !this.isHurt()) {
+        this.endbossStatus();
+        setInterval(() => {
+            if (this.isTriggert === true) {
+                if (this.isCharacterLeftFromBoss()) {
                     this.otherDirection = false;
-                    this.playAnimation(this.WALKING_SET);
                     this.moveLeft()
                 }
-                if (world.character.x > this.x && !this.isDead() && !this.isHurt()) {
+                if (this.isCharacterRightFromBoss()) {
                     this.otherDirection = true;
-                    this.playAnimation(this.WALKING_SET);
                     this.moveRight();
                 }
-            }, 100);
-        }
-    }
-
-    hit() {
-        this.endbossHealth -= 200;
-        if (this.endbossHealth < 0) {
-            this.endbossHealth = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
+            }
+        }, 100);
     }
 
     endbossStatus() {
@@ -153,10 +134,53 @@ class Endboss extends MovableObject {
             else if (this.isHurt()) {
                 this.playAnimation(this.HURT_SET);
             }
-        }, 100);
+            else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss()) {
+                this.playAnimation(this.WALKING_SET);
+            }
+        }, 200);
     }
+
+    hit() {
+        this.endbossHealth -= 200;
+        if (this.endbossHealth < 0) {
+            this.endbossHealth = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
     isDead() {
         return this.endbossHealth == 0;
     }
 
+    characterTriggerPosition() {
+        return this.x > 2770 && world.character.x > 2415 && this.triggerAnimation === false;
+    }
+
+    isIntroNotOver() {
+        return this.triggerAnimation === true && this.isTriggert === false;
+    }
+
+    isCharacterLeftFromBoss() {
+        return ((world.character.x + world.character.width) - world.character.offsetXR) < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
+    }
+
+    isCharacterRightFromBoss() {
+        return world.character.x + world.character.offsetXL > ((this.x + this.width) - this.offsetXL) && !this.isDead() && !this.isHurt();
+    }
+
+    triggerAnimationClip() {
+        this.playAnimation(this.ALERT_SET);
+        setTimeout(() => {
+            this.triggerAnimation = true;
+            this.triggertEnds();
+        }, 2500);
+    }
+
+    introEnds() {
+        this.isTriggert = true;
+        world.level.level_start_x = 0;
+        world.level.level_end_x = 2776;
+        this.bossSkills();
+    }
 }

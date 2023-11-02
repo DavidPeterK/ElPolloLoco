@@ -146,6 +146,8 @@ class ThrowableObject extends MovableObject {
         if (this.isBottleReady()) {
             if (this.collidingStatus == true || this.collidingEnemyStatus == true) {
                 this.playBrokeSound(isAudioPlaying);
+                this.height = 100;
+                this.width = 100;
                 this.playAnimation(this.BROKEN_SET);
 
                 //setTimeout

@@ -71,15 +71,6 @@ class MovableObject extends DrawableObject {
         return null;  // Keine Kollision
     }
 
-    //schaden
-    hit() {
-        this.mainHealth -= 20;
-        if (this.mainHealth < 0) {
-            this.mainHealth = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
-    }
 
     timeSince(eventTime) {
         return (new Date().getTime() - eventTime) / 1000;
