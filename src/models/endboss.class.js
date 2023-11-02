@@ -10,13 +10,27 @@ class Endboss extends MovableObject {
     offsetXR = 50;
     offsetXL = 55;
     lastHit = 0;
+    speed = 0.3;
+    otherDirection = false;
     triggerAnimation = false;
     isTriggert = false;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
         'src/img/4_enemie_boss_chicken/1_walk/G2.png',
         'src/img/4_enemie_boss_chicken/1_walk/G3.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
+        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
         'src/img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
@@ -97,15 +111,27 @@ class Endboss extends MovableObject {
                     this.isTriggert = true;
                     world.level.level_start_x = 0;
                     world.level.level_end_x = 2776;
-                    this.bossMatchSkills();
+                    this.bossSkills();
                 }, 2500);
             }
-        }, 250);
+        }, 800);
     }
 
-    bossMatchSkills() {
+    bossSkills() {
         if (this.isTriggert === true) {
+            setInterval(() => {
 
+                if (world.character.x < this.x && !this.isDead() && !this.isHurt()) {
+                    this.otherDirection = false;
+                    this.playAnimation(this.WALKING_SET);
+                    this.moveLeft()
+                }
+                if (world.character.x > this.x && !this.isDead() && !this.isHurt()) {
+                    this.otherDirection = true;
+                    this.playAnimation(this.WALKING_SET);
+                    this.moveRight();
+                }
+            }, 100);
         }
     }
 
