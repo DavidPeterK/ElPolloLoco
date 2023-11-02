@@ -75,9 +75,9 @@ class ThrowableObject extends MovableObject {
 
     checkCollisions() {
         let allEnemys = [world.endBoss, ...world.level.chicken];
-        allEnemys.forEach((enemies) => {
+        allEnemys.forEach((enemies, index) => {
             if (this.isBottleReady()) {
-                this.bottleTouchEnemy(enemies);
+                this.bottleTouchEnemy(enemies, index);
             }
         });
     }
@@ -90,20 +90,27 @@ class ThrowableObject extends MovableObject {
         }
     }
 
-    bottleTouchEnemy(enemies) {
+    bottleTouchEnemy(enemies, index) {
         let collisionResult = world.level.bottle[0].isColliding(enemies);
         if (collisionResult === 'fallingCollision' || collisionResult === 'generalCollision') {
             this.collidingEnemyStatus = true;
             this.FLYING_BOTTLE.pause();
             this.FLYING_BOTTLE.currentTime = 0;
             this.bottleTouchEndboss(enemies);
+            this.bottleTouchSmallEnemy(enemies, index);
         }
     }
 
     bottleTouchEndboss(enemies) {
-        if (enemies = Endboss && !world.endBoss.isHurt()) {
+        if (enemies == world.endBoss && !world.endBoss.isHurt()) {
             world.endBoss.hit();
             world.level.statusBarEndboss[0].setMainHealth(world.endBoss.endbossHealth);
+        }
+    }
+
+    bottleTouchSmallEnemy(enemies, index) {
+        if (enemies == world.level.chicken[index - 1]) {
+            world.level.chicken[index - 1].hit(index);
         }
     }
 

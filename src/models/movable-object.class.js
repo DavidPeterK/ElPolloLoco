@@ -36,6 +36,10 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(object) {
+        if (object === null) {
+            return null;  // Keine Kollision
+        }
+
         let thisLeftOffset, thisRightOffset;
 
         if (this.otherDirection) {
@@ -69,6 +73,7 @@ class MovableObject extends DrawableObject {
         }
 
         return null;  // Keine Kollision
+
     }
 
 

@@ -158,21 +158,23 @@ class Character extends MovableObject {
     checkCollisions() {
         let allEnemys = [this.world.endBoss, ...this.world.level.chicken];
 
-        allEnemys.forEach((enemies) => {
-            this.charTouchEnemy(enemies);
+        allEnemys.forEach((enemies, index) => {
+            this.charTouchEnemy(enemies, index);
         });
     }
 
-    charTouchEnemy(enemies) {
+    charTouchEnemy(enemies, index) {
         let collisionResult = this.isColliding(enemies);
         if (collisionResult === 'fallingCollision') {
             this.jump();
             setTimeout(() => {
             }, 200);
         } else if (collisionResult === 'generalCollision' && !this.isHurt()) {
-            this.DAMAGE_SOUND.play();
-            this.hit();
-            this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
+            if (enemies === this.world.level.chicken[index - 1] && !this.world.level.chicken[index - 1].isDead() || enemies === this.world.endBoss) {
+                this.DAMAGE_SOUND.play();
+                this.hit();
+                this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
+            }
         }
     }
 

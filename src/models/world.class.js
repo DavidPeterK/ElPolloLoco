@@ -62,12 +62,18 @@ class World {
     }
 
     addObjects(object) {
+        if (object === null) {
+            return null;
+        }
         object.forEach(o => {
             this.addToMap(o);
         });
     }
 
     addToMap(object) {
+        if (object === null) {
+            return null;
+        }
         if (object.otherDirection) {
             this.flipImage(object);
         }
