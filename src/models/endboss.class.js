@@ -39,4 +39,29 @@ class Endboss extends MovableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
+    endbossStatus() {
+        setInterval(() => {
+
+            if (this.isDead()) {
+                this.playAnimation(this.DEAD_SET);
+            }
+            else if (this.isHurt()) {
+                this.playAnimation(this.HURT_SET);
+            }
+            else if (this.isNotOnGround()) {
+                this.playAnimation(this.JUMP_SET);
+            }
+            else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+                this.playAnimation(this.STILL_STANDING_SET);
+            }
+            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+                this.playAnimation(this.WALKING_SET);
+            }
+        }, 100);
+    }
+    isDead() {
+        return this.endbossHealth == 0;
+    }
+
 }
