@@ -1,4 +1,4 @@
-const HURT_TIME = 1.5; // Sekunden
+const HURT_TIME = 1.8; // Sekunden
 const THROW_TIME = 3; // Sekunden
 
 class MovableObject extends DrawableObject {
@@ -7,6 +7,8 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     lastHit = 0;
     lastThrow = 0;
+    isMoving = false;
+    activAttack = false;
     y;
     x;
 

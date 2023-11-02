@@ -9,7 +9,7 @@ class Endboss extends MovableObject {
     offsetYD = 30;
     offsetXR = 50;
     offsetXL = 55;
-    lastHit = 0;
+    lastHit;
     speed = 0.3;
     otherDirection = false;
     triggerAnimation = false;
@@ -76,7 +76,6 @@ class Endboss extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.loadImages(this.DEAD_SET);
         this.waitOfCharacter();
-        this.endbossStatus();
     }
 
     waitOfCharacter() {
@@ -89,6 +88,7 @@ class Endboss extends MovableObject {
 
     wasTriggert() {
         if (this.x > 2770 && world.character.x > 2415 && this.triggerAnimation === false) {
+            //froze moment boss intro
             world.level.level_start_x = 2415;
             world.level.level_end_x = 2425;
             setInterval(() => {
@@ -118,19 +118,30 @@ class Endboss extends MovableObject {
     }
 
     bossSkills() {
+        this.endbossStatus();
         if (this.isTriggert === true) {
             setInterval(() => {
+                if (this.activAttack === false) {
+                    if (world.character.x < this.x && !this.isDead() && !this.isHurt()) {
+                        this.otherDirection = false;
+                        this.isMoving = true;
+                        this.moveLeft()
+                    }
+                    if (world.character.x > this.x && !this.isDead() && !this.isHurt()) {
+                        this.otherDirection = true;
+                        this.isMoving = true;
+                        this.moveRight();
+                    }
+                }
+                if (this.isDead()) {
+                    this.isMoving = false;
+                    this.playAnimation(this.DEAD_SET);
+                }
+                else if (this.isHurt()) {
+                    this.isMoving = false;
+                    this.playAnimation(this.HURT_SET);
+                }
 
-                if (world.character.x < this.x && !this.isDead() && !this.isHurt()) {
-                    this.otherDirection = false;
-                    this.playAnimation(this.WALKING_SET);
-                    this.moveLeft()
-                }
-                if (world.character.x > this.x && !this.isDead() && !this.isHurt()) {
-                    this.otherDirection = true;
-                    this.playAnimation(this.WALKING_SET);
-                    this.moveRight();
-                }
             }, 100);
         }
     }
@@ -146,15 +157,12 @@ class Endboss extends MovableObject {
 
     endbossStatus() {
         setInterval(() => {
-
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_SET);
+            if (this.isMoving === true) {
+                this.playAnimation(this.WALKING_SET);
             }
-            else if (this.isHurt()) {
-                this.playAnimation(this.HURT_SET);
-            }
-        }, 100);
+        }, 800);
     }
+
     isDead() {
         return this.endbossHealth == 0;
     }
