@@ -6,7 +6,9 @@ class Level {
     bottle;
     statusBarChar;
     statusBarEndboss;
-    level_end_x = 2776;
+    //level_end_x = 2776;
+    level_start_x = 0;
+    level_end_x = 2420;
 
     constructor(endboss, chicken, backgroundObjects, clouds, bottle, statusBarChar, statusBarEndboss) {
         this.endboss = endboss;

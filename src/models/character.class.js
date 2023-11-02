@@ -15,6 +15,10 @@ class Character extends MovableObject {
     offsetXL = 20;
     offsetXR = 30;
     speedY = 0;
+    otherDirection = false
+    collidingStatus = false;
+    collidingEnemyStatus = false;
+
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -108,7 +112,7 @@ class Character extends MovableObject {
             }
 
             //taste links um bild x achse zu verringern
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.WALKING_SOUND.play();
@@ -117,6 +121,12 @@ class Character extends MovableObject {
             if ((Keyboard.SPACE || Keyboard.UP) && !this.isNotOnGround()) {
                 this.jump();
             }
+
+            if (this.world.keyboard.D && !this.world.throwableObjects.isThrowing()) {
+                this.world.throwableObjects.throwBottle();
+            }
+
+            this.checkCollisions();
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.camera_x = -this.x + 100;
@@ -147,4 +157,31 @@ class Character extends MovableObject {
             }
         }, 100);
     }
+
+    checkCollisions() {
+        let allEnemys = [this.world.endBoss, ...this.world.level.chicken];
+
+        allEnemys.forEach((enemies) => {
+            this.charTouchEnemy(enemies);
+        });
+    }
+
+    charTouchEnemy(enemies) {
+        let collisionResult = this.isColliding(enemies);
+        if (collisionResult === 'fallingCollision') {
+            this.jump();
+            setTimeout(() => {
+            }, 200);
+        } else if (collisionResult === 'generalCollision' && !this.isHurt()) {
+            this.DAMAGE_SOUND.play();
+            this.hit();
+            this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
+        }
+    }
+
+    isDead() {
+        return this.mainHealth == 0;
+    }
+
+
 }

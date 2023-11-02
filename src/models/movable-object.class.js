@@ -1,10 +1,9 @@
 const HURT_TIME = 1.5; // Sekunden
-const THROW_TIME = 2; // Sekunden
+const THROW_TIME = 3; // Sekunden
 
 class MovableObject extends DrawableObject {
     speed = 0.2;
     speedY = 0;
-    otherDirection = false;
     acceleration = 2;
     lastHit = 0;
     lastThrow = 0;
@@ -93,11 +92,12 @@ class MovableObject extends DrawableObject {
         return this.timeSince(this.lastHit) < HURT_TIME;
     }
 
+    isBottleReady() {
+        return world.level.bottle.length - 1 >= 0;
+    }
+
     isThrowing() {
         return this.timeSince(this.lastThrow) < THROW_TIME;
-    }
-    isDead() {
-        return this.mainHealth == 0;
     }
 
     moveRight() {
