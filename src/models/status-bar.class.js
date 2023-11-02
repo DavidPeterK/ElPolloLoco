@@ -8,6 +8,7 @@ class StatusBar extends DrawableObject {
     chickenHealth;
     coinCounter = 0;
     bottleCounter = 0;
+    world;
     type;
 
     STATUS_COIN = [

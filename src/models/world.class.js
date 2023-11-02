@@ -1,6 +1,6 @@
 class World {
-    canvas = document.getElementById('canvas');;
-    ctx = canvas.getContext('2d');
+    ctx;
+    canvas;
     keyboard;
     level = level1;
     character = new Character();
@@ -17,51 +17,6 @@ class World {
         this.setWorld();
     }
 
-    /**
- * Draw the object on the canvas.
- * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
- */
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
-
-    /**
-     * Load an image for the object.
-     * @param {string} path - Path to the image resource.
-     */
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    /**
-     * Load multiple images for the object (e.g., for animations).
-     * @param {Array<string>} set - An array of image paths.
-     */
-    loadImages(set) {
-        set.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
-
-    drawHitBox(ctx) {
-        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Chicken) {
-            ctx.beginPath();
-            ctx.rect(
-                this.x + this.offsetXL,
-                this.y + this.offsetYU,
-                this.width - this.offsetXL - this.offsetXR,
-                this.height - this.offsetYU - this.offsetYD
-            );
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = 'red';
-            ctx.stroke();
-        }
-    }
-
-
     setWorld() {
         this.character.world = this;
         this.throwableObjects.world = this;
@@ -71,4 +26,72 @@ class World {
 
 
 
+    draw() {
+        //alle bilder im canvas löschen
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.translate(this.camera_x, 0);
+        //bilder aus classen rendern (zeichnen) ebene für ebene
+        this.addObjects(this.level.backgroundObjects);
+
+        this.addObjects(this.level.clouds);
+        this.addObjects(this.level.chicken);
+        this.addToMap(this.endBoss);
+        this.addObjects(this.level.bottle);
+        this.addToMap(this.character);
+
+
+        //------Fixed-Object---------//
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.level.statusBarChar[0]);
+        this.addToMap(this.level.statusBarEndboss[0]);
+        this.ctx.translate(this.camera_x, 0);
+
+
+
+        this.ctx.translate(-this.camera_x, 0);
+
+
+        //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
+        let self = this;
+        requestAnimationFrame(function () {
+            self.draw();
+        });
+    }
+
+    addObjects(object) {
+        object.forEach(o => {
+            this.addToMap(o);
+        });
+    }
+
+    addToMap(object) {
+        if (object.otherDirection) {
+            this.flipImage(object);
+        }
+
+        object.draw(this.ctx);
+        object.drawHitBox(this.ctx);
+
+
+        if (object.otherDirection) {
+            this.flipImageBack(object);
+        }
+    }
+
+    flipImage(draw) {
+        //save speichert alle ctx werte und mit restore() können wir mit diesen speicher fortfahren
+        this.ctx.save();
+        //bei bewegungung nach links wird die breite des bildes auf der stelle festgehalten
+        this.ctx.translate(draw.width, 0);
+        //spiegelt das bild (links bewegung)
+        this.ctx.scale(-1, 1);
+        //bei spiegelung wird die x koordinate mit gespiegelt und damit setzt man dies zurück
+        draw.x = draw.x * -1;
+    }
+
+    flipImageBack(draw) {
+        draw.x = draw.x * -1;
+        this.ctx.restore();
+    }
 }
