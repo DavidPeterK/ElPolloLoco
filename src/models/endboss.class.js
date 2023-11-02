@@ -9,7 +9,7 @@ class Endboss extends MovableObject {
     offsetYD = 30;
     offsetXR = 50;
     offsetXL = 55;
-    lastHit;
+    lastHit = 0;
     speed = 0.3;
     otherDirection = false;
     triggerAnimation = false;
@@ -88,7 +88,6 @@ class Endboss extends MovableObject {
 
     wasTriggert() {
         if (this.characterTriggerPosition()) {
-            //froze moment boss intro
             world.level.level_start_x = 2415;
             world.level.level_end_x = 2425;
             setInterval(() => {
@@ -128,8 +127,9 @@ class Endboss extends MovableObject {
 
     endbossStatus() {
         setInterval(() => {
-            if (this.isMoving === true) {
-                this.playAnimation(this.WALKING_SET);
+
+            if (this.isDead()) {
+                this.playAnimation(this.DEAD_SET);
             }
             else if (this.isHurt()) {
                 this.playAnimation(this.HURT_SET);
@@ -149,20 +149,6 @@ class Endboss extends MovableObject {
         }
     }
 
-    endbossStatus() {
-        setInterval(() => {
-
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_SET);
-            }
-            else if (this.isHurt()) {
-                this.playAnimation(this.HURT_SET);
-            }
-            else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss()) {
-                this.playAnimation(this.WALKING_SET);
-            }
-        }, 200);
-    }
     isDead() {
         return this.endbossHealth == 0;
     }
