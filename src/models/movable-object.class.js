@@ -9,6 +9,9 @@ class MovableObject extends DrawableObject {
     lastThrow = 0;
     y;
     x;
+    thisLeftOffset;
+    thisRightOffset;
+
 
     applyGravity() {
         setInterval(() => {
@@ -39,32 +42,40 @@ class MovableObject extends DrawableObject {
         if (object === null) {
             return null;  // Keine Kollision
         } else {
-            let thisLeftOffset, thisRightOffset;
-            if (this.otherDirection) {
-                thisLeftOffset = this.offsetXR;
-                thisRightOffset = this.offsetXL;
-            } else {
-                thisLeftOffset = this.offsetXL;
-                thisRightOffset = this.offsetXR;
-            }
-
-            if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
-                this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
-                this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-                this.y + this.height - this.offsetYD > object.y + object.offsetYU) {
+            this.whatIsMyDirection();
+            if (this.generalCollision(object)) {
                 return 'generalCollision';  // Allgemeine Kollision
-            } else
-                if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
-                    this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
-                    this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-                    this.y + this.height - this.offsetYD > object.y + object.offsetYU - 10) {
-                    return 'fallingCollision';  // Kollision von oben 
-                } else {
-                    return null;  // Keine Kollision
-                }
+            } else if (this.fallingCollision(object)) {
+                return 'fallingCollision';  // Kollision von oben 
+            } else {
+                return null;  // Keine Kollision
+            }
         }
     }
 
+    generalCollision(object) {
+        return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
+            this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
+            this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU;
+    }
+
+    fallingCollision(object) {
+        return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
+            this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
+            this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 10;
+    }
+
+    whatIsMyDirection() {
+        if (this.otherDirection) {
+            this.thisLeftOffset = this.offsetXR;
+            this.thisRightOffset = this.offsetXL;
+        } else {
+            this.thisLeftOffset = this.offsetXL;
+            this.thisRightOffset = this.offsetXR;
+        }
+    }
 
     timeSince(eventTime) {
         return (new Date().getTime() - eventTime) / 1000;

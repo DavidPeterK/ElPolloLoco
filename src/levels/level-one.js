@@ -70,11 +70,19 @@ function initLevel1() {
         ],
 
         [
-            new StatusBar(40, 0, 100, 'character'),
+            new StatusBar(40, 0, 200, 60, 100, 'character'),
         ],
 
         [
-            new StatusBar(480, 0, 1000, 'endboss'),
+            new StatusBar(480, 0, 200, 60, 1000, 'endboss'),
+        ],
+
+        [
+            new StatusBar(40, 55, 60, 60, 0, 'coin'),
+        ],
+
+        [
+            new StatusBar(35, 115, 70, 60, 0, 'salsaBottle'),
         ],
 
         [

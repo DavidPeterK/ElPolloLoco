@@ -20,6 +20,7 @@ class ThrowableObject extends MovableObject {
 
 
 
+
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -60,7 +61,7 @@ class ThrowableObject extends MovableObject {
         }, 20);
 
         setInterval(() => {
-            this.checkCollisions();
+            this.checkCollisionsWithEnemy();
             this.checkThrowObjects();
         }, 1000 / 60);
     }
@@ -75,7 +76,7 @@ class ThrowableObject extends MovableObject {
         }
     }
 
-    checkCollisions() {
+    checkCollisionsWithEnemy() {
         let allEnemys = [world.endBoss, ...world.level.chicken];
         allEnemys.forEach((enemies, index) => {
             if (this.isBottleReady()) {

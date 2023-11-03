@@ -19,6 +19,7 @@ class Character extends MovableObject {
     collidingStatus = false;
     collidingEnemyStatus = false;
 
+
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -126,7 +127,8 @@ class Character extends MovableObject {
                 this.world.throwableObjects.throwBottle();
             }
 
-            this.checkCollisions();
+            this.checkCollisionsWithEnemy();
+            this.checkCollisionsWithCollectible();
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
@@ -155,7 +157,7 @@ class Character extends MovableObject {
         }, 100);
     }
 
-    checkCollisions() {
+    checkCollisionsWithEnemy() {
         let allEnemys = [this.world.endBoss, ...this.world.level.chicken];
         allEnemys.forEach((enemies, index) => {
             this.charTouchEnemy(enemies, index);
@@ -165,15 +167,55 @@ class Character extends MovableObject {
     charTouchEnemy(enemies, index) {
         let collisionResult = this.isColliding(enemies);
         if (collisionResult === 'fallingCollision') {
-            this.jump();
-            setTimeout(() => {
-            }, 200);
+            this.chickenGetsDamage(enemies, index);
         } else if (collisionResult === 'generalCollision' && !this.isHurt()) {
-            if (this.isCollidingWithChicken(enemies, index)) {
-                this.DAMAGE_SOUND.play();
-                this.hit();
-                this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
-            }
+            this.characterGetsDamage(enemies, index);
+        }
+    }
+
+    chickenGetsDamage(enemies, index) {
+        if (enemies == this.world.level.chicken[index - 1]) {
+            this.world.level.chicken[index - 1].hit(index - 1);
+            this.jump();
+        }
+    }
+
+    characterGetsDamage(enemies, index) {
+        if (this.isCollidingWithAliveEnemy(enemies, index)) {
+            this.DAMAGE_SOUND.play();
+            this.hit();
+            this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
+        }
+    }
+
+    checkCollisionsWithCollectible() {
+        let allCollectible = [...this.world.level.salsaBottle, ...this.world.level.coin];
+        allCollectible.forEach((collectible, index) => {
+            this.charTouchCollectible(collectible, index);
+        });
+    }
+
+    charTouchCollectible(collectible, index) {
+        let collisionResult = this.isColliding(collectible);
+        if (collisionResult == null) {
+            return;
+        } else {
+            this.collectSalsaBottle(collectible, index);
+            this.collectCoin(collectible, index);
+        }
+    }
+
+    collectSalsaBottle(collectible, index) {
+        if (collectible == this.world.level.salsaBottle[index]) {
+            this.world.statusBar.salsaBottleStorage += 1;
+            this.world.level.salsaBottle[index] = null;
+        }
+    }
+
+    collectCoin(collectible, index) {
+        if (collectible == this.world.level.coin[index - 1]) {
+            this.world.statusBar.coinStorage += 1;
+            this.world.level.coin[index - 1] = null;
         }
     }
 
@@ -191,7 +233,7 @@ class Character extends MovableObject {
         }
     }
 
-    isCollidingWithChicken(enemies, index) {
+    isCollidingWithAliveEnemy(enemies, index) {
         return enemies === this.world.level.chicken[index - 1] && !this.world.level.chicken[index - 1].isDead() || enemies === this.world.endBoss
     }
 }

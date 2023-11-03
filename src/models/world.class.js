@@ -9,6 +9,7 @@ class World {
     endBoss = this.level.endboss[0];
     camera_x = 0;
 
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -35,9 +36,9 @@ class World {
         this.addObjects(this.level.backgroundObjects);
 
         this.addObjects(this.level.clouds);
-        this.addObjects(this.level.chicken);
-        this.addObjects(this.level.coin);
         this.addObjects(this.level.salsaBottle);
+        this.addObjects(this.level.coin);
+        this.addObjects(this.level.chicken);
         this.addToMap(this.endBoss);
         this.addObjects(this.level.bottle);
         this.addToMap(this.character);
@@ -47,6 +48,8 @@ class World {
         this.ctx.translate(-this.camera_x, 0);
         this.addToMap(this.level.statusBarChar[0]);
         this.addToMap(this.level.statusBarEndboss[0]);
+        this.addToMap(this.level.statusBarCoin[0]);
+        this.addToMap(this.level.statusBarSalsaBottle[0]);
         this.ctx.translate(this.camera_x, 0);
 
 

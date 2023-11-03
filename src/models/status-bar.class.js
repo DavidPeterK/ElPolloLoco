@@ -10,14 +10,12 @@ class StatusBar extends DrawableObject {
     bottleCounter = 0;
     world;
     type;
+    coinStorage;
+    salsaBottleStorage;
+
 
     STATUS_COIN = [
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png',
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/40.png',
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/60.png',
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/80.png',
-        'src/img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png'
+        'src/img/7_statusbars/3_icons/icon_coin.png'
     ];
 
     STATUS_HEALTH = [
@@ -39,16 +37,11 @@ class StatusBar extends DrawableObject {
     ];
 
     STATUS_BOTTLE = [
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/0.png',
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/20.png',
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/40.png',
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/60.png',
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/80.png',
-        'src/img/7_statusbars/1_statusbar/3_statusbar_bottle/blue/100.png'
+        'src/img/7_statusbars/3_icons/icon_salsa_bottle.png'
     ];
 
 
-    constructor(x, y, health, type) {
+    constructor(x, y, width, height, health, type) {
         super();
         this.loadImages(this.STATUS_HEALTH);
         this.loadImages(this.STATUS_COIN);
@@ -56,8 +49,8 @@ class StatusBar extends DrawableObject {
         this.loadImages(this.STATUS_BOSS);
         this.x = x;
         this.y = y;
-        this.width = 200;
-        this.height = 60;
+        this.width = width;
+        this.height = height;
         this.type = type;
         this.setMainHealth(health);
     }
@@ -78,6 +71,14 @@ class StatusBar extends DrawableObject {
         } else if (this.type == 'endboss') {
             this.endbossHealth = health;
             let path = this.STATUS_BOSS[this.healthIndex(this.type)];
+            this.img = this.imageCache[path];
+        } else if (this.type == 'coin') {
+            this.coinStorage = health;
+            let path = this.STATUS_COIN[0];
+            this.img = this.imageCache[path];
+        } else if (this.type == 'salsaBottle') {
+            this.salsaBottleStorage = health;
+            let path = this.STATUS_BOTTLE[0];
             this.img = this.imageCache[path];
         }
     }
