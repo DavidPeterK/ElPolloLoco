@@ -38,34 +38,31 @@ class MovableObject extends DrawableObject {
     isColliding(object) {
         if (object === null) {
             return null;  // Keine Kollision
-        }
-
-        let thisLeftOffset, thisRightOffset;
-        if (this.otherDirection) {
-            thisLeftOffset = this.offsetXR;
-            thisRightOffset = this.offsetXL;
         } else {
-            thisLeftOffset = this.offsetXL;
-            thisRightOffset = this.offsetXR;
+            let thisLeftOffset, thisRightOffset;
+            if (this.otherDirection) {
+                thisLeftOffset = this.offsetXR;
+                thisRightOffset = this.offsetXL;
+            } else {
+                thisLeftOffset = this.offsetXL;
+                thisRightOffset = this.offsetXR;
+            }
+
+            if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
+                this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
+                this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
+                this.y + this.height - this.offsetYD > object.y + object.offsetYU) {
+                return 'generalCollision';  // Allgemeine Kollision
+            } else
+                if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
+                    this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
+                    this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
+                    this.y + this.height - this.offsetYD > object.y + object.offsetYU - 10) {
+                    return 'fallingCollision';  // Kollision von oben 
+                } else {
+                    return null;  // Keine Kollision
+                }
         }
-
-
-
-        if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
-            this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
-            this.y + this.offsetYU < ((object.y + object.height) - object.offsetYD) &&
-            ((this.y + this.height) - this.offsetYD) < object.y + object.offsetYU) {
-            return 'generalCollision';  // Allgemeine Kollision
-        }
-        if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
-            this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
-            this.y + this.offsetYU < ((object.y + object.height) - object.offsetYD) &&
-            ((this.y + this.height) - this.offsetYD) < object.y + object.offsetYU - 50) {
-            return 'fallingCollision';  // Kollision von oben 
-        }
-
-        return null;  // Keine Kollision
-
     }
 
 

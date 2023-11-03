@@ -14,8 +14,10 @@ class ThrowableObject extends MovableObject {
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
-    collidingStatus = false;
-    collidingEnemyStatus = false;
+    collidingStatus;
+    collidingEnemyStatus;
+    isAudioPlaying;
+
 
 
     BROKEN_SET = [
@@ -41,16 +43,16 @@ class ThrowableObject extends MovableObject {
         this.loadImages(this.BROKEN_SET);
         this.x = x;
         this.y = y;
+        this.collidingStatus = false;
+        this.collidingEnemyStatus = false;
+        this.isAudioPlaying = false;
         this.applyGravity();
         this.checkMoments();
     }
 
     checkMoments() {
-        this.previousY = this.y;
-        let isAudioPlaying = false;
-
         setInterval(() => {
-            this.bottleBroke(isAudioPlaying);
+            this.bottleBroke();
         }, 150);
 
         setInterval(() => {
@@ -92,8 +94,9 @@ class ThrowableObject extends MovableObject {
 
     bottleTouchEnemy(enemies, index) {
         let collisionResult = world.level.bottle[0].isColliding(enemies);
-        if (collisionResult === 'fallingCollision' || collisionResult === 'generalCollision') {
-            this.collidingEnemyStatus = true;
+        if (collisionResult == null) {
+            return;
+        } else {
             this.FLYING_BOTTLE.pause();
             this.FLYING_BOTTLE.currentTime = 0;
             this.bottleTouchEndboss(enemies);
@@ -103,6 +106,7 @@ class ThrowableObject extends MovableObject {
 
     bottleTouchEndboss(enemies) {
         if (enemies == world.endBoss && !world.endBoss.isHurt()) {
+            this.collidingEnemyStatus = true;
             world.endBoss.hit();
             world.level.statusBarEndboss[0].setMainHealth(world.endBoss.endbossHealth);
         }
@@ -110,7 +114,7 @@ class ThrowableObject extends MovableObject {
 
     bottleTouchSmallEnemy(enemies, index) {
         if (enemies == world.level.chicken[index - 1]) {
-            world.level.chicken[index - 1].hit(index);
+            world.level.chicken[index - 1].hit(index - 1);
         }
     }
 
@@ -123,7 +127,7 @@ class ThrowableObject extends MovableObject {
 
     throwLeft() {
         setInterval(() => {
-            if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
+            if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
                 this.x -= 5;
             } else {
                 this.speedY = 0;
@@ -134,12 +138,11 @@ class ThrowableObject extends MovableObject {
 
     throwRight() {
         setInterval(() => {
-            if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
+            if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
                 this.x += 5;
             } else {
                 this.speedY = 0;
             }
-
         }, 100);
     }
 
@@ -149,34 +152,33 @@ class ThrowableObject extends MovableObject {
         this.FLYING_BOTTLE.currentTime = 0;
     }
 
-    bottleBroke(isAudioPlaying) {
+    bottleBroke() {
         if (this.isBottleReady()) {
             if (this.collidingStatus == true || this.collidingEnemyStatus == true) {
-                this.playBrokeSound(isAudioPlaying);
+                this.playBrokeSound();
                 this.height = 100;
                 this.width = 100;
                 this.playAnimation(this.BROKEN_SET);
-
                 //setTimeout
-                this.deleteBottle(isAudioPlaying);
+                this.deleteBottle();
             } else {
                 this.playAnimation(this.THROW_SET);
             }
         }
     }
 
-    deleteBottle(isAudioPlaying) {
+    deleteBottle() {
         setTimeout(() => {
-            isAudioPlaying = false;
+            this.isAudioPlaying = false;
             this.collidingStatus = false;
             this.collidingEnemyStatus = false;
             world.level.bottle.splice(0, 1);
         }, 500);
     }
 
-    playBrokeSound(isAudioPlaying) {
-        if (!isAudioPlaying) {
-            isAudioPlaying = true;
+    playBrokeSound() {
+        if (this.isAudioPlaying == false) {
+            this.isAudioPlaying = true;
             this.BROKEN_BOTTLE.play();
         }
     }

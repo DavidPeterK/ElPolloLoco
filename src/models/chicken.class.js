@@ -1,8 +1,9 @@
 class Chicken extends MovableObject {
-
+    x;
     y = 365;
     height = 55;
     width = 70;
+    speed;
     offsetYU = 0;
     offsetYD = 0;
     offsetXR = 0;
@@ -45,8 +46,8 @@ class Chicken extends MovableObject {
         if (this.chickenHealth < 0) {
             this.chickenHealth = 0;
             setTimeout(() => {
-                world.level.chicken[index - 1] = null;
-            }, 1800);
+                world.level.chicken[index] = null;
+            }, 1400);
         } else {
             this.lastHit = new Date().getTime();
         }
