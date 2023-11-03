@@ -157,7 +157,6 @@ class Character extends MovableObject {
 
     checkCollisions() {
         let allEnemys = [this.world.endBoss, ...this.world.level.chicken];
-
         allEnemys.forEach((enemies, index) => {
             this.charTouchEnemy(enemies, index);
         });
@@ -170,7 +169,7 @@ class Character extends MovableObject {
             setTimeout(() => {
             }, 200);
         } else if (collisionResult === 'generalCollision' && !this.isHurt()) {
-            if (enemies === this.world.level.chicken[index - 1] && !this.world.level.chicken[index - 1].isDead() || enemies === this.world.endBoss) {
+            if (this.isCollidingWithChicken(enemies, index)) {
                 this.DAMAGE_SOUND.play();
                 this.hit();
                 this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
@@ -192,4 +191,7 @@ class Character extends MovableObject {
         }
     }
 
+    isCollidingWithChicken(enemies, index) {
+        return enemies === this.world.level.chicken[index - 1] && !this.world.level.chicken[index - 1].isDead() || enemies === this.world.endBoss
+    }
 }

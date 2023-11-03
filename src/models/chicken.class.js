@@ -45,7 +45,6 @@ class Chicken extends MovableObject {
         if (this.chickenHealth < 0) {
             this.chickenHealth = 0;
             setTimeout(() => {
-                world.level.chicken.splice(index - 1, 0);
                 world.level.chicken[index - 1] = null;
             }, 1800);
         } else {
