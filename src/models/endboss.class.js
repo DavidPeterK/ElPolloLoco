@@ -88,6 +88,7 @@ class Endboss extends MovableObject {
 
     wasTriggert() {
         if (this.characterTriggerPosition()) {
+            //character frozen clip
             world.level.level_start_x = 2415;
             world.level.level_end_x = 2425;
             setInterval(() => {

@@ -41,7 +41,6 @@ class MovableObject extends DrawableObject {
         }
 
         let thisLeftOffset, thisRightOffset;
-
         if (this.otherDirection) {
             thisLeftOffset = this.offsetXR;
             thisRightOffset = this.offsetXL;
@@ -50,26 +49,19 @@ class MovableObject extends DrawableObject {
             thisRightOffset = this.offsetXR;
         }
 
-        let isFalling = this.y > this.previousY;
 
-        let generalCollision = !(
-            this.x + thisLeftOffset > object.x + object.width - object.offsetXR ||
-            this.x + this.width - thisRightOffset < object.x + object.offsetXL ||
-            this.y + this.offsetYU > object.y + object.height - object.offsetYD ||
-            this.y + this.height - this.offsetYD < object.y + object.offsetYU
-        );
 
-        if (generalCollision) {
-            let topCollision =
-                isFalling &&
-                object.y + object.height - object.offsetYD <= this.y + this.offsetYU &&
-                object.y + object.height - object.offsetYD > this.y;
-
-            if (topCollision) {
-                return 'fallingCollision';  // Kollision von oben während des Fallens
-            } else {
-                return 'generalCollision';  // Allgemeine Kollision
-            }
+        if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
+            this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
+            this.y + this.offsetYU < ((object.y + object.height) - object.offsetYD) &&
+            ((this.y + this.height) - this.offsetYD) < object.y + object.offsetYU) {
+            return 'generalCollision';  // Allgemeine Kollision
+        }
+        if (this.x + thisLeftOffset < object.x + object.width - object.offsetXR &&
+            this.x + this.width - thisRightOffset > object.x + object.offsetXL &&
+            this.y + this.offsetYU < ((object.y + object.height) - object.offsetYD) &&
+            ((this.y + this.height) - this.offsetYD) < object.y + object.offsetYU - 50) {
+            return 'fallingCollision';  // Kollision von oben 
         }
 
         return null;  // Keine Kollision
