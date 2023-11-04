@@ -8,12 +8,14 @@ class World {
     throwableObjects = new ThrowableObject();
     endBoss = this.level.endboss[0];
     camera_x = 0;
+    allObjects;
 
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.allObjects = [this.endBoss, ...this.level.chicken, ...this.level.salsaBottle, ...this.level.coin];
         this.draw();
         this.setWorld();
     }

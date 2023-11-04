@@ -9,7 +9,7 @@ class ThrowableObject extends MovableObject {
     speedY = 20;
     height = 60;
     width = 50;
-    lastThrow = 0;
+    lastThrow;
     previousY;
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
@@ -67,7 +67,7 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        if (this.isNotOnGround() && this.collidingEnemyStatus == false) {
+        if (this.isNotOnGround() && !this.collidingEnemyStatus) {
             if (world.character.otherDirection === true && !this.isThrowing()) {
                 this.throwLeft();
             } else if (world.character.otherDirection === false && !this.isThrowing()) {
@@ -77,8 +77,7 @@ class ThrowableObject extends MovableObject {
     }
 
     checkCollisionsWithEnemy() {
-        let allEnemys = [world.endBoss, ...world.level.chicken];
-        allEnemys.forEach((enemies, index) => {
+        world.allObjects.forEach((enemies, index) => {
             if (this.isBottleReady()) {
                 this.bottleTouchEnemy(enemies, index);
             }
@@ -95,8 +94,7 @@ class ThrowableObject extends MovableObject {
 
     bottleTouchEnemy(enemies, index) {
         let collisionResult = world.level.bottle[0].isColliding(enemies);
-        if (collisionResult == null) {
-        } else {
+        if (collisionResult !== null) {
             this.FLYING_BOTTLE.pause();
             this.FLYING_BOTTLE.currentTime = 0;
             this.bottleTouchEndboss(enemies);

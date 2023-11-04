@@ -16,7 +16,7 @@ function initLevel1() {
         [
             new Chicken(450),
             new Chicken(450),
-            new Chicken(450),
+            new Chicken(450)
         ],
 
         [

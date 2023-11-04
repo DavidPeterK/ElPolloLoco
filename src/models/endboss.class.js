@@ -11,9 +11,8 @@ class Endboss extends MovableObject {
     offsetXL = 55;
     lastHit = 0;
     speed = 0.3;
-    otherDirection = false;
-    triggerAnimation = false;
-    isTriggert = false;
+    triggerAnimation;
+    isTriggert;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -75,6 +74,9 @@ class Endboss extends MovableObject {
         this.loadImages(this.ATTACK_SET);
         this.loadImages(this.HURT_SET);
         this.loadImages(this.DEAD_SET);
+        this.otherDirection = false;
+        this.triggerAnimation = false;
+        this.isTriggert = false;
         this.waitOfCharacter();
     }
 

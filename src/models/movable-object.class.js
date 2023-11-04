@@ -39,9 +39,8 @@ class MovableObject extends DrawableObject {
 
 
     isColliding(object) {
-        if (object === null) {
-            return null;  // Keine Kollision
-        } else {
+        if (object !== null) {
+
             this.whatIsMyDirection();
             if (this.generalCollision(object)) {
                 return 'generalCollision';  // Allgemeine Kollision
