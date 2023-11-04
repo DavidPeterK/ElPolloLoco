@@ -159,7 +159,7 @@ class Character extends MovableObject {
 
     removeObjects(toRemove) {
         toRemove.chickens.reverse().forEach(index => {
-            if (this.world.level.chicken[index].animationCompleted) {
+            if (this.world.level.chicken[index].animationCompleted == true) {
                 this.world.level.chicken[index] = null;
             }
         });
@@ -177,13 +177,13 @@ class Character extends MovableObject {
             coins: [],
             salsaBottles: []
         };
-        this.removeObjects(toRemove);
         let allObjects = [this.world.endBoss, ...this.world.level.chicken, ...this.world.level.salsaBottle, ...this.world.level.coin];
         allObjects.forEach((object) => {
             if (object !== null) { // Überspringe, wenn das Objekt bereits null ist
                 this.collisionDirection(object, toRemove);
             }
         });
+        this.removeObjects(toRemove);
     }
 
     collisionDirection(objects, toRemove) {
@@ -228,8 +228,8 @@ class Character extends MovableObject {
     chickenGetsDamage(objects, toRemove) {
         let chickenIndex = this.world.level.chicken.indexOf(objects)
         if (this.isChickenAlive(objects, chickenIndex)) {
-            this.world.level.chicken[chickenIndex].hit();
             toRemove.chickens.push(chickenIndex);
+            this.world.level.chicken[chickenIndex].hit();
             this.jump();
         }
     }
