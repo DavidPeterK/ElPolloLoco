@@ -96,7 +96,6 @@ class ThrowableObject extends MovableObject {
     bottleTouchEnemy(enemies, index) {
         let collisionResult = world.level.bottle[0].isColliding(enemies);
         if (collisionResult == null) {
-            return;
         } else {
             this.FLYING_BOTTLE.pause();
             this.FLYING_BOTTLE.currentTime = 0;

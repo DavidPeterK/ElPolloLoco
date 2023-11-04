@@ -15,7 +15,7 @@ class Character extends MovableObject {
     offsetXL = 20;
     offsetXR = 30;
     speedY = 0;
-    otherDirection = false
+    otherDirection;
     collidingStatus = false;
     collidingEnemyStatus = false;
 
@@ -96,6 +96,7 @@ class Character extends MovableObject {
         this.loadImages(this.JUMP_SET);
         this.loadImages(this.DEAD_SET);
         this.loadImages(this.HURT_SET);
+        this.otherDirection = false;
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -107,15 +108,15 @@ class Character extends MovableObject {
 
             //taste rechts um bild x achse zu erhöhen
             if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.moveRight();
                 this.otherDirection = false;
+                this.moveRight();
                 this.WALKING_SOUND.play();
             }
 
             //taste links um bild x achse zu verringern
             if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
-                this.moveLeft();
                 this.otherDirection = true;
+                this.moveLeft();
                 this.WALKING_SOUND.play();
             }
 
@@ -126,13 +127,12 @@ class Character extends MovableObject {
             if (this.world.keyboard.D && !this.world.throwableObjects.isThrowing()) {
                 this.world.throwableObjects.throwBottle();
             }
+            this.checkCollisions();
 
-            this.checkCollisionsWithEnemy();
-            this.checkCollisionsWithCollectible();
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
-        }, 1000 / 55);
+        }, 1000 / 40);
 
     }
 
@@ -157,71 +157,127 @@ class Character extends MovableObject {
         }, 100);
     }
 
-    checkCollisionsWithEnemy() {
-        let allEnemys = [this.world.endBoss, ...this.world.level.chicken];
-        allEnemys.forEach((enemies, index) => {
-            this.charTouchEnemy(enemies, index);
+    removeObjects(toRemove) {
+        toRemove.chickens.reverse().forEach(index => {
+            if (this.world.level.chicken[index].animationCompleted) {
+                this.world.level.chicken[index] = null;
+            }
+        });
+        toRemove.coins.reverse().forEach(index => {
+            this.world.level.coin[index] = null;
+        });
+        toRemove.salsaBottles.reverse().forEach(index => {
+            this.world.level.salsaBottle[index] = null;
         });
     }
 
-    charTouchEnemy(enemies, index) {
-        let collisionResult = this.isColliding(enemies);
-        if (collisionResult === 'fallingCollision') {
-            this.chickenGetsDamage(enemies, index);
-        } else if (collisionResult === 'generalCollision' && !this.isHurt()) {
-            this.characterGetsDamage(enemies, index);
+    checkCollisions() {
+        let toRemove = {
+            chickens: [],
+            coins: [],
+            salsaBottles: []
+        };
+        this.removeObjects(toRemove);
+        let allObjects = [this.world.endBoss, ...this.world.level.chicken, ...this.world.level.salsaBottle, ...this.world.level.coin];
+        allObjects.forEach((object) => {
+            if (object !== null) { // Überspringe, wenn das Objekt bereits null ist
+                this.collisionDirection(object, toRemove);
+            }
+        });
+    }
+
+    collisionDirection(objects, toRemove) {
+        let collisionResult = this.isColliding(objects);
+        if (collisionResult == 'fallingCollision') {
+            if (this.isItChicken(objects)) {
+                this.chickenGetsDamage(objects, toRemove);
+            }
+
+            if (this.isItCoin(objects)) {
+                this.collectCoin(objects, toRemove);
+            }
+
+            if (this.isItSalsaBottle(objects)) {
+                this.collectSalsaBottle(objects, toRemove);
+            }
+
+        } else if (collisionResult == 'generalCollision' && !this.isHurt()) {
+            if (this.isItChicken(objects) || this.isItEndboss(objects)) {
+                this.characterGetsDamage(objects);
+            }
+
+            if (this.isItCoin(objects)) {
+                this.collectCoin(objects, toRemove);
+            }
+
+            if (this.isItSalsaBottle(objects)) {
+                this.collectSalsaBottle(objects, toRemove);
+            }
         }
     }
 
-    chickenGetsDamage(enemies, index) {
-        if (enemies == this.world.level.chicken[index - 1]) {
-            this.world.level.chicken[index - 1].hit(index - 1);
-            this.jump();
-        }
-    }
-
-    characterGetsDamage(enemies, index) {
-        if (this.isCollidingWithAliveEnemy(enemies, index)) {
+    characterGetsDamage(objects) {
+        let chickenIndex = this.world.level.chicken.indexOf(objects)
+        if (this.isChickenAlive(objects, chickenIndex) || this.isEndbossAlive(objects)) {
             this.DAMAGE_SOUND.play();
             this.hit();
             this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
         }
     }
 
-    checkCollisionsWithCollectible() {
-        let allCollectible = [...this.world.level.salsaBottle, ...this.world.level.coin];
-        allCollectible.forEach((collectible, index) => {
-            this.charTouchCollectible(collectible, index);
-        });
-    }
-
-    charTouchCollectible(collectible, index) {
-        let collisionResult = this.isColliding(collectible);
-        if (collisionResult == null) {
-            return;
-        } else {
-            this.collectSalsaBottle(collectible, index);
-            this.collectCoin(collectible, index);
+    chickenGetsDamage(objects, toRemove) {
+        let chickenIndex = this.world.level.chicken.indexOf(objects)
+        if (this.isChickenAlive(objects, chickenIndex)) {
+            this.world.level.chicken[chickenIndex].hit();
+            toRemove.chickens.push(chickenIndex);
+            this.jump();
         }
     }
 
-    collectSalsaBottle(collectible, index) {
-        if (collectible == this.world.level.salsaBottle[index]) {
+    collectSalsaBottle(objects, toRemove) {
+        let salsaBottleIndex = this.world.level.salsaBottle.indexOf(objects);
+        if (objects == this.world.level.salsaBottle[salsaBottleIndex]) {
             this.world.statusBar.salsaBottleStorage += 1;
-            this.world.level.salsaBottle[index] = null;
+            toRemove.salsaBottles.push(salsaBottleIndex); // Statt direkt zu löschen, speichern wir den Index
         }
     }
 
-    collectCoin(collectible, index) {
-        if (collectible == this.world.level.coin[index - 1]) {
+    collectCoin(objects, toRemove) {
+        let coinIndex = this.world.level.coin.indexOf(objects);
+        if (objects == this.world.level.coin[coinIndex]) {
             this.world.statusBar.coinStorage += 1;
-            this.world.level.coin[index - 1] = null;
+            toRemove.coins.push(coinIndex);
         }
     }
 
     isDead() {
         return this.mainHealth == 0;
     }
+
+    isItChicken(objects) {
+        return this.world.level.chicken.includes(objects);
+    }
+
+    isChickenAlive(objects, chickenIndex) {
+        return objects == this.world.level.chicken[chickenIndex] && !this.world.level.chicken[chickenIndex].isDead();
+    }
+
+    isItCoin(objects) {
+        return this.world.level.coin.includes(objects);
+    }
+
+    isItSalsaBottle(objects) {
+        return this.world.level.salsaBottle.includes(objects);
+    }
+
+    isItEndboss(objects) {
+        return objects == this.world.endBoss;
+    }
+
+    isEndbossAlive(objects) {
+        return objects == this.world.endBoss && !this.world.endBoss.isDead();
+    }
+
 
     //schaden
     hit() {
@@ -231,9 +287,5 @@ class Character extends MovableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
-    }
-
-    isCollidingWithAliveEnemy(enemies, index) {
-        return enemies === this.world.level.chicken[index - 1] && !this.world.level.chicken[index - 1].isDead() || enemies === this.world.endBoss
     }
 }

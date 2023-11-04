@@ -36,3 +36,32 @@
     margin: auto;
     /* Zentriert den Startbildschirm im Vollbildmodus */
 }
+
+checkCollisionsWithCollectible() {
+    let collectibles = [...this.world.level.salsaBottle, ...this.world.level.coin];
+
+    collectibles.forEach((collectible, index) => {
+        if (this.charTouchCollectible(collectible)) { // Nehmen wir an, diese Funktion gibt true zurück, wenn eine Kollision vorliegt
+            // Nehmen Sie an, dass Sie das Sammelobjekt durch null ersetzen möchten
+            if (this.world.level.salsaBottle.includes(collectible)) {
+                let bottleIndex = this.world.level.salsaBottle.indexOf(collectible);
+                this.world.level.salsaBottle[bottleIndex] = null; // Ersetzt das Sammelobjekt durch null
+            } else if (this.world.level.coin.includes(collectible)) {
+                let coinIndex = this.world.level.coin.indexOf(collectible);
+                this.world.level.coin[coinIndex] = null; // Ersetzt das Sammelobjekt durch null
+            }
+            // Hier können Sie weitere Aktionen hinzufügen, z.B. das Aktualisieren des Spieler-Scores
+        }
+    });
+}
+
+checkCollisionsWithEnemy() {
+    let enemies = [this.world.endBoss, ...this.world.level.chicken];
+
+    enemies.forEach((enemy, index) => {
+        if (this.charTouchEnemy(enemy)) { // Nehmen wir an, diese Funktion gibt true zurück, wenn eine Kollision vorliegt
+            // Nehmen wir an, dass Sie auf eine Kollision mit einem Gegner reagieren möchten
+            // Hier können Sie Code hinzufügen, um z.B. das Spiel zu beenden, Lebenspunkte abzuziehen etc.
+        }
+    });
+}
