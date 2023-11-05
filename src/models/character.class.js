@@ -97,12 +97,6 @@ class Character extends MovableObject {
         this.loadImages(this.DEAD_SET);
         this.loadImages(this.HURT_SET);
         this.otherDirection = false;
-        this.toRemove = {
-            chickens: [],
-            coins: [],
-            salsaBottles: []
-        };
-
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -134,128 +128,88 @@ class Character extends MovableObject {
                 this.world.throwableObjects.throwBottle();
             }
 
-
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
             this.world.camera_x = -this.x + 100;
             this.checkCollisions();
-            this.removeObjects();
         }, 1000 / 60);
 
     }
 
     characterStatus() {
         setInterval(() => {
-
             if (this.isDead()) {
                 this.playAnimation(this.DEAD_SET);
-            }
-            else if (this.isHurt()) {
+            } else if (this.isHurt()) {
                 this.playAnimation(this.HURT_SET);
-            }
-            else if (this.isNotOnGround()) {
+            } else if (this.isNotOnGround()) {
                 this.playAnimation(this.JUMP_SET);
-            }
-            else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+            } else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
                 this.playAnimation(this.STILL_STANDING_SET);
-            }
-            else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+            } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.WALKING_SET);
             }
         }, 100);
     }
 
-    removeObjects() {
-        this.toRemove.chickens.reverse().forEach(index => {
-            if (this.world.level.chicken[index] !== null) {
 
-                if (this.world.level.chicken[index].isReadyToDeath) {
-                    setTimeout((currentIndex) => {
-                        if (this.world.level.chicken[currentIndex] && this.world.level.chicken[currentIndex].isReadyToDeath) {
-                            this.world.level.chicken[currentIndex] = null;
-                        }
-                    }, 500, index); // Dauer der Todesanimation    
-                }
-            }
-        });
 
-        this.toRemove.coins.reverse().forEach(index => {
-            this.world.level.coin[index] = null;
-        });
-        this.toRemove.salsaBottles.reverse().forEach(index => {
-            this.world.level.salsaBottle[index] = null;
-        });
-        this.toRemove.chickens = [];
-    }
 
-    checkCollisions() {
-        this.world.allObjects.forEach((object) => {
-            if (object !== null) { // Überspringe, wenn das Objekt bereits null ist
-                this.collisionDirection(object);
-            }
-        });
-    }
-
-    collisionDirection(objects) {
+    collisionDirection(objects, index) {
         let collisionResult = this.isColliding(objects);
         if (collisionResult == 'fallingCollision' && objects !== null) {
             if (this.isItChicken(objects)) {
-                this.chickenGetsDamage(objects);
+                this.chickenGetsDamage(objects, index);
             }
 
             if (this.isItCoin(objects)) {
-                this.collectCoin(objects);
+                this.collectCoin(objects, index);
             }
 
             if (this.isItSalsaBottle(objects)) {
-                this.collectSalsaBottle(objects);
+                this.collectSalsaBottle(objects, index);
             }
 
         } else if (collisionResult == 'generalCollision' && !this.isHurt() && objects !== null) {
             if (this.isItChicken(objects) || this.isItEndboss(objects)) {
-                this.characterGetsDamage(objects);
+                this.characterGetsDamage(objects, index);
             }
 
             if (this.isItCoin(objects)) {
-                this.collectCoin(objects);
+                this.collectCoin(objects, index);
             }
 
             if (this.isItSalsaBottle(objects)) {
-                this.collectSalsaBottle(objects);
+                this.collectSalsaBottle(objects, index);
             }
         }
     }
 
-    characterGetsDamage(objects) {
-        let chickenIndex = this.world.level.chicken.indexOf(objects)
-        if (this.isChickenAlive(objects, chickenIndex) || this.isEndbossAlive(objects)) {
+    characterGetsDamage(objects, index) {
+        if (this.isChickenAlive(objects, index) || this.isEndbossAlive(objects)) {
             this.DAMAGE_SOUND.play();
             this.hit();
-            this.world.level.statusBarChar[0].setMainHealth(this.mainHealth);
+            this.level.statusBarChar[0].setMainHealth(this.mainHealth);
         }
     }
 
-    chickenGetsDamage(objects) {
-        let chickenIndex = this.world.level.chicken.indexOf(objects)
-        if (this.isChickenAlive(objects, chickenIndex)) {
-            this.world.level.chicken[chickenIndex].hit();
+    chickenGetsDamage(objects, index) {
+        if (this.isChickenAlive(objects, index)) {
             this.jump();
-            this.toRemove.chickens.push(chickenIndex);
+            this.level.chicken[index].hit(index);
         }
     }
 
-    collectSalsaBottle(objects) {
-        let salsaBottleIndex = this.world.level.salsaBottle.indexOf(objects);
-        if (objects == this.world.level.salsaBottle[salsaBottleIndex]) {
+    collectSalsaBottle(objects, index) {
+        if (objects == this.level.salsaBottle[index]) {
             this.world.statusBar.salsaBottleStorage += 1;
-            this.toRemove.salsaBottles.push(salsaBottleIndex); // Statt direkt zu löschen, speichern wir den Index
+            this.level.salsaBottle[index] = null;
         }
     }
 
-    collectCoin(objects) {
-        let coinIndex = this.world.level.coin.indexOf(objects);
-        if (objects == this.world.level.coin[coinIndex]) {
+    collectCoin(objects, index) {
+        if (objects == this.level.coin[index]) {
             this.world.statusBar.coinStorage += 1;
-            this.toRemove.coins.push(coinIndex);
+            this.level.coin[index] = null;
         }
     }
 
@@ -264,19 +218,19 @@ class Character extends MovableObject {
     }
 
     isItChicken(objects) {
-        return this.world.level.chicken.includes(objects);
+        return this.level.chicken.includes(objects);
     }
-
-    isChickenAlive(objects, chickenIndex) {
-        return objects == this.world.level.chicken[chickenIndex] && !this.world.level.chicken[chickenIndex].isDead();
+    /////////////////////////////////////////////////////
+    isChickenAlive(objects, index) {
+        return objects == this.level.chicken[index] && !this.level.chicken[index].isDead();
     }
-
+    ////////////////////////////////////////////////////
     isItCoin(objects) {
-        return this.world.level.coin.includes(objects);
+        return this.level.coin.includes(objects);
     }
 
     isItSalsaBottle(objects) {
-        return this.world.level.salsaBottle.includes(objects);
+        return this.level.salsaBottle.includes(objects);
     }
 
     isItEndboss(objects) {

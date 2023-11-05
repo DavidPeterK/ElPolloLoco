@@ -5,13 +5,19 @@ class MovableObject extends DrawableObject {
     speed = 0.2;
     speedY = 0;
     acceleration = 2;
-    lastHit = 0;
-    lastThrow = 0;
+    lastHit;
+    lastThrow;
+    offsetXL;
+    offsetXR;
+    offsetYD;
+    offsetYU;
+    height;
+    width;
     y;
     x;
     thisLeftOffset;
     thisRightOffset;
-
+    level = level1;
 
     applyGravity() {
         setInterval(() => {
@@ -40,7 +46,6 @@ class MovableObject extends DrawableObject {
 
     isColliding(object) {
         if (object !== null) {
-
             this.whatIsMyDirection();
             if (this.generalCollision(object)) {
                 return 'generalCollision';  // Allgemeine Kollision
@@ -49,7 +54,7 @@ class MovableObject extends DrawableObject {
             } else {
                 return null;  // Keine Kollision
             }
-        }
+        } else { return null }
     }
 
     generalCollision(object) {
@@ -85,7 +90,7 @@ class MovableObject extends DrawableObject {
     }
 
     isBottleReady() {
-        return world.level.bottle.length - 1 >= 0;
+        return this.level.bottle[0];
     }
 
     isThrowing() {
@@ -102,6 +107,35 @@ class MovableObject extends DrawableObject {
 
     jump() {
         this.speedY = 25;
+    }
+
+    checkCollisions() {
+        this.level.chicken.forEach((chickens, index) => {
+            if (chickens !== null) {
+                if (this.level.chicken[index] && this.level.chicken[index].isDead()) {
+                    setTimeout((currentIndex) => {
+                        this.level.chicken[currentIndex] = null;
+                    }, 500, index);
+                } else {
+                    this.collisionDirection(chickens, index);
+                }
+            }
+        });
+        this.level.endboss.forEach((endboss, index) => {
+            if (endboss !== null) {
+                this.collisionDirection(endboss, index);
+            }
+        });
+        this.level.coin.forEach((coins, index) => {
+            if (coins !== null) {
+                this.collisionDirection(coins, index);
+            }
+        });
+        this.level.salsaBottle.forEach((salsaBottles, index) => {
+            if (salsaBottles !== null) {
+                this.collisionDirection(salsaBottles, index);
+            }
+        });
     }
 
 }

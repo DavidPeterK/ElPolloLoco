@@ -58,47 +58,48 @@ class ThrowableObject extends MovableObject {
 
         setInterval(() => {
             this.throw();
-        }, 20);
+        }, 100);
 
         setInterval(() => {
-            this.checkCollisionsWithEnemy();
+            this.checkCollisions();
             this.checkThrowObjects();
         }, 1000 / 60);
     }
 
     throw() {
         if (this.isNotOnGround() && !this.collidingEnemyStatus) {
-            if (world.character.otherDirection === true && !this.isThrowing()) {
+            if (world.character.otherDirection == true && !this.isThrowing()) {
                 this.throwLeft();
-            } else if (world.character.otherDirection === false && !this.isThrowing()) {
+            } else if (world.character.otherDirection == false && !this.isThrowing()) {
                 this.throwRight();
             }
         }
     }
 
-    checkCollisionsWithEnemy() {
-        world.allObjects.forEach((enemies, index) => {
-            if (this.isBottleReady()) {
-                this.bottleTouchEnemy(enemies, index);
-            }
-        });
-    }
 
     checkThrowObjects() {
         if (this.isBottleReady()) {
-            if (!world.level.bottle[0].isNotOnGround()) {
+            if (!this.isNotOnGround()) {
                 this.bottleBrokeOnGround();
             }
         }
     }
 
-    bottleTouchEnemy(enemies, index) {
-        let collisionResult = world.level.bottle[0].isColliding(enemies);
-        if (collisionResult !== null) {
-            this.FLYING_BOTTLE.pause();
-            this.FLYING_BOTTLE.currentTime = 0;
-            this.bottleTouchEndboss(enemies);
-            this.bottleTouchSmallEnemy(enemies, index);
+    collisionDirection(objects, index) {
+        if (this.isBottleReady()) {
+            let collisionResult = this.isColliding(objects);
+            if (collisionResult !== null) {
+                this.FLYING_BOTTLE.pause();
+                this.FLYING_BOTTLE.currentTime = 0;
+                this.bottleTouchEndboss(objects);
+                this.bottleTouchSmallEnemy(objects, index);
+                if (objects == this.level.coin[index]) {
+                    return
+                }
+                if (objects == this.level.salsaBottle[index]) {
+                    return
+                }
+            }
         }
     }
 
@@ -119,29 +120,24 @@ class ThrowableObject extends MovableObject {
     throwBottle() {
         this.FLYING_BOTTLE.play();
         let newBottle = new ThrowableObject(world.character.x + 30, world.character.y + 170);
-        world.level.bottle.push(newBottle);
+        this.level.bottle.push(newBottle);
         this.lastThrow = new Date().getTime();
     }
 
     throwLeft() {
-        setInterval(() => {
-            if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
-                this.x -= 5;
-            } else {
-                this.speedY = 0;
-            }
-
-        }, 80);
+        if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
+            this.x -= 5;
+        } else {
+            this.speedY = 0;
+        }
     }
 
     throwRight() {
-        setInterval(() => {
-            if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
-                this.x += 5;
-            } else {
-                this.speedY = 0;
-            }
-        }, 100);
+        if (this.collidingEnemyStatus == false && this.collidingStatus == false) {
+            this.x += 5;
+        } else {
+            this.speedY = 0;
+        }
     }
 
     bottleBrokeOnGround() {
@@ -170,7 +166,7 @@ class ThrowableObject extends MovableObject {
             this.isAudioPlaying = false;
             this.collidingStatus = false;
             this.collidingEnemyStatus = false;
-            world.level.bottle.splice(0, 1);
+            this.level.bottle.splice(0, 1);
         }, 500);
     }
 
