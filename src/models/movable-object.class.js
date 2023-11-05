@@ -13,8 +13,6 @@ class MovableObject extends DrawableObject {
     offsetYU;
     height;
     width;
-    y;
-    x;
     thisLeftOffset;
     thisRightOffset;
     level = level1;
@@ -68,7 +66,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
             this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 10;
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 15;
     }
 
     whatIsMyDirection() {
@@ -112,11 +110,11 @@ class MovableObject extends DrawableObject {
     checkCollisions() {
         this.level.chicken.forEach((chickens, index) => {
             if (chickens !== null) {
-                if (this.level.chicken[index] && this.level.chicken[index].isDead()) {
+                if (chickens.isDead()) {
                     setTimeout((currentIndex) => {
                         this.level.chicken[currentIndex] = null;
-                    }, 500, index);
-                } else {
+                    }, 1400, index);
+                } else if (chickens.collidingActiv) {
                     this.collisionDirection(chickens, index);
                 }
             }

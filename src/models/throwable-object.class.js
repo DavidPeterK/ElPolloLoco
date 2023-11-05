@@ -18,9 +18,6 @@ class ThrowableObject extends MovableObject {
     collidingEnemyStatus;
     isAudioPlaying;
 
-
-
-
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -58,7 +55,7 @@ class ThrowableObject extends MovableObject {
 
         setInterval(() => {
             this.throw();
-        }, 100);
+        }, 20);
 
         setInterval(() => {
             this.checkCollisions();
@@ -75,7 +72,6 @@ class ThrowableObject extends MovableObject {
             }
         }
     }
-
 
     checkThrowObjects() {
         if (this.isBottleReady()) {

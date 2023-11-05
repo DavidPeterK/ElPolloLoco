@@ -10,6 +10,7 @@ class Chicken extends MovableObject {
     offsetXR = 0;
     offsetXL = 0;
     chickenHealth;
+    collidingActiv;
 
     WALKING_SET = [
         'src/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -23,6 +24,7 @@ class Chicken extends MovableObject {
         this.x = x + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.5;
         this.chickenHealth = 100;
+        this.collidingActiv = true;
         this.animate();
     }
 
@@ -45,6 +47,7 @@ class Chicken extends MovableObject {
 
     hit() {
         this.chickenHealth -= 100;
+        this.collidingActiv = false;
     }
 
     isDead() {

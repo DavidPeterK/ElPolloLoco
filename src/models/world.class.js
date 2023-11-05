@@ -3,7 +3,7 @@ class World {
     canvas;
     keyboard;
     level = level1;
-    character = new Character();
+    character = new Character(180, 120);
     statusBar = new StatusBar();
     throwableObjects = new ThrowableObject();
     endBoss = this.level.endboss[0];
