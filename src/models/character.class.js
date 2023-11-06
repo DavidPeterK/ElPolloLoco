@@ -249,7 +249,6 @@ class Character extends MovableObject {
         return objects == this.world.endBoss && !this.world.endBoss.isDead();
     }
 
-
     //schaden
     hit() {
         this.mainHealth -= 20;
@@ -259,8 +258,5 @@ class Character extends MovableObject {
             this.lastHit = new Date().getTime();
         }
     }
-
-
-
 
 }

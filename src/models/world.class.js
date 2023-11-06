@@ -33,29 +33,13 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         //bilder aus classen rendern (zeichnen) ebene für ebene
         this.addObjects(this.level.backgroundObjects);
-
         this.addObjects(this.level.clouds);
-        this.addObjects(this.level.salsaBottle);
-        this.addObjects(this.level.coin);
-        this.addObjects(this.level.chicken);
-        this.addToMap(this.endBoss);
-        this.addObjects(this.level.bottle);
-        this.addToMap(this.character);
 
+        this.gameObjects();
 
-        //------Fixed-Object---------//
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.level.statusBarChar[0]);
-        this.addToMap(this.level.statusBarEndboss[0]);
-        this.addToMap(this.level.statusBarCoin[0]);
-        this.addToMap(this.level.statusBarSalsaBottle[0]);
-        this.ctx.translate(this.camera_x, 0);
-
-
+        this.fixedObjects();
 
         this.ctx.translate(-this.camera_x, 0);
-
-
         //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
         let self = this;
         requestAnimationFrame(function () {
@@ -103,5 +87,23 @@ class World {
     flipImageBack(draw) {
         draw.x = draw.x * -1;
         this.ctx.restore();
+    }
+
+    fixedObjects() {
+        this.ctx.translate(-this.camera_x, 0);
+        this.addToMap(this.level.statusBarChar[0]);
+        this.addToMap(this.level.statusBarEndboss[0]);
+        this.addToMap(this.level.statusBarCoin[0]);
+        this.addToMap(this.level.statusBarSalsaBottle[0]);
+        this.ctx.translate(this.camera_x, 0);
+    }
+
+    gameObjects() {
+        this.addObjects(this.level.salsaBottle);
+        this.addObjects(this.level.coin);
+        this.addObjects(this.level.chicken);
+        this.addToMap(this.endBoss);
+        this.addObjects(this.level.bottle);
+        this.addToMap(this.character);
     }
 }
