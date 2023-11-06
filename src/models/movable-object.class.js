@@ -6,7 +6,7 @@ class MovableObject extends DrawableObject {
     speedY = 0;
     acceleration = 2;
     lastHit;
-    lastThrow;
+    lastThrow = 0;
     offsetYU = 0;
     offsetYD = 0;
     offsetXR = 0;
@@ -15,11 +15,8 @@ class MovableObject extends DrawableObject {
     width;
     thisLeftOffset;
     thisRightOffset;
-    level;
-
-    constructor() {
-        super();
-    }
+    level = level1;
+    collidingStart;
 
     applyGravity() {
         setInterval(() => {
@@ -32,7 +29,7 @@ class MovableObject extends DrawableObject {
 
     isNotOnGround() {
         if (this instanceof ThrowableObject) {
-            return this.y <= 429 - this.height;
+            return this.y < 420 - this.height;
         } else {
             return this.y < 180;
         }
@@ -74,7 +71,7 @@ class MovableObject extends DrawableObject {
     }
 
     whatIsMyDirection() {
-        if (this.otherDirection) {
+        if (this.level.character[0].otherDirection) {
             this.thisLeftOffset = this.offsetXR;
             this.thisRightOffset = this.offsetXL;
         } else {
@@ -117,34 +114,54 @@ class MovableObject extends DrawableObject {
 
     checkCollisions() {
         this.level = level1;
+
+        this.collisionWithChicken()
+        this.collisionWithEndboss()
+        if (this instanceof Character) {
+            this.collisionWithCoin()
+            this.collisionWithSalsaBottle()
+        }
+    }
+
+    collisionWithChicken() {
         this.level.chicken.forEach((chickens, index) => {
             if (chickens !== null) {
                 if (chickens.isDead()) {
-                    setTimeout((currentIndex) => {
-                        this.level.chicken[currentIndex] = null;
-                    }, 1400, index);
+                    this.deleteChicken(index);
                 } else if (!chickens.isDead()) {
                     this.collisionDirection(chickens, index);
                 }
             }
         });
+    }
+
+    collisionWithEndboss() {
         this.level.endboss.forEach((endBoss, index) => {
             if (endBoss !== null) {
                 this.collisionDirection(endBoss, index);
             }
         });
-        if (this instanceof Character) {
-            this.level.coin.forEach((coins, index) => {
-                if (coins !== null) {
-                    this.collisionDirection(coins, index);
-                }
-            });
-            this.level.salsaBottle.forEach((salsaBottles, index) => {
-                if (salsaBottles !== null) {
-                    this.collisionDirection(salsaBottles, index);
-                }
-            });
-        }
     }
 
+    collisionWithCoin() {
+        this.level.coin.forEach((coins, index) => {
+            if (coins !== null) {
+                this.collisionDirection(coins, index);
+            }
+        });
+    }
+
+    collisionWithSalsaBottle() {
+        this.level.salsaBottle.forEach((salsaBottles, index) => {
+            if (salsaBottles !== null) {
+                this.collisionDirection(salsaBottles, index);
+            }
+        });
+    }
+
+    deleteChicken(index) {
+        setTimeout((currentIndex) => {
+            this.level.chicken[currentIndex] = null;
+        }, 1400, index);
+    }
 }

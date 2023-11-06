@@ -1,26 +1,52 @@
 body {
     margin: 0;
+    position: relative;
     display: flex;
+    height: 100vh;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
+    overflow: hidden;
 }
 
 canvas {
     background-color: black;
     display: block;
+    width: 720px;
+    height: 480px;
 }
 
+.canvasOverlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 720px;
+    height: 480px;
+    border: 1px solid yellow;
+}
+
+
 @media only screen and (max-width: 720px) {
-    canvas {
+
+    canvas,
+    .canvasOverlay {
+        left: 0;
+        transform: translate(0%, 0%);
         width: 100%;
+        height: auto;
+        /* Verhindert Verzerrung des Canvas und Overlay */
     }
 }
 
 @media only screen and (max-height: 480px) {
-    canvas {
+
+    canvas,
+    .canvasOverlay {
+        top: 0;
+        transform: translate(0, 0);
         height: 100vh;
+        width: auto;
+        /* Verhindert Verzerrung des Canvas und Overlay */
     }
 }

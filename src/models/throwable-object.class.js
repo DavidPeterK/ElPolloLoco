@@ -6,15 +6,16 @@ class ThrowableObject extends MovableObject {
     offsetXR = 0;
     offsetXL = 0;
     speed = 0;
-    speedY = 20;
+    speedY = 25;
     height;
     width;
     lastThrow;
+    img;                   // image object
+    imageCache = {};       // cache for multiple images
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
     isAudioPlaying;
-    level = level1;
 
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -42,6 +43,7 @@ class ThrowableObject extends MovableObject {
         this.height = 60;
         this.width = 50;
         this.isAudioPlaying = false;
+        this.collidingStart = true;
         this.collidingStatus = false;
         this.collidingEnemyStatus = false;
         this.applyGravity();
@@ -50,37 +52,44 @@ class ThrowableObject extends MovableObject {
 
     checkMoments() {
         setInterval(() => {
-            if (this.isBottleReady()) {
-                this.throw();
-                this.bottleOnGround();
+            if (this.collidingStart) {
                 this.checkCollisions();
             }
-        }, 1000 / 60);
+        }, 1000 / 50);
+
+        setInterval(() => {
+            if (this.isBottleReady()) {
+                this.bottleOnGround();
+                this.bottleBroke();
+            }
+        }, 100);
     }
 
     throw() {
         if (world.character.otherDirection === true) {
-            this.throwLeft();
+            this.throwLeft('on');
+            this.throwRight('off');
         } else if (world.character.otherDirection === false) {
-            this.throwRight();
+            this.throwRight('on');
+            this.throwLeft('off');
         }
     }
 
     collisionDirection(objects, index) {
         let collisionResult = this.isColliding(objects);
         if (collisionResult == 'generalCollision' || collisionResult == 'fallingCollision') {
+            this.collidingEnemyStatus = true;
             this.FLYING_BOTTLE.pause();
             this.FLYING_BOTTLE.currentTime = 0;
-            this.collidingEnemyStatus = true;
             this.bottleTouchEndboss(objects);
             this.bottleTouchSmallEnemy(objects, index);
         }
     }
+
     bottleTouchEndboss(objects) {
         if (objects == this.level.endboss[0] && !this.level.endboss[0].isHurt()) {
-            this.level.endboss[0].hit();
-            this.level.endboss[0].statusBarEndboss[0].setMainHealth(this.level.endboss[0].endbossHealth);
-            this.bottleBroke();
+            world.endBoss.hit();
+            this.level.statusBarEndboss[0].setMainHealth(this.level.endboss[0].endbossHealth);
 
         }
     }
@@ -88,25 +97,27 @@ class ThrowableObject extends MovableObject {
     bottleTouchSmallEnemy(objects, index) {
         if (objects == this.level.chicken[index]) {
             this.level.chicken[index].hit();
-            this.bottleBroke();
         }
     }
 
-
-    throwLeft() {
-        if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
-            this.x -= 10;
-        } else {
-            this.speedY = 0;
-        }
+    throwLeft(status) {
+        setInterval(() => {
+            if (!this.collidingEnemyStatus && !this.collidingStatus && status == 'on') {
+                this.x -= 20;
+            } else if (this.collidingEnemyStatus || this.collidingStatus) {
+                this.speedY = 0;
+            }
+        }, 40);
     }
 
-    throwRight() {
-        if (this.collidingEnemyStatus === false && this.collidingStatus === false) {
-            this.x += 10;
-        } else {
-            this.speedY = 0;
-        }
+    throwRight(status) {
+        setInterval(() => {
+            if (!this.collidingEnemyStatus && !this.collidingStatus && status == 'on') {
+                this.x += 20;
+            } else if (this.collidingEnemyStatus || this.collidingStatus) {
+                this.speedY = 0;
+            }
+        }, 40);
     }
 
     bottleOnGround() {
@@ -125,7 +136,8 @@ class ThrowableObject extends MovableObject {
             this.height = 100;
             this.width = 100;
             this.deleteBottle();
-        } else {
+        }
+        if (this.collidingStatus == false && this.collidingEnemyStatus == false) {
             this.playAnimation(this.THROW_SET);
         }
     }
@@ -133,9 +145,10 @@ class ThrowableObject extends MovableObject {
     deleteBottle() {
         setTimeout(() => {
             this.level.bottle.splice(0, 1);
+            this.collidingStart = false;
             this.BROKEN_BOTTLE.pause();
             this.BROKEN_BOTTLE.currentTime = 0;
-        }, 1300);
+        }, 1000);
     }
 
     playBrokeSound() {
@@ -144,6 +157,5 @@ class ThrowableObject extends MovableObject {
             this.BROKEN_BOTTLE.play();
         }
     }
-
 
 }

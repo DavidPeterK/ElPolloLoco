@@ -4,7 +4,7 @@ class Chicken extends MovableObject {
     height = 55;
     width = 70;
     speed;
-    level = level1;
+    level;
     chickenHealth;
 
     WALKING_SET = [
@@ -19,6 +19,7 @@ class Chicken extends MovableObject {
         this.x = x + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.5;
         this.chickenHealth = 100;
+        this.level = level1;
         this.animate();
     }
 

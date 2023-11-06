@@ -65,3 +65,39 @@ checkCollisionsWithEnemy() {
         }
     });
 }
+
+
+
+
+    checkCollisions() {
+        setInterval(() => {
+            this.level.chicken.forEach((chickens, index) => {
+                if (chickens !== null) {
+                    if (this.level.chicken[index].isDead()) {
+                        setTimeout((currentIndex) => {
+                            this.level.chicken[currentIndex] = null;
+                        }, 1400, index);
+                    } else if (!chickens.isDead()) {
+                        this.collisionDirection(chickens, index);
+                    }
+                }
+            });
+            this.level.endboss.forEach((endBoss, index) => {
+                if (endBoss !== null) {
+                    this.collisionDirection(endBoss, index);
+                }
+            });
+            if (this instanceof Character) {
+                this.level.coin.forEach((coins, index) => {
+                    if (coins !== null) {
+                        this.collisionDirection(coins, index);
+                    }
+                });
+                this.level.salsaBottle.forEach((salsaBottles, index) => {
+                    if (salsaBottles !== null) {
+                        this.collisionDirection(salsaBottles, index);
+                    }
+                });
+            }
+        }, 1000 / 40);
+    }

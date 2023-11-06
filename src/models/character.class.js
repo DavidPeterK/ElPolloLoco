@@ -8,7 +8,6 @@ class Character extends MovableObject {
     x = 120;
     speed = 5;
     world;
-    level = level1;
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
     offsetYU = 100;
@@ -17,8 +16,6 @@ class Character extends MovableObject {
     offsetXR = 30;
     speedY = 0;
     otherDirection;
-    collidingStatus;
-    collidingEnemyStatus;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -107,34 +104,12 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             this.WALKING_SOUND.pause();
-
-            //taste rechts um bild x achse zu erhöhen
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-                this.otherDirection = false;
-                this.moveRight();
-                this.WALKING_SOUND.play();
-            }
-
-            //taste links um bild x achse zu verringern
-            if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
-                this.otherDirection = true;
-                this.moveLeft();
-                this.WALKING_SOUND.play();
-            }
-
-            if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround()) {
-                this.jump();
-            }
-
-            if (this.world.keyboard.D && !this.isThrowing() && !this.isBottleReady()) {
-                this.level.bottle[0] = new ThrowableObject(this.x + 30, this.y + 170);
-                this.lastThrow = new Date().getTime();
-                this.level.bottle[0].FLYING_BOTTLE.play();
-            }
-
-            //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
-            this.world.camera_x = -this.x + 100;
+            this.walkRight();
+            this.walkLeft();
+            this.takeALeap();
+            this.throwTheBottle();
             this.checkCollisions();
+            this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
     }
@@ -147,7 +122,7 @@ class Character extends MovableObject {
                 this.playAnimation(this.HURT_SET);
             } else if (this.isNotOnGround()) {
                 this.playAnimation(this.JUMP_SET);
-            } else if (!this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT) {
+            } else if (this.isStillStanding()) {
                 this.playAnimation(this.STILL_STANDING_SET);
             } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
                 this.playAnimation(this.WALKING_SET);
@@ -155,36 +130,32 @@ class Character extends MovableObject {
         }, 100);
     }
 
-
-
-
     collisionDirection(objects, index) {
         let collisionResult = this.isColliding(objects);
         if (collisionResult == 'fallingCollision' && objects !== null) {
-            if (this.isItChicken(objects)) {
-                this.chickenGetsDamage(objects, index);
-            }
-
-            if (this.isItCoin(objects)) {
-                this.collectCoin(objects, index);
-            }
-
-            if (this.isItSalsaBottle(objects)) {
-                this.collectSalsaBottle(objects, index);
-            }
-
+            this.onThisObject(objects, index);
         } else if (collisionResult == 'generalCollision' && !this.isHurt() && objects !== null) {
-            if (this.isItChicken(objects) || this.isItEndboss(objects)) {
-                this.characterGetsDamage(objects, index);
-            }
+            this.withThisObject(objects, index);
+        }
+    }
 
-            if (this.isItCoin(objects)) {
-                this.collectCoin(objects, index);
-            }
+    onThisObject(objects, index) {
+        if (this.isItChicken(objects)) {
+            this.chickenGetsDamage(objects, index);
+        } else if (this.isItCoin(objects)) {
+            this.collectCoin(objects, index);
+        } else if (this.isItSalsaBottle(objects)) {
+            this.collectSalsaBottle(objects, index);
+        }
+    }
 
-            if (this.isItSalsaBottle(objects)) {
-                this.collectSalsaBottle(objects, index);
-            }
+    withThisObject(objects, index) {
+        if (this.isItChicken(objects) || this.isItEndboss(objects)) {
+            this.characterGetsDamage(objects, index);
+        } else if (this.isItCoin(objects)) {
+            this.collectCoin(objects, index);
+        } else if (this.isItSalsaBottle(objects)) {
+            this.collectSalsaBottle(objects, index);
         }
     }
 
@@ -217,8 +188,44 @@ class Character extends MovableObject {
         }
     }
 
+    throwTheBottle() {
+        if (this.world.keyboard.D && !this.isThrowing()) {
+            this.lastThrow = new Date().getTime();
+            let newBottle = new ThrowableObject(this.x + 30, this.y + 170);
+            this.level.bottle.push(newBottle);
+            this.level.bottle[0].FLYING_BOTTLE.play();
+            this.level.bottle[0].throw();
+        }
+    }
+
+    takeALeap() {
+        if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround()) {
+            this.jump();
+        }
+    }
+
+    walkLeft() {
+        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
+            this.otherDirection = true;
+            this.moveLeft();
+            this.WALKING_SOUND.play();
+        }
+    }
+
+    walkRight() {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            this.otherDirection = false;
+            this.moveRight();
+            this.WALKING_SOUND.play();
+        }
+    }
+
     isDead() {
         return this.mainHealth <= 0;
+    }
+
+    isStillStanding() {
+        return !this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
     }
 
     /////////////////////////////////////////////////////
@@ -252,6 +259,8 @@ class Character extends MovableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
+
 
 
 }
