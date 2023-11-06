@@ -1,5 +1,5 @@
 const HURT_TIME = 1.5; // Sekunden
-const THROW_TIME = 3; // Sekunden
+const THROW_TIME = 4; // Sekunden
 
 class MovableObject extends DrawableObject {
     speed = 0.2;
@@ -7,15 +7,19 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     lastHit;
     lastThrow;
-    offsetXL;
-    offsetXR;
-    offsetYD;
-    offsetYU;
+    offsetYU = 0;
+    offsetYD = 0;
+    offsetXR = 0;
+    offsetXL = 0;
     height;
     width;
     thisLeftOffset;
     thisRightOffset;
-    level = level1;
+    level;
+
+    constructor() {
+        super();
+    }
 
     applyGravity() {
         setInterval(() => {
@@ -28,7 +32,7 @@ class MovableObject extends DrawableObject {
 
     isNotOnGround() {
         if (this instanceof ThrowableObject) {
-            return this.y <= 419 - this.height;
+            return this.y <= 429 - this.height;
         } else {
             return this.y < 180;
         }
@@ -88,7 +92,7 @@ class MovableObject extends DrawableObject {
     }
 
     isBottleReady() {
-        return this.level.bottle[0];
+        return this.level.bottle.length > 0;
     }
 
     isThrowing() {
@@ -107,33 +111,40 @@ class MovableObject extends DrawableObject {
         this.speedY = 25;
     }
 
+    isItChicken(objects) {
+        return this.level.chicken.includes(objects);
+    }
+
     checkCollisions() {
+        this.level = level1;
         this.level.chicken.forEach((chickens, index) => {
             if (chickens !== null) {
                 if (chickens.isDead()) {
                     setTimeout((currentIndex) => {
                         this.level.chicken[currentIndex] = null;
                     }, 1400, index);
-                } else if (chickens.collidingActiv) {
+                } else if (!chickens.isDead()) {
                     this.collisionDirection(chickens, index);
                 }
             }
         });
-        this.level.endboss.forEach((endboss, index) => {
-            if (endboss !== null) {
-                this.collisionDirection(endboss, index);
+        this.level.endboss.forEach((endBoss, index) => {
+            if (endBoss !== null) {
+                this.collisionDirection(endBoss, index);
             }
         });
-        this.level.coin.forEach((coins, index) => {
-            if (coins !== null) {
-                this.collisionDirection(coins, index);
-            }
-        });
-        this.level.salsaBottle.forEach((salsaBottles, index) => {
-            if (salsaBottles !== null) {
-                this.collisionDirection(salsaBottles, index);
-            }
-        });
+        if (this instanceof Character) {
+            this.level.coin.forEach((coins, index) => {
+                if (coins !== null) {
+                    this.collisionDirection(coins, index);
+                }
+            });
+            this.level.salsaBottle.forEach((salsaBottles, index) => {
+                if (salsaBottles !== null) {
+                    this.collisionDirection(salsaBottles, index);
+                }
+            });
+        }
     }
 
 }

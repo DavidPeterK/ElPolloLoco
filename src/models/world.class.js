@@ -3,26 +3,23 @@ class World {
     canvas;
     keyboard;
     level = level1;
-    character = new Character(180, 120);
+    character = this.level.character[0];
     statusBar = new StatusBar();
-    throwableObjects = new ThrowableObject();
     endBoss = this.level.endboss[0];
     camera_x = 0;
-    allObjects;
 
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.allObjects = [this.endBoss, ...this.level.chicken, ...this.level.salsaBottle, ...this.level.coin];
         this.draw();
         this.setWorld();
     }
 
     setWorld() {
         this.character.world = this;
-        this.throwableObjects.world = this;
+        this.level.bottle.forEach(obj => obj.world = this);
         this.statusBar.world = this;
         this.endBoss.world = this;
     }

@@ -10,6 +10,10 @@ let keyboard;
 function initLevel1() {
     level1 = new Level(
         [
+            new Character(180, 120),
+        ],
+
+        [
             new Endboss(),
         ],
 

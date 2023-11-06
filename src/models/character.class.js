@@ -17,8 +17,8 @@ class Character extends MovableObject {
     offsetXR = 30;
     speedY = 0;
     otherDirection;
-    collidingStatus = false;
-    collidingEnemyStatus = false;
+    collidingStatus;
+    collidingEnemyStatus;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -126,8 +126,10 @@ class Character extends MovableObject {
                 this.jump();
             }
 
-            if (this.world.keyboard.D && !this.world.throwableObjects.isThrowing()) {
-                this.world.throwableObjects.throwBottle();
+            if (this.world.keyboard.D && !this.isThrowing() && !this.isBottleReady()) {
+                this.level.bottle[0] = new ThrowableObject(this.x + 30, this.y + 170);
+                this.lastThrow = new Date().getTime();
+                this.level.bottle[0].FLYING_BOTTLE.play();
             }
 
             //läuft der character in eine richtung verschiebt sich der hintergrund in die entgegengesetzte richtung
@@ -219,9 +221,6 @@ class Character extends MovableObject {
         return this.mainHealth <= 0;
     }
 
-    isItChicken(objects) {
-        return this.level.chicken.includes(objects);
-    }
     /////////////////////////////////////////////////////
     isChickenAlive(objects, index) {
         return objects == this.level.chicken[index] && !this.level.chicken[index].isDead();
@@ -253,4 +252,6 @@ class Character extends MovableObject {
             this.lastHit = new Date().getTime();
         }
     }
+
+
 }

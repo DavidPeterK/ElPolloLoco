@@ -41,7 +41,7 @@ class DrawableObject {
     }
 
     drawHitBox(ctx) {
-        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Chicken) {
+        if (this instanceof Character || this instanceof Endboss || this instanceof ThrowableObject || this instanceof Chicken || this instanceof SalsaBottle || this instanceof Coin) {
             ctx.beginPath();
             ctx.rect(
                 this.x + this.offsetXL,

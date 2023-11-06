@@ -3,10 +3,10 @@ class SalsaBottle extends MovableObject {
     y;
     height = 120;
     width = 120;
-    offsetYU = 0;
+    offsetYU = 20;
     offsetYD = 0;
-    offsetXR = 0;
-    offsetXL = 0;
+    offsetXR = 30;
+    offsetXL = 30;
 
     ACTIV_SET = [
         'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
