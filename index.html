@@ -8,6 +8,9 @@
 
     <title>ElPolloLoco</title>
 
+    <link rel="shortcut icon" href="src/img/8_coin/coin_1.png" type="image/x-icon">
+    <link rel="stylesheet" href="./style.css">
+
     <script src="src/models/world.class.js"></script>
     <script src="src/models/level.class.js"></script>
     <script src="src/models/drawable-object.class.js"></script>
@@ -24,14 +27,22 @@
     <script src="src/models/keyboard.class.js"></script>
     <script src="src/models/endboss.class.js"></script>
     <script src="src/js/game.js"></script>
-
-    <link rel="shortcut icon" href="src/img/8_coin/coin_1.png" type="image/x-icon">
-    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body onload="init()">
-    <section class="canvasOverlay" id="overlay"></section>
-    <canvas id="canvas" width="720px" height="480px"></canvas>
+
+    <div id="game-container">
+        <canvas id="canvas" width="720" height="480"></canvas>
+        <!-- Zahlen-Container hinzufügen -->
+        <div id="numbers-container">123</div>
+        <!-- Menü-Container hinzufügen -->
+        <div id="menu-container" class="overlay">Menü-Inhalt</div>
+        <!-- Buttons -->
+        <button id="enter-fullscreen-button"
+            onclick="enterFullScreen(document.getElementById('game-container'))">Vollbild</button>
+        <button id="exit-fullscreen-button" onclick="exitFullScreen()">Vollbild verlassen</button>
+        <button id="reset-game-size-button" onclick="resetGameSize()">Originalgröße</button>
+    </div>
 </body>
 
 </html>

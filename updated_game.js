@@ -31,12 +31,9 @@ function showLoadingScreen() {
 function hideLoadingScreen() {
     document.getElementById('loading-screen').style.display = 'none';
 }
-
 function enterFullScreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen();
-    }
-}
 document.addEventListener('fullscreenchange', (event) => {
     // Get the canvas element
     let canvas = document.getElementById('canvas');
