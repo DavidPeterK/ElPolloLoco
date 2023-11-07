@@ -5,13 +5,11 @@ class StatusBar extends DrawableObject {
     y;
     mainHealth = 100;
     endbossHealth;
-    chickenHealth;
-    coinCounter = 0;
-    bottleCounter = 0;
+    normalEnemyHealth;
     world;
     type;
     coinStorage;
-    salsaBottleStorage;
+    collectableThrowObjectsStorage;
 
 
     STATUS_COIN = [
@@ -77,7 +75,7 @@ class StatusBar extends DrawableObject {
             let path = this.STATUS_COIN[0];
             this.img = this.imageCache[path];
         } else if (this.type == 'salsaBottle') {
-            this.salsaBottleStorage = health;
+            this.collectableThrowObjectsStorage = health;
             let path = this.STATUS_BOTTLE[0];
             this.img = this.imageCache[path];
         }

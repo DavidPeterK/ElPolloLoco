@@ -3,9 +3,7 @@ class World {
     canvas;
     keyboard;
     level = level1;
-    character = this.level.character[0];
     statusBar = new StatusBar();
-    endBoss = this.level.endboss[0];
     camera_x = 0;
 
 
@@ -18,10 +16,10 @@ class World {
     }
 
     setWorld() {
-        this.character.world = this;
-        this.level.bottle.forEach(obj => obj.world = this);
+        this.level.character[0].world = this;
+        this.level.throwObject.forEach(obj => obj.world = this);
         this.statusBar.world = this;
-        this.endBoss.world = this;
+        this.level.endboss[0].world = this;
     }
 
     draw() {
