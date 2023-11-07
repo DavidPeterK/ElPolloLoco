@@ -24,6 +24,10 @@ function initLevel1() {
         ],
 
         [
+            new SmallChicken(400),
+        ],
+
+        [
             new BackgroundObject(LAYER_PATH + 'air.png', -719),
             new BackgroundObject(LAYER_PATH + '3_third_layer/2.png', -719),
             new BackgroundObject(LAYER_PATH + '2_second_layer/2.png', -719),

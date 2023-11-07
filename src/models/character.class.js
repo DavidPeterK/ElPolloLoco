@@ -103,11 +103,13 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.WALKING_SOUND.pause();
+            if (!this.WALKING_SOUND.paused) {
+                this.WALKING_SOUND.pause();
+            }
             this.walkRight();
             this.walkLeft();
             this.takeALeap();
-            this.throwTheBottle();
+            this.throwTheObject();
             this.checkCollisions();
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
@@ -140,44 +142,53 @@ class Character extends MovableObject {
     }
 
     onThisObject(objects, index) {
-        if (this.isItChicken(objects)) {
-            this.chickenGetsDamage(objects, index);
+        if (this.isItNormalEnemy(objects) || this.isItSmallEnemy(objects)) {
+            this.normalEnemyGetsDamage(objects, index);
         } else if (this.isItCoin(objects)) {
             this.collectCoin(objects, index);
-        } else if (this.isItSalsaBottle(objects)) {
-            this.collectSalsaBottle(objects, index);
+        } else if (this.isItCollectableThrowObject(objects)) {
+            this.collectAThrowObject(objects, index);
         }
     }
 
     withThisObject(objects, index) {
-        if (this.isItChicken(objects) || this.isItEndboss(objects)) {
+        if (this.isItNormalEnemy(objects) || this.isItSmallEnemy(objects) || this.isItEndboss(objects)) {
             this.characterGetsDamage(objects, index);
         } else if (this.isItCoin(objects)) {
             this.collectCoin(objects, index);
-        } else if (this.isItSalsaBottle(objects)) {
-            this.collectSalsaBottle(objects, index);
+        } else if (this.isItCollectableThrowObject(objects)) {
+            this.collectAThrowObject(objects, index);
         }
     }
 
     characterGetsDamage(objects, index) {
-        if (this.isChickenAlive(objects, index) || this.isEndbossAlive(objects)) {
-            this.DAMAGE_SOUND.play();
+        if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects)) {
+            this.DAMAGE_SOUND.play().catch(error => {
+                console.warn('Das Abspielen wurde unterbrochen:', error);
+            });
             this.hit();
-            this.level.statusBarChar[0].setMainHealth(this.mainHealth);
+            this.level.statusBarChar[0].setStatusBar(this.mainHealth);
         }
     }
 
-    chickenGetsDamage(objects, index) {
-        if (this.isChickenAlive(objects, index)) {
+    normalEnemyGetsDamage(objects, index) {
+        if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
-            this.level.chicken[index].hit(index);
+            this.level.normalEnemy[index].hit(index);
         }
     }
 
-    collectSalsaBottle(objects, index) {
-        if (objects == this.level.salsaBottle[index]) {
-            this.world.statusBar.salsaBottleStorage += 1;
-            this.level.salsaBottle[index] = null;
+    smallEnemyGetsDamage(objects, index) {
+        if (this.isSmallEnemyAlive(objects, index)) {
+            this.jump();
+            this.level.smallEnemy[index].hit(index);
+        }
+    }
+
+    collectAThrowObject(objects, index) {
+        if (objects == this.level.throwObject[index]) {
+            this.world.statusBar.throwObjectStorage += 1;
+            this.level.throwObject[index] = null;
         }
     }
 
@@ -188,13 +199,15 @@ class Character extends MovableObject {
         }
     }
 
-    throwTheBottle() {
+    throwTheObject() {
         if (this.world.keyboard.D && !this.isThrowing()) {
             this.lastThrow = new Date().getTime();
-            let newBottle = new ThrowableObject(this.x + 30, this.y + 170);
-            this.level.bottle.push(newBottle);
-            this.level.bottle[0].FLYING_BOTTLE.play();
-            this.level.bottle[0].throw();
+            let newthrowObject = new ThrowableObject(this.x + 30, this.y + 170);
+            this.level.throwObject.push(newthrowObject);
+            this.level.throwObject[0].FLYING_throwObject.play().catch(error => {
+                console.warn('Das Abspielen wurde unterbrochen:', error);
+            });
+            this.level.throwObject[0].throw();
         }
     }
 
@@ -208,7 +221,9 @@ class Character extends MovableObject {
         if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
             this.otherDirection = true;
             this.moveLeft();
-            this.WALKING_SOUND.play();
+            this.WALKING_SOUND.play().catch(error => {
+                console.warn('Das Abspielen wurde unterbrochen:', error);
+            });
         }
     }
 
@@ -216,7 +231,9 @@ class Character extends MovableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
             this.otherDirection = false;
             this.moveRight();
-            this.WALKING_SOUND.play();
+            this.WALKING_SOUND.play().catch(error => {
+                console.warn('Das Abspielen wurde unterbrochen:', error);
+            });
         }
     }
 
@@ -229,16 +246,16 @@ class Character extends MovableObject {
     }
 
     /////////////////////////////////////////////////////
-    isChickenAlive(objects, index) {
-        return objects == this.level.chicken[index] && !this.level.chicken[index].isDead();
+    isNormalEnemyAlive(objects, index) {
+        return objects == this.level.normalEnemy[index] && !this.level.normalEnemy[index].isDead();
     }
     ////////////////////////////////////////////////////
     isItCoin(objects) {
         return this.level.coin.includes(objects);
     }
 
-    isItSalsaBottle(objects) {
-        return this.level.salsaBottle.includes(objects);
+    isItCollectableThrowObject(objects) {
+        return this.level.throwObject.includes(objects);
     }
 
     isItEndboss(objects) {

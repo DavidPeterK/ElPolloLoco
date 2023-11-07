@@ -1,32 +1,34 @@
 class Level {
     character;
     endboss;
-    chicken;
+    normalEnemy;
+    smallEnemy;
     backgroundObjects;
     clouds;
-    bottle;
+    throwObject;
     statusBarChar;
     statusBarCoin;
-    statusBarSalsaBottle;
+    statusBarThrowObject;
     statusBarEndboss;
     coin;
-    salsaBottle;
+    collectableThrowObjects;
     //level_end_x = 2776;
     level_start_x = 0;
     level_end_x = 2420;
 
-    constructor(character, endboss, chicken, backgroundObjects, clouds, bottle, statusBarChar, statusBarEndboss, statusBarCoin, statusBarSalsaBottle, coin, salsaBottle) {
+    constructor(character, endboss, normalEnemy, smallEnemy, backgroundObjects, clouds, throwObject, statusBarChar, statusBarEndboss, statusBarCoin, statusBarThrowObject, coin, collectableThrowObjects) {
         this.character = character;
         this.endboss = endboss;
-        this.chicken = chicken;
+        this.normalEnemy = normalEnemy;
+        this.smallEnemy = smallEnemy;
         this.clouds = clouds;
-        this.bottle = bottle;
+        this.throwObject = throwObject;
         this.backgroundObjects = backgroundObjects;
         this.statusBarChar = statusBarChar;
         this.statusBarEndboss = statusBarEndboss;
         this.statusBarCoin = statusBarCoin;
-        this.statusBarSalsaBottle = statusBarSalsaBottle;
+        this.statusBarThrowObject = statusBarThrowObject;
         this.coin = coin;
-        this.salsaBottle = salsaBottle;
+        this.collectableThrowObjects = collectableThrowObjects;
     }
 }
