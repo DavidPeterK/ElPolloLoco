@@ -103,7 +103,7 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.WALKING_SOUND.paused) {
+            if (!this.WALKING_SOUND.paused && !this.world, keyboard.LEFT && !this.world.keyboard.RIGHT) {
                 this.WALKING_SOUND.pause();
             }
             this.walkRight();
@@ -142,7 +142,9 @@ class Character extends MovableObject {
     }
 
     onThisObject(objects, index) {
-        if (this.isItNormalEnemy(objects) || this.isItSmallEnemy(objects)) {
+        if (this.isItSmallEnemy(objects)) {
+            this.smallEnemyGetsDamage(objects, index);
+        } else if (this.isItNormalEnemy(objects)) {
             this.normalEnemyGetsDamage(objects, index);
         } else if (this.isItCoin(objects)) {
             this.collectCoin(objects, index);
@@ -162,7 +164,7 @@ class Character extends MovableObject {
     }
 
     characterGetsDamage(objects, index) {
-        if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects)) {
+        if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects) || this.isItSmallEnemy(objects)) {
             this.DAMAGE_SOUND.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
@@ -202,9 +204,9 @@ class Character extends MovableObject {
     throwTheObject() {
         if (this.world.keyboard.D && !this.isThrowing()) {
             this.lastThrow = new Date().getTime();
-            let newthrowObject = new ThrowableObject(this.x + 30, this.y + 170);
-            this.level.throwObject.push(newthrowObject);
-            this.level.throwObject[0].FLYING_throwObject.play().catch(error => {
+            let newThrowObject = new ThrowableObject(this.x + 30, this.y + 170);
+            this.level.throwObject.push(newThrowObject);
+            this.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
             this.level.throwObject[0].throw();
@@ -250,6 +252,11 @@ class Character extends MovableObject {
         return objects == this.level.normalEnemy[index] && !this.level.normalEnemy[index].isDead();
     }
     ////////////////////////////////////////////////////
+    isSmallEnemyAlive(objects, index) {
+        return objects == this.level.smallEnemy[index] && !this.level.smallEnemy[index].isDead();
+    }
+    ////////////////////////////////////////////////////
+
     isItCoin(objects) {
         return this.level.coin.includes(objects);
     }
@@ -259,11 +266,11 @@ class Character extends MovableObject {
     }
 
     isItEndboss(objects) {
-        return objects == this.world.endBoss;
+        return objects == this.level.endboss[0];
     }
 
     isEndbossAlive(objects) {
-        return objects == this.world.endBoss && !this.world.endBoss.isDead();
+        return objects == this.level.endboss[0] && !this.level.endboss[0].isDead();
     }
 
     //schaden

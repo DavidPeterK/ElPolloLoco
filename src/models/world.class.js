@@ -86,16 +86,16 @@ class World {
         this.addObjects(this.level.statusBarChar);
         this.addObjects(this.level.statusBarEndboss);
         this.addObjects(this.level.statusBarCoin);
-        this.addObjects(this.level.statusBarSalsaBottle);
+        this.addObjects(this.level.statusBarThrowObject);
         this.ctx.translate(this.camera_x, 0);
     }
 
     gameObjects() {
         this.addObjects(this.level.throwObject);
         this.addObjects(this.level.coin);
-        this.addObjects(this.level.chicken);
+        this.addObjects(this.level.normalEnemy);
         this.addObjects(this.level.endboss);
-        this.addObjects(this.level.bottle);
+        this.addObjects(this.level.throwObject);
         this.addObjects(this.level.character);
     }
 }

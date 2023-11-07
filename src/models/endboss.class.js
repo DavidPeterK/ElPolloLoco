@@ -13,6 +13,7 @@ class Endboss extends MovableObject {
     speed = 0.3;
     triggerAnimation;
     isTriggert;
+    level = level1;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -157,7 +158,7 @@ class Endboss extends MovableObject {
     }
 
     characterTriggerPosition() {
-        return this.x > 2770 && world.character.x > 2415 && this.triggerAnimation === false;
+        return this.x > 2770 && world.level.character[0].x > 2415 && this.triggerAnimation === false;
     }
 
     isIntroNotOver() {
@@ -165,11 +166,11 @@ class Endboss extends MovableObject {
     }
 
     isCharacterLeftFromBoss() {
-        return ((world.character.x + world.character.width) - world.character.offsetXR) < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
+        return ((this.level.character[0].x + this.level.character[0].width) - this.level.character[0].offsetXR) < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
     }
 
     isCharacterRightFromBoss() {
-        return world.character.x + world.character.offsetXL > ((this.x + this.width) - this.offsetXL) && !this.isDead() && !this.isHurt();
+        return this.level.character[0].x + this.level.character[0].offsetXL > ((this.x + this.width) - this.offsetXL) && !this.isDead() && !this.isHurt();
     }
 
     triggerAnimationClip() {

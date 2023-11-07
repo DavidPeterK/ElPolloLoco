@@ -90,8 +90,8 @@ class MovableObject extends DrawableObject {
         return this.timeSince(this.lastHit) < HURT_TIME;
     }
 
-    isBottleReady() {
-        return this.level.bottle.length > 0;
+    isThrowObjectReady() {
+        return this.level.throwObject.length > 0;
     }
 
     isThrowing() {
@@ -110,28 +110,43 @@ class MovableObject extends DrawableObject {
         this.speedY = 25;
     }
 
-    isItChicken(objects) {
-        return this.level.chicken.includes(objects);
+    isItNormalEnemy(objects) {
+        return this.level.normalEnemy.includes(objects);
+    }
+    isItSmallEnemy(objects) {
+        return this.level.smallEnemy.includes(objects);
     }
 
     checkCollisions() {
         this.level = level1;
 
-        this.collisionWithChicken()
+        this.collisionWithNormalEnemy()
         this.collisionWithEndboss()
         if (this instanceof Character) {
             this.collisionWithCoin()
-            this.collisionWithSalsaBottle()
+            this.collisionWithcollectableThrowObeject()
         }
     }
 
-    collisionWithChicken() {
-        this.level.chicken.forEach((chickens, index) => {
-            if (chickens !== null) {
-                if (chickens.isDead()) {
-                    this.deleteChicken(index);
-                } else if (!chickens.isDead()) {
-                    this.collisionDirection(chickens, index);
+    collisionWithNormalEnemy() {
+        this.level.normalEnemy.forEach((normalEnemys, index) => {
+            if (normalEnemys !== null) {
+                if (normalEnemys.isDead()) {
+                    this.deleteNormalEnemy(index);
+                } else if (!normalEnemys.isDead()) {
+                    this.collisionDirection(normalEnemys, index);
+                }
+            }
+        });
+    }
+
+    collisionWithSmallEnemy() {
+        this.level.smallEnemy.forEach((smallEnemys, index) => {
+            if (smallEnemys !== null) {
+                if (smallEnemys.isDead()) {
+                    this.deleteSmallEnemy(index);
+                } else if (!smallEnemys.isDead()) {
+                    this.collisionDirection(smallEnemys, index);
                 }
             }
         });
@@ -153,17 +168,23 @@ class MovableObject extends DrawableObject {
         });
     }
 
-    collisionWithSalsaBottle() {
-        this.level.salsaBottle.forEach((salsaBottles, index) => {
-            if (salsaBottles !== null) {
-                this.collisionDirection(salsaBottles, index);
+    collisionWithcollectableThrowObeject() {
+        this.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
+            if (collectThrowObjects !== null) {
+                this.collisionDirection(collectThrowObjects, index);
             }
         });
     }
 
-    deleteChicken(index) {
+    deleteNormalEnemy(index) {
         setTimeout((currentIndex) => {
-            this.level.chicken[currentIndex] = null;
+            this.level.normalEnemy[currentIndex] = null;
+        }, 1400, index);
+    }
+
+    deleteSmallEnemy(index) {
+        setTimeout((currentIndex) => {
+            this.level.smallEnemy[currentIndex] = null;
         }, 1400, index);
     }
 }
