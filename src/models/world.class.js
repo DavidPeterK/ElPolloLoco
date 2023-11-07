@@ -3,9 +3,7 @@ class World {
     canvas;
     keyboard;
     level = level1;
-    character = this.level.character[0];
     statusBar = new StatusBar();
-    endBoss = this.level.endboss[0];
     camera_x = 0;
 
 
@@ -18,10 +16,10 @@ class World {
     }
 
     setWorld() {
-        this.character.world = this;
-        this.level.bottle.forEach(obj => obj.world = this);
+        this.level.character[0].world = this;
+        this.level.throwObject.forEach(obj => obj.world = this);
         this.statusBar.world = this;
-        this.endBoss.world = this;
+        this.level.endboss[0].world = this;
     }
 
 
@@ -94,16 +92,16 @@ class World {
         this.addToMap(this.level.statusBarChar[0]);
         this.addToMap(this.level.statusBarEndboss[0]);
         this.addToMap(this.level.statusBarCoin[0]);
-        this.addToMap(this.level.statusBarSalsaBottle[0]);
+        this.addToMap(this.level.statusBarthrowObject[0]);
         this.ctx.translate(this.camera_x, 0);
     }
 
     gameObjects() {
-        this.addObjects(this.level.salsaBottle);
+        this.addObjects(this.level.throwObject);
         this.addObjects(this.level.coin);
         this.addObjects(this.level.chicken);
-        this.addToMap(this.endBoss);
-        this.addObjects(this.level.bottle);
+        this.addToMap(this.level.endboss[0]);
+        this.addObjects(this.level.throwObject);
         this.addToMap(this.character);
     }
 }
