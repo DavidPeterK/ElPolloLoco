@@ -11,6 +11,7 @@ class DrawableObject {
     offsetXR = 0;          // offset for hitbox from right
     offsetXL = 0;          // offset for hitbox from left
     world;
+
     /**
      * Draw the object on the canvas.
      * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
