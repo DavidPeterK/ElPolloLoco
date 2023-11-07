@@ -1,22 +1,19 @@
 const HURT_TIME = 1.5; // Sekunden
-const THROW_TIME = 4; // Sekunden
+const THROW_TIME = 3; // Sekunden
 
 class MovableObject extends DrawableObject {
     speed = 0.2;
     speedY = 0;
     acceleration = 2;
-    lastHit;
+    lastHit = 0;
     lastThrow = 0;
-    offsetYU = 0;
-    offsetYD = 0;
-    offsetXR = 0;
-    offsetXL = 0;
-    height;
-    width;
     thisLeftOffset;
     thisRightOffset;
     level = level1;
     collidingStart;
+    collidingStatus;
+    collidingEnemyStatus;
+
 
     applyGravity() {
         setInterval(() => {
@@ -30,9 +27,14 @@ class MovableObject extends DrawableObject {
     isNotOnGround() {
         if (this instanceof ThrowableObject) {
             return this.y < 420 - this.height;
-        } else {
+        }
+        if (this instanceof SmallChicken) {
+            return this.y < 420 - this.height;
+        }
+        if (this instanceof Character) {
             return this.y < 180;
         }
+
     }
 
     playAnimation(images) {

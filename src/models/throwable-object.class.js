@@ -1,17 +1,6 @@
 class ThrowableObject extends MovableObject {
-    y;
-    x;
-    offsetYU = 0;
-    offsetYD = 0;
-    offsetXR = 0;
-    offsetXL = 0;
     speed = 0;
     speedY = 25;
-    height;
-    width;
-    lastThrow;
-    img;                   // image object
-    imageCache = {};       // cache for multiple images
     world;
     FLYING_BOTTLE = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_BOTTLE = new Audio('src/sounds/brokenGlass.mp3');
@@ -55,7 +44,7 @@ class ThrowableObject extends MovableObject {
             if (this.collidingStart) {
                 this.checkCollisions();
             }
-        }, 1000 / 50);
+        }, 1000 / 60);
 
         setInterval(() => {
             if (this.isBottleReady()) {
@@ -79,8 +68,7 @@ class ThrowableObject extends MovableObject {
         let collisionResult = this.isColliding(objects);
         if (collisionResult == 'generalCollision' || collisionResult == 'fallingCollision') {
             this.collidingEnemyStatus = true;
-            this.FLYING_BOTTLE.pause();
-            this.FLYING_BOTTLE.currentTime = 0;
+            this.flyingBottleSoundPaused();
             this.bottleTouchEndboss(objects);
             this.bottleTouchSmallEnemy(objects, index);
         }
@@ -123,8 +111,7 @@ class ThrowableObject extends MovableObject {
     bottleOnGround() {
         if (!this.isNotOnGround()) {
             this.collidingStatus = true;
-            this.FLYING_BOTTLE.pause();
-            this.FLYING_BOTTLE.currentTime = 0;
+            this.flyingBottleSoundPaused();
             this.bottleBroke();
         }
     }
@@ -146,16 +133,26 @@ class ThrowableObject extends MovableObject {
         setTimeout(() => {
             this.level.bottle.splice(0, 1);
             this.collidingStart = false;
-            this.BROKEN_BOTTLE.pause();
-            this.BROKEN_BOTTLE.currentTime = 0;
+            if (!this.BROKEN_BOTTLE.paused) {
+                this.BROKEN_BOTTLE.pause();
+                this.BROKEN_BOTTLE.currentTime = 0;
+            }
         }, 1000);
     }
 
     playBrokeSound() {
         if (this.isAudioPlaying == false) {
             this.isAudioPlaying = true;
-            this.BROKEN_BOTTLE.play();
+            this.BROKEN_BOTTLE.play().catch(error => {
+                console.warn('Das Abspielen wurde unterbrochen:', error);
+            });
         }
     }
 
+    flyingBottleSoundPaused() {
+        if (!this.FLYING_BOTTLE.paused) {
+            this.FLYING_BOTTLE.pause();
+            this.FLYING_BOTTLE.currentTime = 0;
+        }
+    }
 }

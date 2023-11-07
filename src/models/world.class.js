@@ -22,21 +22,14 @@ class World {
         this.level.endboss[0].world = this;
     }
 
-
-
     draw() {
         //alle bilder im canvas löschen
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
         this.ctx.translate(this.camera_x, 0);
         //bilder aus classen rendern (zeichnen) ebene für ebene
-        this.addObjects(this.level.backgroundObjects);
-        this.addObjects(this.level.clouds);
-
+        this.backGroundObjects();
         this.gameObjects();
-
         this.fixedObjects();
-
         this.ctx.translate(-this.camera_x, 0);
         //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
         let self = this;
@@ -55,19 +48,15 @@ class World {
     }
 
     addToMap(object) {
-        if (object === null) {
-            return null;
-        }
-        if (object.otherDirection) {
-            this.flipImage(object);
-        }
-
-        object.draw(this.ctx);
-        object.drawHitBox(this.ctx);
-
-
-        if (object.otherDirection) {
-            this.flipImageBack(object);
+        if (object !== null) {
+            if (object.otherDirection) {
+                this.flipImage(object);
+            }
+            object.draw(this.ctx);
+            object.drawHitBox(this.ctx);
+            if (object.otherDirection) {
+                this.flipImageBack(object);
+            }
         }
     }
 
@@ -87,12 +76,17 @@ class World {
         this.ctx.restore();
     }
 
+    backGroundObjects() {
+        this.addObjects(this.level.backgroundObjects);
+        this.addObjects(this.level.clouds);
+    }
+
     fixedObjects() {
         this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.level.statusBarChar[0]);
-        this.addToMap(this.level.statusBarEndboss[0]);
-        this.addToMap(this.level.statusBarCoin[0]);
-        this.addToMap(this.level.statusBarthrowObject[0]);
+        this.addObjects(this.level.statusBarChar);
+        this.addObjects(this.level.statusBarEndboss);
+        this.addObjects(this.level.statusBarCoin);
+        this.addObjects(this.level.statusBarSalsaBottle);
         this.ctx.translate(this.camera_x, 0);
     }
 
@@ -100,8 +94,8 @@ class World {
         this.addObjects(this.level.throwObject);
         this.addObjects(this.level.coin);
         this.addObjects(this.level.chicken);
-        this.addToMap(this.level.endboss[0]);
-        this.addObjects(this.level.throwObject);
-        this.addToMap(this.character);
+        this.addObjects(this.level.endboss);
+        this.addObjects(this.level.bottle);
+        this.addObjects(this.level.character);
     }
 }

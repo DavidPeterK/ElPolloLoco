@@ -52,7 +52,7 @@ class StatusBar extends DrawableObject {
         this.width = width;
         this.height = height;
         this.type = type;
-        this.setMainHealth(health);
+        this.setStatusBar(health);
     }
 
     healthIndex(object) {
@@ -63,7 +63,7 @@ class StatusBar extends DrawableObject {
         }
     }
 
-    setMainHealth(health) {
+    setStatusBar(health) {
         if (this.type == 'character') {
             this.mainHealth = health;
             let path = this.STATUS_HEALTH[this.healthIndex(this.type)];
