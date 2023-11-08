@@ -3,7 +3,6 @@ class SmallChicken extends MovableObject {
     width = 70;
     speed = 0.3;
     level;
-    smallEnemyHealth;
 
     WALKING_SET = [
         'src/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -49,12 +48,5 @@ class SmallChicken extends MovableObject {
         }
     }
 
-    hit() {
-        this.smallEnemyHealth -= 100;
-    }
-
-    isDead() {
-        return this.smallEnemyHealth <= 0;
-    }
 
 }

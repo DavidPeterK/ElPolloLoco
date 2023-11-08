@@ -1,18 +1,14 @@
 class Endboss extends MovableObject {
-    endbossHealth = 1000;
     height = 400;
     width = 250;
-    this;
     y = 60;
     x = 2776;
     offsetYU = 75;
     offsetYD = 30;
     offsetXR = 50;
     offsetXL = 55;
-    lastHit = 0;
     speed = 0.3;
-    triggerAnimation;
-    isTriggert;
+    world;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -147,9 +143,6 @@ class Endboss extends MovableObject {
         return this.timeSince(this.lastHit) < HURT_TIME;
     }
 
-    isDead() {
-        return this.endbossHealth == 0;
-    }
 
     characterTriggerPosition() {
         return this.x > 2770 && this.level.character[0].x > 2415 && this.triggerAnimation === false;

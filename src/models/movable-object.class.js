@@ -16,7 +16,10 @@ class MovableObject extends DrawableObject {
     level = level1;
     collidingStart;
     collidingStatus;
-    collidingEnemyStatus;
+    collidingEnemyStatus = false;
+    otherDirection = false;
+    triggerAnimation = false;
+    isTriggert = false;
 
 
 

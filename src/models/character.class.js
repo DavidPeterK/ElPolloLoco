@@ -252,10 +252,6 @@ class Character extends MovableObject {
         }
     }
 
-    isDead() {
-        return this.mainHealth <= 0;
-    }
-
     isStillStanding() {
         return !this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
     }
