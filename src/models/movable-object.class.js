@@ -15,12 +15,11 @@ class MovableObject extends DrawableObject {
     thisRightOffset;
     level = level1;
     collidingStart;
-    collidingStatus;
+    collidingStatus = false;
     collidingEnemyStatus = false;
     otherDirection = false;
     triggerAnimation = false;
     isTriggert = false;
-
 
 
     applyGravity() {
@@ -98,7 +97,7 @@ class MovableObject extends DrawableObject {
     }
 
     whatIsMyDirection() {
-        if (this.level.character[0].otherDirection) {
+        if (world.level.character[0].otherDirection) {
             this.thisLeftOffset = this.offsetXR;
             this.thisRightOffset = this.offsetXL;
         } else {
@@ -116,7 +115,7 @@ class MovableObject extends DrawableObject {
             return this.normalEnemyHealth <= 0;
         }
         if (this instanceof Endboss) {
-            return this.normalEnemyHealth <= 0;
+            return this.endbossHealth <= 0;
         }
         if (this instanceof Chicken) {
             return this.normalEnemyHealth <= 0;
@@ -126,13 +125,12 @@ class MovableObject extends DrawableObject {
         }
     }
 
-
     isHurt() {
         return this.timeSince(this.lastHit) < HURT_TIME;
     }
 
     isThrowObjectReady() {
-        return this.level.throwObject.length > 0;
+        return world.level.throwObject.length > 0;
     }
 
     isThrowing() {
@@ -152,17 +150,15 @@ class MovableObject extends DrawableObject {
     }
 
     isItNormalEnemy(objects) {
-        return this.level.normalEnemy.includes(objects);
+        return world.level.normalEnemy.includes(objects);
     }
 
     isItSmallEnemy(objects) {
-        return this.level.smallEnemy.includes(objects);
+        return world.level.smallEnemy.includes(objects);
     }
 
     collisionWithNormalEnemy() {
-        this.level = level1;
-
-        this.level.normalEnemy.forEach((normalEnemys, index) => {
+        world.level.normalEnemy.forEach((normalEnemys, index) => {
             if (normalEnemys !== null) {
                 if (normalEnemys.isDead()) {
                     this.deleteNormalEnemy(index);
@@ -174,9 +170,7 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithSmallEnemy() {
-        this.level = level1;
-
-        this.level.smallEnemy.forEach((smallEnemys, index) => {
+        world.level.smallEnemy.forEach((smallEnemys, index) => {
             if (smallEnemys !== null) {
                 if (smallEnemys.isDead()) {
                     this.deleteSmallEnemy(index);
@@ -188,9 +182,7 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithEndboss() {
-        this.level = level1;
-
-        this.level.endboss.forEach((endBoss, index) => {
+        world.level.endboss.forEach((endBoss, index) => {
             if (endBoss !== null && !endBoss.isHurt()) {
                 this.collisionDirection(endBoss, index);
             }
@@ -198,9 +190,7 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithCoin() {
-        this.level = level1;
-
-        this.level.coin.forEach((coins, index) => {
+        world.level.coin.forEach((coins, index) => {
             if (coins !== null) {
                 this.collisionDirection(coins, index);
             }
@@ -208,9 +198,7 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithcollectableThrowObeject() {
-        this.level = level1;
-
-        this.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
+        world.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
             if (collectThrowObjects !== null) {
                 this.collisionDirection(collectThrowObjects, index);
             }
@@ -219,40 +207,48 @@ class MovableObject extends DrawableObject {
 
     deleteNormalEnemy(index) {
         setTimeout((currentIndex) => {
-            this.level.normalEnemy[currentIndex] = null;
+            world.level.normalEnemy[currentIndex] = null;
         }, 1400, index);
     }
 
     deleteSmallEnemy(index) {
         setTimeout((currentIndex) => {
-            this.level.smallEnemy[currentIndex] = null;
+            world.level.smallEnemy[currentIndex] = null;
         }, 1400, index);
     }
 
     /////////////////////////////////////////////////////
     isNormalEnemyAlive(objects, index) {
-        return objects == this.level.normalEnemy[index] && !this.level.normalEnemy[index].isDead();
+        return objects == world.level.normalEnemy[index] && !world.level.normalEnemy[index].isDead();
     }
     ////////////////////////////////////////////////////
     isSmallEnemyAlive(objects, index) {
-        return objects == this.level.smallEnemy[index] && !this.level.smallEnemy[index].isDead();
+        return objects == world.level.smallEnemy[index] && !world.level.smallEnemy[index].isDead();
     }
     ////////////////////////////////////////////////////
 
     isItCoin(objects) {
-        return this.level.coin.includes(objects);
+        return world.level.coin.includes(objects);
     }
 
     isItCollectableThrowObject(objects) {
-        return this.level.collectableThrowObjects.includes(objects);
+        return world.level.collectableThrowObjects.includes(objects);
     }
 
     isItEndboss(objects) {
-        return objects == this.level.endboss[0];
+        return objects == world.level.endboss[0];
     }
 
     isEndbossAlive(objects) {
-        return objects == this.level.endboss[0] && !this.level.endboss[0].isDead();
+        return objects == world.level.endboss[0] && !world.level.endboss[0].isDead();
+    }
+
+    isCharacterLeftFromBoss() {
+        return world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
+    }
+
+    isCharacterRightFromBoss() {
+        return world.level.character[0].x + world.level.character[0].offsetXL > worldx + this.width - this.offsetXL && !this.isDead() && !this.isHurt();
     }
 
 }

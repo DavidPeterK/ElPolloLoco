@@ -1,11 +1,7 @@
 class Chicken extends MovableObject {
-    x;
     y = 365;
     height = 55;
     width = 70;
-    speed;
-    level;
-    normalEnemyHealth;
 
     WALKING_SET = [
         'src/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
@@ -18,11 +14,8 @@ class Chicken extends MovableObject {
         this.loadImages(this.WALKING_SET);
         this.x = x + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.5;
-        this.normalEnemyHealth = 100;
-        this.level = level1;
         this.animate();
     }
-
 
     animate() {
         setInterval(() => {

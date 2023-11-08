@@ -18,8 +18,8 @@
     <script src="src/models/movable-object.class.js"></script>
     <script src="src/models/throwable-object.class.js"></script>
     <script src="src/models/coin.class.js"></script>
-    <script src="src/models/character.class.js"></script>
     <script src="src/models/endboss.class.js"></script>
+    <script src="src/models/character.class.js"></script>
     <script src="src/models/salsa-bottle.class.js"></script>
     <script src="src/models/chicken.class.js"></script>
     <script src="src/models/small-chicken.class.js"></script>
@@ -31,12 +31,12 @@
 </head>
 
 <body onload="init()">
-
     <div id="game-container">
+
         <canvas id="canvas" width="720" height="480"></canvas>
-        <!-- Menü-Container hinzufügen -->
+
         <div id="menu-container" class="overlay">Menü-Inhalt</div>
-        <!-- Buttons -->
+
         <div id="enter-fullscreen-button" onclick="enterFullScreen(document.getElementById('game-container'))">
             <img src="src/img/icons/up-right-and-down-left-from-center-solid.svg">
         </div>
@@ -44,6 +44,7 @@
         <div id="exit-fullscreen-button" onclick="exitFullScreen()">
             <img src="src/img/icons/down-left-and-up-right-to-center-solid.svg">
         </div>
+
     </div>
 </body>
 

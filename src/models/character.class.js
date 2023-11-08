@@ -1,21 +1,14 @@
 class Character extends MovableObject {
 
-    mainHealth = 100;
-    width = 100;
-    height = 250;
-    previousY = 200;
-    y = 180;
-    x = 120;
-    speed = 5;
-    world;
+    width = 100; offsetYU = 100;
+    height = 250; offsetYD = 5;
+    y = 180; offsetXL = 20;
+    x = 120; offsetXR = 30;
+    speed = 5; speedY = 0;
+
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
-    offsetYU = 100;
-    offsetYD = 5;
-    offsetXL = 20;
-    offsetXR = 30;
-    speedY = 0;
-    otherDirection;
+    world;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -95,7 +88,6 @@ class Character extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.y = y;
         this.x = x;
-        this.otherDirection = false;
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -181,35 +173,35 @@ class Character extends MovableObject {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
             this.hit();
-            this.level.statusBarChar[0].setStatusBar(this.mainHealth);
+            this.world.level.statusBarChar[0].setStatusBar(this.mainHealth);
         }
     }
 
     normalEnemyGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
-            this.level.normalEnemy[index].hit();
+            this.world.level.normalEnemy[index].hit();
         }
     }
 
     smallEnemyGetsDamage(objects, index) {
         if (this.isSmallEnemyAlive(objects, index)) {
             this.jump();
-            this.level.smallEnemy[index].hit();
+            this.world.level.smallEnemy[index].hit();
         }
     }
 
     collectAThrowObject(objects, index) {
-        if (objects == this.level.collectableThrowObjects[index]) {
+        if (objects == world.level.collectableThrowObjects[index]) {
             throwObjectsStorage += 1;
-            this.level.collectableThrowObjects[index] = null;
+            this.world.level.collectableThrowObjects[index] = null;
         }
     }
 
     collectCoin(objects, index) {
-        if (objects == this.level.coin[index]) {
+        if (objects == this.world.level.coin[index]) {
             coinStorage += 1;
-            this.level.coin[index] = null;
+            this.world.level.coin[index] = null;
         }
     }
 
@@ -217,12 +209,12 @@ class Character extends MovableObject {
         if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0) {
             this.lastThrow = new Date().getTime();
             let newThrowObject = new ThrowableObject(this.x + 30, this.y + 170);
-            this.level.throwObject.push(newThrowObject);
+            this.world.level.throwObject.push(newThrowObject);
             throwObjectsStorage -= 1;
-            this.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
+            this.world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
-            this.level.throwObject[0].throw();
+            this.world.level.throwObject[0].throw();
         }
     }
 

@@ -1,12 +1,9 @@
 class Endboss extends MovableObject {
-    height = 400;
-    width = 250;
-    y = 60;
-    x = 2776;
-    offsetYU = 75;
-    offsetYD = 30;
-    offsetXR = 50;
-    offsetXL = 55;
+
+    height = 400; offsetYU = 75;
+    width = 250; offsetYD = 30;
+    y = 60; offsetXR = 50;
+    x = 2776; offsetXL = 55;
     speed = 0.3;
     world;
 
@@ -70,30 +67,25 @@ class Endboss extends MovableObject {
         this.loadImages(this.ATTACK_SET);
         this.loadImages(this.HURT_SET);
         this.loadImages(this.DEAD_SET);
-        this.otherDirection = false;
-        this.triggerAnimation = false;
-        this.isTriggert = false;
         this.waitOfCharacter();
     }
 
     waitOfCharacter() {
         setInterval(() => {
-            if (this.triggerAnimation === false) {
+            if (this.triggerAnimation == false) {
                 this.wasTriggert();
             }
-        }, 1000 / 5);
+        }, 1000 / 20);
     }
 
     wasTriggert() {
         if (this.characterTriggerPosition()) {
             //character frozen clip
-            this.level.level_start_x = 2415;
-            this.level.level_end_x = 2425;
-            setInterval(() => {
-                if (this.triggerAnimation === false) {
-                    this.triggerAnimationClip();
-                }
-            }, 800);
+            world.level.level_start_x = 2415;
+            world.level.level_end_x = 2420;
+            if (this.triggerAnimation == false) {
+                this.triggerAnimationClip();
+            }
         }
     }
 
@@ -139,26 +131,14 @@ class Endboss extends MovableObject {
         }, 200);
     }
 
-    isHurt() {
-        return this.timeSince(this.lastHit) < HURT_TIME;
-    }
-
-
     characterTriggerPosition() {
-        return this.x > 2770 && this.level.character[0].x > 2415 && this.triggerAnimation === false;
+        return this.x > 2770 && world.level.character[0].x > 2415 && this.triggerAnimation === false;
     }
 
     isIntroNotOver() {
         return this.triggerAnimation === true && this.isTriggert === false;
     }
 
-    isCharacterLeftFromBoss() {
-        return ((this.level.character[0].x + this.level.character[0].width) - this.level.character[0].offsetXR) < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
-    }
-
-    isCharacterRightFromBoss() {
-        return this.level.character[0].x + this.level.character[0].offsetXL > ((this.x + this.width) - this.offsetXL) && !this.isDead() && !this.isHurt();
-    }
 
     triggerAnimationClip() {
         this.playAnimation(this.ALERT_SET);
@@ -170,8 +150,8 @@ class Endboss extends MovableObject {
 
     introEnds() {
         this.isTriggert = true;
-        this.level.level_start_x = 0;
-        this.level.level_end_x = 2776;
+        world.level.level_start_x = 0;
+        world.level.level_end_x = 2776;
         this.bossSkills();
     }
 }
