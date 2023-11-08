@@ -32,9 +32,6 @@ class ThrowableObject extends MovableObject {
         this.height = 60;
         this.width = 50;
         this.isAudioPlaying = false;
-        this.collidingStart = true;
-        this.collidingStatus = false;
-        this.collidingEnemyStatus = false;
         this.applyGravity();
         this.checkMoments();
     }
@@ -59,10 +56,10 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        if (this.level.character[0].otherDirection === true) {
+        if (world.level.character[0].otherDirection === true) {
             this.throwLeft('on');
             this.throwRight('off');
-        } else if (this.level.character[0].otherDirection === false) {
+        } else if (world.level.character[0].otherDirection === false) {
             this.throwRight('on');
             this.throwLeft('off');
         }
@@ -80,21 +77,21 @@ class ThrowableObject extends MovableObject {
     }
 
     throwObjectTouchEndboss(objects) {
-        if (objects == this.level.endboss[0] && !this.level.endboss[0].isHurt()) {
-            this.level.endboss[0].hit();
-            this.level.statusBarEndboss[0].setStatusBar(this.level.endboss[0].endbossHealth);
+        if (objects == world.level.endboss[0] && !world.level.endboss[0].isHurt()) {
+            world.level.endboss[0].hit();
+            world.level.statusBarEndboss[0].setStatusBar(world.level.endboss[0].endbossHealth);
         }
     }
 
     throwObjectTouchNormalEnemy(objects, index) {
-        if (objects == this.level.normalEnemy[index]) {
-            this.level.normalEnemy[index].hit();
+        if (objects == world.level.normalEnemy[index]) {
+            world.level.normalEnemy[index].hit();
         }
     }
 
     throwObjectTouchSmallEnemy(objects, index) {
-        if (objects == this.level.smallEnemy[index]) {
-            this.level.smallEnemy[index].hit();
+        if (objects == world.level.smallEnemy[index]) {
+            world.level.smallEnemy[index].hit();
         }
     }
 
@@ -141,12 +138,13 @@ class ThrowableObject extends MovableObject {
 
     deleteThrowObject() {
         setTimeout(() => {
-            this.collidingStart = false;
             if (!this.BROKEN_THROWOBJECT.paused) {
                 this.BROKEN_THROWOBJECT.pause();
                 this.BROKEN_THROWOBJECT.currentTime = 0;
             }
-            this.level.throwObject.splice(0, 1);
+            this.collidingStatus = false;
+            this.collidingEnemyStatus = false;
+            world.level.throwObject.splice(0, 1);
         }, 1000);
     }
 

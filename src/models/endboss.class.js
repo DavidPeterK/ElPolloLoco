@@ -75,7 +75,7 @@ class Endboss extends MovableObject {
             if (this.triggerAnimation == false) {
                 this.wasTriggert();
             }
-        }, 1000 / 20);
+        }, 1000 / 10);
     }
 
     wasTriggert() {
@@ -91,7 +91,7 @@ class Endboss extends MovableObject {
 
     triggertEnds() {
         setInterval(() => {
-            if (this.isIntroNotOver()) {
+            if (this.isIntroOver()) {
                 this.playAnimation(this.ATTACK_SET);
                 setTimeout(() => {
                     this.introEnds();
@@ -122,7 +122,7 @@ class Endboss extends MovableObject {
             if (this.isDead()) {
                 this.playAnimation(this.DEAD_SET);
             }
-            else if (this.isHurt()) {
+            else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.HURT_SET);
             }
             else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss()) {
@@ -132,11 +132,11 @@ class Endboss extends MovableObject {
     }
 
     characterTriggerPosition() {
-        return this.x > 2770 && world.level.character[0].x > 2415 && this.triggerAnimation === false;
+        return this.x > 2770 && world.level.character[0].x > 2415 && this.triggerAnimation == false;
     }
 
-    isIntroNotOver() {
-        return this.triggerAnimation === true && this.isTriggert === false;
+    isIntroOver() {
+        return this.triggerAnimation == true && this.isTriggert == false;
     }
 
 

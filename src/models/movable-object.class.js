@@ -183,7 +183,7 @@ class MovableObject extends DrawableObject {
 
     collisionWithEndboss() {
         world.level.endboss.forEach((endBoss, index) => {
-            if (endBoss !== null && !endBoss.isHurt()) {
+            if (world.level.endboss[0] !== null && !world.level.endboss[0].isHurt()) {
                 this.collisionDirection(endBoss, index);
             }
         });
@@ -197,7 +197,7 @@ class MovableObject extends DrawableObject {
         });
     }
 
-    collisionWithcollectableThrowObeject() {
+    collisionWithCollectableThrowObeject() {
         world.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
             if (collectThrowObjects !== null) {
                 this.collisionDirection(collectThrowObjects, index);
@@ -248,7 +248,7 @@ class MovableObject extends DrawableObject {
     }
 
     isCharacterRightFromBoss() {
-        return world.level.character[0].x + world.level.character[0].offsetXL > worldx + this.width - this.offsetXL && !this.isDead() && !this.isHurt();
+        return world.level.character[0].x + world.level.character[0].offsetXL > this.x + this.width - this.offsetXL && !this.isDead() && !this.isHurt();
     }
 
 }

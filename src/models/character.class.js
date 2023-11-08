@@ -116,7 +116,7 @@ class Character extends MovableObject {
             this.collisionWithCoin();
         }, 1000 / 60);
         setInterval(() => {
-            this.collisionWithcollectableThrowObeject();
+            this.collisionWithCollectableThrowObeject();
         }, 1000 / 60);
     }
 
