@@ -103,15 +103,16 @@ class Character extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.WALKING_SOUND.paused && !this.world, keyboard.LEFT && !this.world.keyboard.RIGHT) {
-                this.WALKING_SOUND.pause();
-            }
+            this.WALKING_SOUND.pause();
             this.walkRight();
             this.walkLeft();
             this.takeALeap();
             this.throwTheObject();
-            this.checkCollisions();
             this.world.camera_x = -this.x + 100;
+        }, 1000 / 60);
+
+        setInterval(() => {
+            this.checkCollisions();
         }, 1000 / 60);
 
     }
@@ -176,27 +177,27 @@ class Character extends MovableObject {
     normalEnemyGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
-            this.level.normalEnemy[index].hit(index);
+            this.level.normalEnemy[index].hit();
         }
     }
 
     smallEnemyGetsDamage(objects, index) {
         if (this.isSmallEnemyAlive(objects, index)) {
             this.jump();
-            this.level.smallEnemy[index].hit(index);
+            this.level.smallEnemy[index].hit();
         }
     }
 
     collectAThrowObject(objects, index) {
-        if (objects == this.level.throwObject[index]) {
-            this.world.statusBar.throwObjectsStorage += 1;
-            this.level.throwObject[index] = null;
+        if (objects == this.level.collectableThrowObjects[index]) {
+            throwObjectsStorage += 1;
+            this.level.collectableThrowObjects[index] = null;
         }
     }
 
     collectCoin(objects, index) {
         if (objects == this.level.coin[index]) {
-            this.world.statusBar.coinStorage += 1;
+            coinStorage += 1;
             this.level.coin[index] = null;
         }
     }
@@ -262,7 +263,7 @@ class Character extends MovableObject {
     }
 
     isItCollectableThrowObject(objects) {
-        return this.level.throwObject.includes(objects);
+        return this.level.collectableThrowObjects.includes(objects);
     }
 
     isItEndboss(objects) {

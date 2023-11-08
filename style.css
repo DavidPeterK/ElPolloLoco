@@ -37,14 +37,6 @@ canvas {
     z-index: 3;
 }
 
-#numbers-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #fff;
-    /* Farbe der Zahlen */
-    z-index: 2;
-}
 
 button {
     position: absolute;
@@ -59,6 +51,8 @@ button {
     left: auto;
     right: 20px;
 }
+
+
 
 /* Media queries für responsive Anpassungen */
 @media only screen and (max-width: 720px) {

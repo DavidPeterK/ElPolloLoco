@@ -57,4 +57,5 @@ function enterFullScreen(element) {
             console.error(`Failed to enter fullscreen mode: ${err.message}`);
         });
     }
+
 }

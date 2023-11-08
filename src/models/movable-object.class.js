@@ -113,6 +113,7 @@ class MovableObject extends DrawableObject {
     isItNormalEnemy(objects) {
         return this.level.normalEnemy.includes(objects);
     }
+
     isItSmallEnemy(objects) {
         return this.level.smallEnemy.includes(objects);
     }
@@ -121,6 +122,7 @@ class MovableObject extends DrawableObject {
         this.level = level1;
 
         this.collisionWithNormalEnemy()
+        this.collisionWithSmallEnemy();
         this.collisionWithEndboss()
         if (this instanceof Character) {
             this.collisionWithCoin()

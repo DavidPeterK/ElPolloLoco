@@ -1,6 +1,7 @@
 class ThrowableObject extends MovableObject {
     speed = 0;
     speedY = 25;
+    level;
     world;
     FLYING_THROWOBJECT = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_THROWOBJECT = new Audio('src/sounds/brokenGlass.mp3');
@@ -31,6 +32,7 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 60;
         this.width = 50;
+        this.level = level1;
         this.isAudioPlaying = false;
         this.collidingStart = true;
         this.collidingStatus = false;
@@ -55,10 +57,10 @@ class ThrowableObject extends MovableObject {
     }
 
     throw() {
-        if (world.level.character.otherDirection === true) {
+        if (this.level.character[0].otherDirection === true) {
             this.throwLeft('on');
             this.throwRight('off');
-        } else if (world.level.character.otherDirection === false) {
+        } else if (this.level.character[0].otherDirection === false) {
             this.throwRight('on');
             this.throwLeft('off');
         }

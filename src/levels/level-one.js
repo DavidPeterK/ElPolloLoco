@@ -6,6 +6,8 @@ let level1;
 let canvas;
 let world;
 let keyboard;
+let coinStorage = 0;
+let throwObjectsStorage = 0;
 
 function initLevel1() {
     level1 = new Level(

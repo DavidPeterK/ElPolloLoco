@@ -1,9 +1,9 @@
 class SmallChicken extends MovableObject {
     height = 55;
     width = 70;
-    speed;
+    speed = 0.3;
     level;
-    chickenHealth;
+    smallEnemyHealth;
 
     WALKING_SET = [
         'src/img/3_enemies_chicken/chicken_small/1_walk/1_w.png',
@@ -14,13 +14,14 @@ class SmallChicken extends MovableObject {
     DEAD_SET = [
         'src/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
+
     constructor(x) {
-        super();
+        super().loadImage('src/img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.WALKING_SET);
         this.loadImages(this.DEAD_SET);
         this.x = x + Math.random() * 500;
         this.speed = 0.15 + Math.random() * 0.5;
-        this.chickenHealth = 100;
+        this.smallEnemyHealth = 100;
         this.level = level1;
         this.animate();
         this.applyGravity();
@@ -44,16 +45,16 @@ class SmallChicken extends MovableObject {
 
     intervalJump() {
         if (!this.isNotOnGround()) {
-            this.speedY += 20
+            this.speedY += 16
         }
     }
 
     hit() {
-        this.chickenHealth -= 100;
+        this.smallEnemyHealth -= 100;
     }
 
     isDead() {
-        return this.chickenHealth <= 0;
+        return this.smallEnemyHealth <= 0;
     }
 
 }

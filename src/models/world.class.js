@@ -8,8 +8,8 @@ class World {
 
 
     constructor(canvas, keyboard) {
-        this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
+        this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
@@ -39,12 +39,11 @@ class World {
     }
 
     addObjects(object) {
-        if (object === null) {
-            return null;
+        if (object !== null) {
+            object.forEach(o => {
+                this.addToMap(o);
+            });
         }
-        object.forEach(o => {
-            this.addToMap(o);
-        });
     }
 
     addToMap(object) {
@@ -83,6 +82,7 @@ class World {
 
     fixedObjects() {
         this.ctx.translate(-this.camera_x, 0);
+        this.numbersForCollectables();
         this.addObjects(this.level.statusBarChar);
         this.addObjects(this.level.statusBarEndboss);
         this.addObjects(this.level.statusBarCoin);
@@ -98,5 +98,17 @@ class World {
         this.addObjects(this.level.endboss);
         this.addObjects(this.level.throwObject);
         this.addObjects(this.level.character);
+    }
+
+    numbersForCollectables() {
+        // Einstellen des Stils für den Text
+        this.ctx.font = '40px Arial';
+        this.ctx.fillStyle = 'white';
+
+        // Zeichnen der Anzahl der ThrowObjects
+        this.ctx.fillText(`${throwObjectsStorage}`, 110, 162);
+
+        // Zeichnen der Anzahl der Coins
+        this.ctx.fillText(`${coinStorage}`, 110, 102);
     }
 }
