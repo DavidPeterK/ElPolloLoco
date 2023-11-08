@@ -38,18 +38,23 @@ canvas {
 }
 
 
-button {
+#enter-fullscreen-button {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
     z-index: 4;
+
 }
 
-#exit-fullscreen-button,
-#reset-game-size-button {
-    top: 20px;
-    left: auto;
-    right: 20px;
+#exit-fullscreen-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    z-index: 4;
 }
 
 

@@ -203,10 +203,11 @@ class Character extends MovableObject {
     }
 
     throwTheObject() {
-        if (this.world.keyboard.D && !this.isThrowing()) {
+        if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0) {
             this.lastThrow = new Date().getTime();
             let newThrowObject = new ThrowableObject(this.x + 30, this.y + 170);
             this.level.throwObject.push(newThrowObject);
+            throwObjectsStorage -= 1;
             this.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });

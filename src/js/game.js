@@ -5,6 +5,7 @@ function init() {
     // Get the canvas element from the DOM
     initLevel1();
     startGame();
+    checkIcon();
 }
 
 function startGame() {
@@ -20,7 +21,28 @@ function toggleDisplay(elementId) {
     element.style.display = (element.style.display === 'block') ? 'none' : 'block';
 }
 
+function isFullScreen() {
+    return (
+        document.fullscreenElement ||       // Standard-Property
+        document.webkitFullscreenElement || // Chrome, Safari und Opera Property
+        document.mozFullScreenElement ||    // Firefox Property
+        document.msFullscreenElement        // Internet Explorer und Edge Property
+    ) != null; // Wenn eines dieser Properties existiert, ist der Vollbildmodus aktiv
+}
 
+function checkIcon() {
+    let maxScreenIcon = document.getElementById('enter-fullscreen-button');
+    let normalScreenIcon = document.getElementById('exit-fullscreen-button');
+    setInterval(() => {
+        if (isFullScreen()) {
+            maxScreenIcon.style.display = 'none';
+            normalScreenIcon.style.display = 'flex';
+        } else {
+            maxScreenIcon.style.display = 'flex';
+            normalScreenIcon.style.display = 'none';
+        }
+    }, 500);
+}
 
 // Funktion zum Anzeigen des Ladescreens
 function showLoadingScreen() {
@@ -55,7 +77,7 @@ function enterFullScreen(element) {
         element.requestFullscreen().then(() => {
             // Additional adjustments if needed after entering fullscreen
         }).catch((err) => {
-            console.error(`Failed to enter fullscreen mode: ${err.message}`);
+            console.warn(`Failed to enter fullscreen mode: ${err.message}`);
         });
     }
 }

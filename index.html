@@ -37,11 +37,13 @@
         <!-- Menü-Container hinzufügen -->
         <div id="menu-container" class="overlay">Menü-Inhalt</div>
         <!-- Buttons -->
-        <button id="enter-fullscreen-button"
-            onclick="enterFullScreen(document.getElementById('game-container'))">Vollbild</button>
+        <div id="enter-fullscreen-button" onclick="enterFullScreen(document.getElementById('game-container'))">
+            <img src="src/img/icons/up-right-and-down-left-from-center-solid.svg">
+        </div>
 
-        <button id="exit-fullscreen-button" onclick="exitFullScreen()">Vollbild verlassen</button>
-        <button id="reset-game-size-button" onclick="resetGameSize()">Originalgröße</button>
+        <div id="exit-fullscreen-button" onclick="exitFullScreen()">
+            <img src="src/img/icons/down-left-and-up-right-to-center-solid.svg">
+        </div>
     </div>
 </body>
 
