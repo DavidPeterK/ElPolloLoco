@@ -1,7 +1,6 @@
 class ThrowableObject extends MovableObject {
     speed = 0;
     speedY = 25;
-    level;
     world;
     FLYING_THROWOBJECT = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_THROWOBJECT = new Audio('src/sounds/brokenGlass.mp3');
@@ -32,7 +31,6 @@ class ThrowableObject extends MovableObject {
         this.y = y;
         this.height = 60;
         this.width = 50;
-        this.level = level1;
         this.isAudioPlaying = false;
         this.collidingStart = true;
         this.collidingStatus = false;
@@ -43,9 +41,13 @@ class ThrowableObject extends MovableObject {
 
     checkMoments() {
         setInterval(() => {
-            if (this.collidingStart) {
-                this.checkCollisions();
-            }
+            this.collisionWithNormalEnemy()
+        }, 1000 / 60);
+        setInterval(() => {
+            this.collisionWithSmallEnemy();
+        }, 1000 / 60);
+        setInterval(() => {
+            this.collisionWithEndboss();
         }, 1000 / 60);
 
         setInterval(() => {
@@ -81,7 +83,6 @@ class ThrowableObject extends MovableObject {
         if (objects == this.level.endboss[0] && !this.level.endboss[0].isHurt()) {
             this.level.endboss[0].hit();
             this.level.statusBarEndboss[0].setStatusBar(this.level.endboss[0].endbossHealth);
-
         }
     }
 
@@ -140,12 +141,12 @@ class ThrowableObject extends MovableObject {
 
     deleteThrowObject() {
         setTimeout(() => {
-            this.level.throwObject.splice(0, 1);
             this.collidingStart = false;
             if (!this.BROKEN_THROWOBJECT.paused) {
                 this.BROKEN_THROWOBJECT.pause();
                 this.BROKEN_THROWOBJECT.currentTime = 0;
             }
+            this.level.throwObject.splice(0, 1);
         }, 1000);
     }
 

@@ -40,12 +40,4 @@ class Chicken extends MovableObject {
         }, 100);
     }
 
-    hit() {
-        this.normalEnemyHealth -= 100;
-    }
-
-    isDead() {
-        return this.normalEnemyHealth <= 0;
-    }
-
 }

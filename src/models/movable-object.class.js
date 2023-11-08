@@ -7,12 +7,17 @@ class MovableObject extends DrawableObject {
     acceleration = 2;
     lastHit = 0;
     lastThrow = 0;
+    mainHealth = 100;
+    normalEnemyHealth = 100;
+    smallEnemyHealth = 100;
+    endbossHealth = 1000;
     thisLeftOffset;
     thisRightOffset;
     level = level1;
     collidingStart;
     collidingStatus;
     collidingEnemyStatus;
+
 
 
     applyGravity() {
@@ -58,6 +63,23 @@ class MovableObject extends DrawableObject {
         } else { return null }
     }
 
+    hit() {
+        if (this instanceof Character) {
+            this.mainHealth -= 20;
+        }
+        if (this instanceof Endboss) {
+            this.endbossHealth -= 200;
+        }
+        if (this instanceof Chicken) {
+            this.normalEnemyHealth -= 100;
+        }
+        if (this instanceof SmallChicken) {
+            this.smallEnemyHealth -= 100;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
     generalCollision(object) {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
@@ -85,6 +107,22 @@ class MovableObject extends DrawableObject {
     timeSince(eventTime) {
         return (new Date().getTime() - eventTime) / 1000;
     }
+
+    isDead() {
+        if (this instanceof Character) {
+            return this.normalEnemyHealth <= 0;
+        }
+        if (this instanceof Endboss) {
+            return this.normalEnemyHealth <= 0;
+        }
+        if (this instanceof Chicken) {
+            return this.normalEnemyHealth <= 0;
+        }
+        if (this instanceof SmallChicken) {
+            return this.smallEnemyHealth <= 0;
+        }
+    }
+
 
     isHurt() {
         return this.timeSince(this.lastHit) < HURT_TIME;
@@ -118,19 +156,9 @@ class MovableObject extends DrawableObject {
         return this.level.smallEnemy.includes(objects);
     }
 
-    checkCollisions() {
+    collisionWithNormalEnemy() {
         this.level = level1;
 
-        this.collisionWithNormalEnemy()
-        this.collisionWithSmallEnemy();
-        this.collisionWithEndboss()
-        if (this instanceof Character) {
-            this.collisionWithCoin()
-            this.collisionWithcollectableThrowObeject()
-        }
-    }
-
-    collisionWithNormalEnemy() {
         this.level.normalEnemy.forEach((normalEnemys, index) => {
             if (normalEnemys !== null) {
                 if (normalEnemys.isDead()) {
@@ -143,6 +171,8 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithSmallEnemy() {
+        this.level = level1;
+
         this.level.smallEnemy.forEach((smallEnemys, index) => {
             if (smallEnemys !== null) {
                 if (smallEnemys.isDead()) {
@@ -155,14 +185,18 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithEndboss() {
+        this.level = level1;
+
         this.level.endboss.forEach((endBoss, index) => {
-            if (endBoss !== null) {
+            if (endBoss !== null && !endBoss.isHurt()) {
                 this.collisionDirection(endBoss, index);
             }
         });
     }
 
     collisionWithCoin() {
+        this.level = level1;
+
         this.level.coin.forEach((coins, index) => {
             if (coins !== null) {
                 this.collisionDirection(coins, index);
@@ -171,6 +205,8 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithcollectableThrowObeject() {
+        this.level = level1;
+
         this.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
             if (collectThrowObjects !== null) {
                 this.collisionDirection(collectThrowObjects, index);
@@ -189,4 +225,31 @@ class MovableObject extends DrawableObject {
             this.level.smallEnemy[currentIndex] = null;
         }, 1400, index);
     }
+
+    /////////////////////////////////////////////////////
+    isNormalEnemyAlive(objects, index) {
+        return objects == this.level.normalEnemy[index] && !this.level.normalEnemy[index].isDead();
+    }
+    ////////////////////////////////////////////////////
+    isSmallEnemyAlive(objects, index) {
+        return objects == this.level.smallEnemy[index] && !this.level.smallEnemy[index].isDead();
+    }
+    ////////////////////////////////////////////////////
+
+    isItCoin(objects) {
+        return this.level.coin.includes(objects);
+    }
+
+    isItCollectableThrowObject(objects) {
+        return this.level.collectableThrowObjects.includes(objects);
+    }
+
+    isItEndboss(objects) {
+        return objects == this.level.endboss[0];
+    }
+
+    isEndbossAlive(objects) {
+        return objects == this.level.endboss[0] && !this.level.endboss[0].isDead();
+    }
+
 }

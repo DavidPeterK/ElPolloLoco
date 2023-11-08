@@ -112,9 +112,20 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         setInterval(() => {
-            this.checkCollisions();
+            this.collisionWithNormalEnemy()
         }, 1000 / 60);
-
+        setInterval(() => {
+            this.collisionWithSmallEnemy();
+        }, 1000 / 60);
+        setInterval(() => {
+            this.collisionWithEndboss();
+        }, 1000 / 60);
+        setInterval(() => {
+            this.collisionWithCoin();
+        }, 1000 / 60);
+        setInterval(() => {
+            this.collisionWithcollectableThrowObeject();
+        }, 1000 / 60);
     }
 
     characterStatus() {
@@ -249,40 +260,5 @@ class Character extends MovableObject {
         return !this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
     }
 
-    /////////////////////////////////////////////////////
-    isNormalEnemyAlive(objects, index) {
-        return objects == this.level.normalEnemy[index] && !this.level.normalEnemy[index].isDead();
-    }
-    ////////////////////////////////////////////////////
-    isSmallEnemyAlive(objects, index) {
-        return objects == this.level.smallEnemy[index] && !this.level.smallEnemy[index].isDead();
-    }
-    ////////////////////////////////////////////////////
-
-    isItCoin(objects) {
-        return this.level.coin.includes(objects);
-    }
-
-    isItCollectableThrowObject(objects) {
-        return this.level.collectableThrowObjects.includes(objects);
-    }
-
-    isItEndboss(objects) {
-        return objects == this.level.endboss[0];
-    }
-
-    isEndbossAlive(objects) {
-        return objects == this.level.endboss[0] && !this.level.endboss[0].isDead();
-    }
-
-    //schaden
-    hit() {
-        this.mainHealth -= 20;
-        if (this.mainHealth < 0) {
-            this.mainHealth = 0;
-        } else {
-            this.lastHit = new Date().getTime();
-        }
-    }
 
 }
