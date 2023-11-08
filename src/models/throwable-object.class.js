@@ -79,8 +79,8 @@ class ThrowableObject extends MovableObject {
 
     throwObjectTouchEndboss(objects) {
         if (objects == this.level.endboss[0] && !this.level.endboss[0].isHurt()) {
-            world.endBoss.hit();
-            this.level.statusBarEndboss[0].setMainHealth(this.level.endboss[0].endbossHealth);
+            this.level.endboss[0].hit();
+            this.level.statusBarEndboss[0].setStatusBar(this.level.endboss[0].endbossHealth);
 
         }
     }

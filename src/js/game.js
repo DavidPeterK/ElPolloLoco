@@ -37,6 +37,7 @@ function enterFullScreen(element) {
         element.requestFullscreen();
     }
 }
+
 document.addEventListener('fullscreenchange', (event) => {
     // Get the canvas element
     let canvas = document.getElementById('canvas');

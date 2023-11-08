@@ -2,8 +2,7 @@ class World {
     ctx;
     canvas;
     keyboard;
-    level = level1;
-    statusBar = new StatusBar();
+    level;
     camera_x = 0;
 
 
@@ -11,6 +10,7 @@ class World {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
+        this.level = level1;
         this.draw();
         this.setWorld();
     }
@@ -18,7 +18,10 @@ class World {
     setWorld() {
         this.level.character[0].world = this;
         this.level.throwObject.forEach(obj => obj.world = this);
-        this.statusBar.world = this;
+        this.level.statusBarChar[0].world = this;
+        this.level.statusBarEndboss[0].world = this;
+        this.level.statusBarCoin[0].world = this;
+        this.level.statusBarThrowObject[0].world = this;
         this.level.endboss[0].world = this;
     }
 

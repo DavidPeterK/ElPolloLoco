@@ -10,7 +10,7 @@ class DrawableObject {
     offsetYD = 0;          // offset for hitbox from bottom
     offsetXR = 0;          // offset for hitbox from right
     offsetXL = 0;          // offset for hitbox from left
-    world;
+
 
     /**
      * Draw the object on the canvas.
