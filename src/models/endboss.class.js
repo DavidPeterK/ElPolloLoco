@@ -1,9 +1,5 @@
-class Endboss extends MovableObject {
+class EndbossChicken extends MovableObject {
 
-    height = 400; offsetYU = 75;
-    width = 250; offsetYD = 30;
-    y = 60; offsetXR = 50;
-    x = 2776; offsetXL = 55;
     speed = 0.3;
     world;
 
@@ -67,6 +63,10 @@ class Endboss extends MovableObject {
         this.loadImages(this.ATTACK_SET);
         this.loadImages(this.HURT_SET);
         this.loadImages(this.DEAD_SET);
+        this.x = 2776; this.y = 60;
+        this.width = 250; this.height = 400;
+        this.offsetXL = 55; this.offsetXR = 50;
+        this.offsetYU = 75; this.offsetYD = 30;
         this.waitOfCharacter();
     }
 

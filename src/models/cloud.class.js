@@ -10,9 +10,17 @@ class Cloud extends MovableObject {
      * @param {string} image - Path to the image resource.
      * @param {number} x - x-coordinate where the cloud should be placed.
      */
-    constructor(image, x) {
+    constructor(image, x, y, width, height, offsetXL, offsetXR, offsetYU, offsetYD) {
         super().loadImage(image);
         this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.offsetXL = offsetXL;
+        this.offsetXR = offsetXR;
+        this.offsetYU = offsetYU;
+        this.offsetYD = offsetYD;
+
         this.animate();
     }
 

@@ -1,10 +1,9 @@
-class ThrowableObject extends MovableObject {
+class ThrowableBottle extends MovableObject {
     speed = 0;
     speedY = 25;
     world;
     FLYING_THROWOBJECT = new Audio('src/sounds/flyingBottle.mp3');
     BROKEN_THROWOBJECT = new Audio('src/sounds/brokenGlass.mp3');
-    isAudioPlaying;
 
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -27,11 +26,10 @@ class ThrowableObject extends MovableObject {
         super().loadImage('src/img/6_salsa_bottle/salsa_bottle.png');
         this.loadImages(this.THROW_SET);
         this.loadImages(this.BROKEN_SET);
-        this.x = x;
-        this.y = y;
-        this.height = 60;
-        this.width = 50;
-        this.isAudioPlaying = false;
+        this.x = x; this.y = y;
+        this.width = 50; this.height = 60;
+        this.offsetXL = 0; this.offsetXR = 0;
+        this.offsetYU = 0; this.offsetYD = 0;
         this.applyGravity();
         this.checkMoments();
     }

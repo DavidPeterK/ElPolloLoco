@@ -1,10 +1,6 @@
-class Character extends MovableObject {
+class CharacterPepe extends MovableObject {
 
-    width = 100; offsetYU = 100;
-    height = 250; offsetYD = 5;
-    y = 180; offsetXL = 20;
-    x = 120; offsetXR = 30;
-    speed = 5; speedY = 0;
+    speed = 5;
 
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
@@ -79,15 +75,17 @@ class Character extends MovableObject {
         'src/img/2_character_pepe/4_hurt/H-43.png'
     ];
 
-    constructor(y, x) {
+    constructor() {
         super().loadImage('src/img/2_character_pepe/1_idle/idle/I-1.png');
         this.loadImages(this.STILL_STANDING_SET);
         this.loadImages(this.WALKING_SET);
         this.loadImages(this.JUMP_SET);
         this.loadImages(this.DEAD_SET);
         this.loadImages(this.HURT_SET);
-        this.y = y;
-        this.x = x;
+        this.x = 120; this.y = 180;
+        this.width = 100; this.height = 250;
+        this.offsetXL = 20; this.offsetXR = 30;
+        this.offsetYU = 100; this.offsetYD = 5;
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -208,12 +206,7 @@ class Character extends MovableObject {
     throwTheObject() {
         if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0) {
             this.lastThrow = new Date().getTime();
-            let newThrowObject = new ThrowableObject(this.x + 30, this.y + 170);
-            this.world.level.throwObject.push(newThrowObject);
-            throwObjectsStorage -= 1;
-            this.world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
-                console.warn('Das Abspielen wurde unterbrochen:', error);
-            });
+            this.createABottle();
             this.world.level.throwObject[0].throw();
         }
     }
@@ -248,5 +241,15 @@ class Character extends MovableObject {
         return !this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
     }
 
+    createABottle() {
+        let newThrowObject = new ThrowableBottle(
+            this.x + 30, this.y + 170);
+        this.world.level.throwObject.push(newThrowObject);
+        throwObjectsStorage -= 1;
+        this.world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
+            console.warn('Das Abspielen wurde unterbrochen:', error);
+        });
+
+    }
 
 }

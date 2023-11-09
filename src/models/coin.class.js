@@ -10,11 +10,18 @@ class Coin extends MovableObject {
         'src/img/8_coin/coin_2.png',
     ];
 
-    constructor(x, y) {
+    constructor(x, y, width, height, offsetXL, offsetXR, offsetYU, offsetYD) {
         super().loadImage('src/img/8_coin/coin_1.png');
         this.loadImages(this.ACTIV_SET);
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
+        this.offsetXL = offsetXL;
+        this.offsetXR = offsetXR;
+        this.offsetYU = offsetYU;
+        this.offsetYD = offsetYD;
+
         this.animate();
     }
 

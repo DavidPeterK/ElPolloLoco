@@ -1,32 +1,41 @@
-// Define the assets paths
-const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
-const LAYER_PATH = 'src/img/5_background/layers/';
-let level1;
-// Initialize variables
-let canvas;
-let world;
-let keyboard;
+let levelEPL1;
+let canvas; let keyboard; let world;
+let gamePaused = false;
 let coinStorage = 0;
 let throwObjectsStorage = 0;
 
+const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
+const LAYER_PATH = 'src/img/5_background/layers/';
+
+
+let chickenEPLocoX = 450; let chickenEPLocoY = 365;
+
+let smallChickenEPLocoX = 400; let smallChickenEPLocoY = 180;
+
+//let bottleEPLocoX = world.level.character[0].x + 30; let bottleEPLocoY = world.level.character[0].y + 170;
+
+
+
 function initLevel1() {
-    level1 = new Level(
+    levelEPL1 = new Level(
         [
-            new Character(180, 120),
+            new CharacterPepe(),
         ],
 
         [
-            new Endboss(),
+            new EndbossChicken(),
         ],
 
         [
-            new Chicken(450),
-            new Chicken(450),
-            new Chicken(450)
+            new Chicken(chickenEPLocoX, chickenEPLocoY),
+
+            new Chicken(chickenEPLocoX, chickenEPLocoY),
+
+            new Chicken(chickenEPLocoX, chickenEPLocoY),
         ],
 
         [
-            new SmallChicken(400),
+            new SmallChicken(smallChickenEPLocoX, smallChickenEPLocoY),
         ],
 
         [

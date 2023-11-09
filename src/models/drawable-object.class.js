@@ -41,6 +41,13 @@ class DrawableObject {
         });
     }
 
+    playAnimation(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
     drawHitBox(ctx) {
         if (this.objectsWithHitBox()) {
             ctx.beginPath();
@@ -57,9 +64,9 @@ class DrawableObject {
     }
 
     objectsWithHitBox() {
-        return this instanceof Character
-            || this instanceof Endboss
-            || this instanceof ThrowableObject
+        return this instanceof CharacterPepe
+            || this instanceof EndbossChicken
+            || this instanceof ThrowableBottle
             || this instanceof Chicken
             || this instanceof SmallChicken
             || this instanceof SalsaBottle

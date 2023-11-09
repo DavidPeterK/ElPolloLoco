@@ -2,24 +2,18 @@ const HURT_TIME = 1.5; // Sekunden
 const THROW_TIME = 3; // Sekunden
 
 class MovableObject extends DrawableObject {
-    speed = 0.2;
-    speedY = 0;
-    acceleration = 2;
-    lastHit = 0;
-    lastThrow = 0;
-    mainHealth = 100;
-    normalEnemyHealth = 100;
-    smallEnemyHealth = 100;
-    endbossHealth = 1000;
-    thisLeftOffset;
-    thisRightOffset;
-    level = level1;
-    collidingStart;
-    collidingStatus = false;
-    collidingEnemyStatus = false;
-    otherDirection = false;
-    triggerAnimation = false;
-    isTriggert = false;
+
+    speed = 0.2; speedY = 0; acceleration = 2;
+    lastHit = 0; lastThrow = 0;
+
+    mainHealth = 100; normalEnemyHealth = 100;
+    smallEnemyHealth = 100; endbossHealth = 1000;
+    level = levelEPL1;
+    thisLeftOffset; thisRightOffset;
+
+    isAudioPlaying = false;
+    collidingStatus = false; collidingEnemyStatus = false; otherDirection = false;
+    triggerAnimation = false; isTriggert = false;
 
 
     applyGravity() {
@@ -32,25 +26,17 @@ class MovableObject extends DrawableObject {
     }
 
     isNotOnGround() {
-        if (this instanceof ThrowableObject) {
+        if (this instanceof ThrowableBottle) {
             return this.y < 420 - this.height;
         }
         if (this instanceof SmallChicken) {
             return this.y < 420 - this.height;
         }
-        if (this instanceof Character) {
+        if (this instanceof CharacterPepe) {
             return this.y < 180;
         }
 
     }
-
-    playAnimation(images) {
-        let i = this.currentImage % images.length;
-        let path = images[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
-    }
-
 
     isColliding(object) {
         if (object !== null) {
@@ -66,17 +52,32 @@ class MovableObject extends DrawableObject {
     }
 
     hit() {
-        if (this instanceof Character) {
+        if (this instanceof CharacterPepe) {
             this.mainHealth -= 20;
+            if (this.mainHealth < 0) {
+                this.mainHealth = 0;
+            }
         }
-        if (this instanceof Endboss) {
+        if (this instanceof EndbossChicken) {
             this.endbossHealth -= 200;
+            if (this.endbossHealth < 0) {
+                this.endbossHealth = 0;
+            }
+
         }
         if (this instanceof Chicken) {
             this.normalEnemyHealth -= 100;
+            if (this.normalEnemyHealth < 0) {
+                this.normalEnemyHealth = 0;
+            }
+
         }
         if (this instanceof SmallChicken) {
             this.smallEnemyHealth -= 100;
+            if (this.smallEnemyHealth < 0) {
+                this.smallEnemyHealth = 0;
+            }
+
         } else {
             this.lastHit = new Date().getTime();
         }
@@ -111,10 +112,10 @@ class MovableObject extends DrawableObject {
     }
 
     isDead() {
-        if (this instanceof Character) {
+        if (this instanceof CharacterPepe) {
             return this.normalEnemyHealth <= 0;
         }
-        if (this instanceof Endboss) {
+        if (this instanceof EndbossChicken) {
             return this.endbossHealth <= 0;
         }
         if (this instanceof Chicken) {

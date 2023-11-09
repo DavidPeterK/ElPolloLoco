@@ -14,14 +14,20 @@ class SmallChicken extends MovableObject {
         'src/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
     ];
 
-    constructor(x) {
+    constructor(x, y) {
         super().loadImage('src/img/3_enemies_chicken/chicken_small/1_walk/1_w.png');
         this.loadImages(this.WALKING_SET);
         this.loadImages(this.DEAD_SET);
         this.x = x + Math.random() * 500;
+        this.y = y;
+        this.width = 70; this.height = 55;
+        this.offsetXL = 0; this.offsetXR = 0;
+        this.offsetYU = 0; this.offsetYD = 0;
+
+
+
         this.speed = 0.15 + Math.random() * 0.5;
         this.smallEnemyHealth = 100;
-        this.level = level1;
         this.animate();
         this.applyGravity();
     }
