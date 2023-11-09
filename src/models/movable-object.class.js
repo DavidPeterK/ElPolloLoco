@@ -30,7 +30,7 @@ class MovableObject extends DrawableObject {
             return this.y < 420 - this.height;
         }
         if (this instanceof SmallChicken) {
-            return this.y < 420 - this.height;
+            return this.y < 430 - this.height;
         }
         if (this instanceof CharacterPepe) {
             return this.y < 180;
