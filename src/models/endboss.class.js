@@ -97,7 +97,7 @@ class EndbossChicken extends MovableObject {
                     this.introEnds();
                 }, 2500);
             }
-        }, 800);
+        }, 600);
     }
 
     bossSkills() {
@@ -128,7 +128,7 @@ class EndbossChicken extends MovableObject {
             else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss()) {
                 this.playAnimation(this.WALKING_SET);
             }
-        }, 200);
+        }, 1000);
     }
 
     characterTriggerPosition() {

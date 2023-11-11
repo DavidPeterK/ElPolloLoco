@@ -1,9 +1,11 @@
 class CharacterPepe extends MovableObject {
 
     speed = 5;
-    COLLECTCOIN = new Audio('src/sounds/touchCoin.mp3');
+    COLLECTCOIN_SOUND = new Audio('src/sounds/touchCoin.mp3');
+    COLLECTBOTTLE_SOUND = new Audio('src/sounds/touchBottle.mp3');
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
+    ENEMYDAMAGE_SOUND = new Audio('src/sounds/chickenDead.mp3');
     world;
 
     STILL_STANDING_SET = [
@@ -167,9 +169,7 @@ class CharacterPepe extends MovableObject {
 
     characterGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects) || this.isItSmallEnemy(objects)) {
-            this.DAMAGE_SOUND.play().catch(error => {
-                console.warn('Das Abspielen wurde unterbrochen:', error);
-            });
+            this.DAMAGE_SOUND.play();
             this.hit();
             this.world.level.statusBarChar[0].setStatusBar(this.mainHealth);
         }
@@ -178,12 +178,14 @@ class CharacterPepe extends MovableObject {
     normalEnemyGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
+            this.ENEMYDAMAGE_SOUND.play();
             this.world.level.normalEnemy[index].hit();
         }
     }
 
     smallEnemyGetsDamage(objects, index) {
         if (this.isSmallEnemyAlive(objects, index)) {
+            this.ENEMYDAMAGE_SOUND.play();
             this.jump();
             this.world.level.smallEnemy[index].hit();
         }
@@ -191,6 +193,7 @@ class CharacterPepe extends MovableObject {
 
     collectAThrowObject(objects, index) {
         if (objects == world.level.collectableThrowObjects[index]) {
+            this.COLLECTBOTTLE_SOUND.play();
             throwObjectsStorage += 1;
             this.world.level.collectableThrowObjects[index] = null;
         }
@@ -198,6 +201,7 @@ class CharacterPepe extends MovableObject {
 
     collectCoin(objects, index) {
         if (objects == this.world.level.coin[index]) {
+            this.COLLECTCOIN_SOUND.play();
             coinStorage += 1;
             this.world.level.coin[index] = null;
         }

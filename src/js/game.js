@@ -1,3 +1,7 @@
+let gameStop = true;
+let menuMusik = true;
+let inGameMusik = false;
+
 /**
  * Initializes the game by setting up the canvas and the world.
  */
