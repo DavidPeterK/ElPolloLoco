@@ -16,7 +16,7 @@ let smallChickenEPLocoX = 400; let smallChickenEPLocoY = 180;
 
 
 
-function initLevel1() {
+function startLevelEPL1() {
     levelEPL1 = new Level(
         [
             new CharacterPepe(),
@@ -131,4 +131,5 @@ function initLevel1() {
             new SalsaBottle(2120, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
+    startGame();
 }

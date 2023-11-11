@@ -1,7 +1,7 @@
 class CharacterPepe extends MovableObject {
 
     speed = 5;
-
+    COLLECTCOIN = new Audio('src/sounds/touchCoin.mp3');
     WALKING_SOUND = new Audio('src/sounds/running.mp3');
     DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
     world;

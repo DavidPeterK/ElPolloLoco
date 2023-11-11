@@ -3,8 +3,6 @@
  */
 function init() {
     // Get the canvas element from the DOM
-    //initLevel1();
-    startGame();
     checkIcon();
 }
 
@@ -12,9 +10,27 @@ function startGame() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
     // Create a new World instance and pass the canvas and keyboard to it
-    //world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard);
 }
 
+function hideMenuOverlay() {
+    let menu = document.getElementById('menu-container');
+    let option = document.getElementById('buttonOption');
+    let end = document.getElementById('buttonEnd');
+    menu.classList.add('d-none');
+    option.classList.add('d-none');
+    end.classList.add('d-none');
+}
+
+function showMenuOverlay() {
+    let menu = document.getElementById('menu-container');
+    let option = document.getElementById('buttonOption');
+    let end = document.getElementById('buttonEnd');
+    menu.classList.remove('d-none');
+    option.classList.remove('d-none');
+    end.classList.remove('d-none');
+
+}
 // Toggle-Funktion für Overlays
 function toggleDisplay(elementId) {
     let element = document.getElementById(elementId);

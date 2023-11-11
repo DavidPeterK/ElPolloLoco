@@ -1,8 +1,4 @@
 class Cloud extends MovableObject {
-    y = 20;               // y-coordinate of the cloud
-    x;                   // x-coordinate, will be set in the constructor
-    width = 500;         // default width
-    height = 250;        // default height
     speed = 0.2;         // speed at which the cloud moves
 
     /**
@@ -10,17 +6,16 @@ class Cloud extends MovableObject {
      * @param {string} image - Path to the image resource.
      * @param {number} x - x-coordinate where the cloud should be placed.
      */
-    constructor(image, x, y, width, height, offsetXL, offsetXR, offsetYU, offsetYD) {
+    constructor(image, x) {
         super().loadImage(image);
         this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.offsetXL = offsetXL;
-        this.offsetXR = offsetXR;
-        this.offsetYU = offsetYU;
-        this.offsetYD = offsetYD;
-
+        this.y = 20;
+        this.width = 500;
+        this.height = 250;
+        this.offsetXL = 0;
+        this.offsetXR = 0;
+        this.offsetYU = 0;
+        this.offsetYD = 0;
         this.animate();
     }
 
