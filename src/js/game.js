@@ -3,7 +3,7 @@
  */
 function init() {
     // Get the canvas element from the DOM
-    initLevel1();
+    //initLevel1();
     startGame();
     checkIcon();
 }
@@ -12,7 +12,7 @@ function startGame() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
     // Create a new World instance and pass the canvas and keyboard to it
-    world = new World(canvas, keyboard);
+    //world = new World(canvas, keyboard);
 }
 
 // Toggle-Funktion für Overlays
