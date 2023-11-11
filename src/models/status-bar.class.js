@@ -4,8 +4,7 @@ class StatusBar extends DrawableObject {
     x;
     y;
     mainHealth = 100;
-    endbossHealth;
-    normalEnemyHealth;
+    endbossHealth= 1000;
     world;
     type;
     coinStorage;

@@ -244,9 +244,9 @@ class CharacterPepe extends MovableObject {
     createABottle() {
         let newThrowObject = new ThrowableBottle(
             this.x + 30, this.y + 170);
-        this.world.level.throwObject.push(newThrowObject);
+        world.level.throwObject.push(newThrowObject);
         throwObjectsStorage -= 1;
-        this.world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
+        world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
             console.warn('Das Abspielen wurde unterbrochen:', error);
         });
 

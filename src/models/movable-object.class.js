@@ -94,7 +94,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
             this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 15;
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 17;
     }
 
     whatIsMyDirection() {

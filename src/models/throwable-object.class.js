@@ -66,7 +66,6 @@ class ThrowableBottle extends MovableObject {
     collisionDirection(objects, index) {
         let collisionResult = this.isColliding(objects);
         if (collisionResult == 'generalCollision' || collisionResult == 'fallingCollision') {
-            this.collidingEnemyStatus = true;
             this.flyingThrowObjectSoundPaused();
             this.throwObjectTouchEndboss(objects);
             this.throwObjectTouchSmallEnemy(objects, index);
@@ -76,6 +75,7 @@ class ThrowableBottle extends MovableObject {
 
     throwObjectTouchEndboss(objects) {
         if (objects == world.level.endboss[0] && !world.level.endboss[0].isHurt()) {
+            this.collidingEnemyStatus = true;
             world.level.endboss[0].hit();
             world.level.statusBarEndboss[0].setStatusBar(world.level.endboss[0].endbossHealth);
         }
@@ -83,12 +83,14 @@ class ThrowableBottle extends MovableObject {
 
     throwObjectTouchNormalEnemy(objects, index) {
         if (objects == world.level.normalEnemy[index]) {
+            this.collidingEnemyStatus = true;
             world.level.normalEnemy[index].hit();
         }
     }
 
     throwObjectTouchSmallEnemy(objects, index) {
         if (objects == world.level.smallEnemy[index]) {
+            this.collidingEnemyStatus = true;
             world.level.smallEnemy[index].hit();
         }
     }
