@@ -86,8 +86,8 @@ class CharacterPepe extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.x = 120; this.y = 163;
         this.width = 110; this.height = 270;
-        this.offsetXL = 20; this.offsetXR = 30;
-        this.offsetYU = 100; this.offsetYD = 15;
+        this.offsetXL = 25; this.offsetXR = 35;
+        this.offsetYU = 120; this.offsetYD = 20;
         this.applyGravity();
         this.animate();
         this.characterStatus();

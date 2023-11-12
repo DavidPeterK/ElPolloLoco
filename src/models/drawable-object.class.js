@@ -1,15 +1,15 @@
 class DrawableObject {
-    x = 120;               // default x-coordinate
-    y = 280;               // default y-coordinate
-    height = 150;          // default height
-    width = 100;           // default width
+    x;               // default x-coordinate
+    y;               // default y-coordinate
+    height;          // default height
+    width;           // default width
     img;                   // image object
     imageCache = {};       // cache for multiple images
     currentImage = 0;      // current image index for animations
-    offsetYU = 0;          // offset for hitbox from top
-    offsetYD = 0;          // offset for hitbox from bottom
-    offsetXR = 0;          // offset for hitbox from right
-    offsetXL = 0;          // offset for hitbox from left
+    offsetYU;          // offset for hitbox from top
+    offsetYD;          // offset for hitbox from bottom
+    offsetXR;          // offset for hitbox from right
+    offsetXL;          // offset for hitbox from left
 
 
     /**

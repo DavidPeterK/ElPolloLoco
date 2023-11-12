@@ -8,14 +8,10 @@ class Cloud extends MovableObject {
      */
     constructor(image, x) {
         super().loadImage(image);
-        this.x = x;
-        this.y = 20;
-        this.width = 500;
-        this.height = 250;
-        this.offsetXL = 0;
-        this.offsetXR = 0;
-        this.offsetYU = 0;
-        this.offsetYD = 0;
+        this.x = x;this.y = 20;
+        this.width = 500;this.height = 250;
+        this.offsetXL = 0;this.offsetXR = 0;
+        this.offsetYU = 0;this.offsetYD = 0;
         this.animate();
     }
 

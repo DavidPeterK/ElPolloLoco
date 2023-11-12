@@ -1,19 +1,7 @@
 let levelEPL1;
-let canvas; let keyboard; let world;
-let gamePaused = false;
-let coinStorage = 0;
-let throwObjectsStorage = 0;
 
 const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
 const LAYER_PATH = 'src/img/5_background/layers/';
-
-
-let chickenEPLocoX = 450; let chickenEPLocoY = 365;
-
-let smallChickenEPLocoX = 400; let smallChickenEPLocoY = 180;
-
-//let bottleEPLocoX = world.level.character[0].x + 30; let bottleEPLocoY = world.level.character[0].y + 170;
-
 
 
 function startLevelEPL1() {
@@ -27,15 +15,15 @@ function startLevelEPL1() {
         ],
 
         [
-            new Chicken(chickenEPLocoX, chickenEPLocoY),
+            new Chicken(450, 365),
 
-            new Chicken(chickenEPLocoX, chickenEPLocoY),
+            new Chicken(450, 365),
 
-            new Chicken(chickenEPLocoX, chickenEPLocoY),
+            new Chicken(450, 365),
         ],
 
         [
-            new SmallChicken(smallChickenEPLocoX, smallChickenEPLocoY),
+            new SmallChicken(400, 300),
         ],
 
         [

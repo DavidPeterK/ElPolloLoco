@@ -27,8 +27,8 @@ class ThrowableBottle extends MovableObject {
         this.loadImages(this.THROW_SET);
         this.loadImages(this.BROKEN_SET);
         this.x = x; this.y = y;
-        this.width = 50; this.height = 60;
-        this.offsetXL = 0; this.offsetXR = 0;
+        this.width = 70; this.height = 60;
+        this.offsetXL = 10; this.offsetXR = 10;
         this.offsetYU = 0; this.offsetYD = 0;
         this.applyGravity();
         this.checkMoments();

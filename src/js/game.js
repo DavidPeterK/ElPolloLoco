@@ -1,39 +1,43 @@
 let gameStop = true;
-let inGameMusik = false;
 let MENU_SOUND = new Audio('src/sounds/menu.mp3');
-MENU_SOUND.loop = true;
 let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');
-ELPOLLOLOCO_SOUND.loop = true;
-let GAME_MUSIC;
+let canvas; let keyboard; let world;
+let coinStorage = 0; let throwObjectsStorage = 0;
 
 /**
  * Initializes the game by setting up the canvas and the world.
  */
 function init() {
     // Get the canvas element from the DOM
-    checkIcon();
     setTimeout(() => {
-        MENU_SOUND.play();
-    }, 2000);
+        hideOverlay('loadScreen');
+        checkIcon();
+        playMenuMusic();
+    }, 4000);
 }
 
 function startGame() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
-    // Create a new World instance and pass the canvas and keyboard to it
     world = new World(canvas, keyboard);
 }
 function playMenuMusic() {
-    ELPOLLOLOCO_SOUND.pause();
-    ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+    if (!ELPOLLOLOCO_SOUND.paused) {
+        ELPOLLOLOCO_SOUND.pause();
+        ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+    }
     MENU_SOUND.play();
+    MENU_SOUND.loop = true;
 }
 
 // Funktion, um Ingame-Musik zu spielen
 function playGameMusic() {
-    MENU_SOUND.pause();
-    MENU_SOUND.currentTime = 0; // Setzt die Menümusik zurück zum Anfang
+    if (!MENU_SOUND.paused) {
+        MENU_SOUND.pause();
+        MENU_SOUND.currentTime = 0; // Setzt die Menümusik zurück zum Anfang      
+    }
     ELPOLLOLOCO_SOUND.play();
+    ELPOLLOLOCO_SOUND.loop = true;
 }
 
 function closeGame() {
