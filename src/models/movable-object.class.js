@@ -1,10 +1,11 @@
 const HURT_TIME = 1.5; // Sekunden
 const THROW_TIME = 3; // Sekunden
+const BLOCK_TIME = 0.5; // Sekunden
 
 class MovableObject extends DrawableObject {
 
     speed = 0.2; speedY = 0; acceleration = 2;
-    lastHit = 0; lastThrow = 0;
+    lastHit = 0; lastThrow = 0; lastActiv = 0;
 
     mainHealth = 100; normalEnemyHealth = 100;
     smallEnemyHealth = 100; endbossHealth = 1000;
@@ -18,7 +19,7 @@ class MovableObject extends DrawableObject {
 
     applyGravity() {
         setInterval(() => {
-            if (this.isNotOnGround() || this.speedY > 0) {
+            if (this.isNotOnGround() && !gameStop || this.speedY > 0 && !gameStop) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             }
@@ -33,7 +34,7 @@ class MovableObject extends DrawableObject {
             return this.y < 430 - this.height;
         }
         if (this instanceof CharacterPepe) {
-            return this.y < 180;
+            return this.y < 163;
         }
 
     }
@@ -94,7 +95,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
             this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 17;
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 20;
     }
 
     whatIsMyDirection() {
@@ -124,6 +125,10 @@ class MovableObject extends DrawableObject {
         if (this instanceof SmallChicken) {
             return this.smallEnemyHealth <= 0;
         }
+    }
+
+    pauseControl() {
+        return this.timeSince(this.lastActiv) < BLOCK_TIME;
     }
 
     isHurt() {

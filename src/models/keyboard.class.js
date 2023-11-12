@@ -5,6 +5,7 @@ class Keyboard {
     DOWN = false;
     SPACE = false;
     D = false;
+    P = false;
 
     constructor() {
         document.addEventListener('keydown', this.onKeyDown.bind(this));
@@ -31,6 +32,9 @@ class Keyboard {
             case 68:
                 this.D = true;
                 break;
+            case 80:
+                this.P = true;
+                break;
         }
     }
 
@@ -53,6 +57,9 @@ class Keyboard {
                 break;
             case 68:
                 this.D = false;
+                break;
+            case 80:
+                this.P = false;
                 break;
         }
     }

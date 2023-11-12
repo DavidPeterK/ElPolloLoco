@@ -123,13 +123,17 @@ function startLevelEPL1() {
         ],
 
         [
-            new SalsaBottle(320, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(620, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(920, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(1220, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(1520, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(2120, 310, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(320, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(620, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(920, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(1220, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(1520, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
     startGame();
+    playGameMusic();
+    setTimeout(() => {
+        gameStop = false;
+    }, 3000);
 }

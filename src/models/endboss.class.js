@@ -79,7 +79,7 @@ class EndbossChicken extends MovableObject {
     }
 
     wasTriggert() {
-        if (this.characterTriggerPosition()) {
+        if (this.characterTriggerPosition() && !gameStop) {
             //character frozen clip
             world.level.level_start_x = 2415;
             world.level.level_end_x = 2420;
@@ -91,7 +91,7 @@ class EndbossChicken extends MovableObject {
 
     triggertEnds() {
         setInterval(() => {
-            if (this.isIntroOver()) {
+            if (this.isIntroOver() && !gameStop) {
                 this.playAnimation(this.ATTACK_SET);
                 setTimeout(() => {
                     this.introEnds();
@@ -103,12 +103,12 @@ class EndbossChicken extends MovableObject {
     bossSkills() {
         this.endbossStatus();
         setInterval(() => {
-            if (this.isTriggert === true) {
-                if (this.isCharacterLeftFromBoss()) {
+            if (this.isTriggert === true && !gameStop) {
+                if (this.isCharacterLeftFromBoss() && !gameStop) {
                     this.otherDirection = false;
                     this.moveLeft()
                 }
-                if (this.isCharacterRightFromBoss()) {
+                if (this.isCharacterRightFromBoss() && !gameStop) {
                     this.otherDirection = true;
                     this.moveRight();
                 }
@@ -125,7 +125,7 @@ class EndbossChicken extends MovableObject {
             else if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.HURT_SET);
             }
-            else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss()) {
+            else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
             }
         }, 1000);

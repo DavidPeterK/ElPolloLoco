@@ -7,13 +7,13 @@ class SalsaBottle extends MovableObject {
         'src/img/6_salsa_bottle/salsa_bottle.png',
     ];
 
-    constructor(x, y, image) {
+    constructor(x, image) {
         super().loadImage(image);
         this.loadImages(this.ACTIV_SET)
         this.x = x;
-        this.y = y;
-        this.width = 120;
-        this.height = 120;
+        this.y = 335;
+        this.width = 100;
+        this.height = 100;
         this.offsetXL = 30;
         this.offsetXR = 30;
         this.offsetYU = 20;

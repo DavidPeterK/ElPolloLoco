@@ -2,9 +2,9 @@ let gameStop = true;
 let inGameMusik = false;
 let MENU_SOUND = new Audio('src/sounds/menu.mp3');
 MENU_SOUND.loop = true;
-let GAME_MUSIC =
-    let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');
-let ZOMBIFIGHTER_SOUND = new Audio('src/sounds/ingame.mp3');
+let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');
+ELPOLLOLOCO_SOUND.loop = true;
+let GAME_MUSIC;
 
 /**
  * Initializes the game by setting up the canvas and the world.
@@ -12,7 +12,9 @@ let ZOMBIFIGHTER_SOUND = new Audio('src/sounds/ingame.mp3');
 function init() {
     // Get the canvas element from the DOM
     checkIcon();
-    MENU_SOUND.play();
+    setTimeout(() => {
+        MENU_SOUND.play();
+    }, 2000);
 }
 
 function startGame() {
@@ -22,36 +24,30 @@ function startGame() {
     world = new World(canvas, keyboard);
 }
 function playMenuMusic() {
-    gameMusic.pause();
-    gameMusic.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+    ELPOLLOLOCO_SOUND.pause();
+    ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
     MENU_SOUND.play();
 }
 
 // Funktion, um Ingame-Musik zu spielen
 function playGameMusic() {
-    menuMusic.pause();
-    menuMusic.currentTime = 0; // Setzt die Menümusik zurück zum Anfang
-    gameMusic.play();
-}
-function menuMusik() {
+    MENU_SOUND.pause();
+    MENU_SOUND.currentTime = 0; // Setzt die Menümusik zurück zum Anfang
+    ELPOLLOLOCO_SOUND.play();
 }
 
-function hideMenuOverlay() {
-    let menu = document.getElementById('menu-container');
-    let option = document.getElementById('buttonOption');
-    let end = document.getElementById('buttonEnd');
-    menu.classList.add('d-none');
-    option.classList.add('d-none');
-    end.classList.add('d-none');
+function closeGame() {
+    window.close();
 }
 
-function showMenuOverlay() {
-    let menu = document.getElementById('menu-container');
-    let option = document.getElementById('buttonOption');
-    let end = document.getElementById('buttonEnd');
-    menu.classList.remove('d-none');
-    option.classList.remove('d-none');
-    end.classList.remove('d-none');
+function hideOverlay(id) {
+    let overLay = document.getElementById(id);
+    overLay.classList.add('d-none');
+}
+
+function showOverlay(id) {
+    let overLay = document.getElementById(id);
+    overLay.classList.remove('d-none');
 
 }
 // Toggle-Funktion für Overlays

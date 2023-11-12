@@ -21,13 +21,13 @@ class Chicken extends MovableObject {
 
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !gameStop) {
                 this.moveLeft();
             }
         }, 1000 / 60);
 
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
             } else if (this.isDead()) {
                 this.loadImage('src/img/3_enemies_chicken/chicken_normal/2_dead/dead.png')

@@ -31,52 +31,132 @@ canvas {
     width: 100%;
     height: 100%;
     color: white;
-    background: rgba(0, 0, 0, 0.5);
+    background-image: url('src/img/9_intro_outro_screens/start/startscreen_1.png');
+    background-size: cover;
     justify-content: center;
     align-items: center;
     z-index: 3;
 }
 
-#buttonEnd {
+.pauseWindow {
     position: absolute;
-    top: 85%;
-    left: 42.5%;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+.options {
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: rgba(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+
+button {
     width: 17.5%;
     height: 10%;
     color: white;
     font-size: 20px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     box-shadow: 1px #fff;
     z-index: 3;
+}
+
+#buttonEnd {
+    position: absolute;
+    top: 90%;
+    left: 70%;
 }
 
 #buttonOption {
     position: absolute;
     display: block;
-    top: 70%;
+    top: 90%;
+    left: 40%;
+}
+
+#buttonStart {
+    position: absolute;
+    display: block;
+    top: 90%;
+    left: 10%;
+}
+
+#buttonMainMenu {
+    position: absolute;
+    display: block;
+    top: 80%;
     left: 42.5%;
-    width: 17.5%;
-    height: 10%;
-    color: white;
-    font-size: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 3;
+}
+
+#buttonContinue {
+    position: absolute;
+    display: block;
+    top: 60%;
+    left: 42.5%;
+}
+
+#pauseSlogen {
+    position: absolute;
+    display: block;
+    top: 40%;
+    left: 48%;
+    font-size: 28px;
+}
+
+#buttonBack {
+    position: absolute;
+    display: block;
+    top: 80%;
+    left: 42.5%;
+}
+
+#musicSpan {
+    position: absolute;
+    top: 30%;
+    left: 20%;
+    font-size: 28px;
+}
+
+#volumeControlMusic {
+    position: absolute;
+    top: 32%;
+    left: 40%;
+    width: 45%;
+}
+
+#soundSpan {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    font-size: 28px;
+}
+
+#volumeControlSound {
+    position: absolute;
+    top: 52%;
+    left: 40%;
+    width: 45%;
 }
 
 #selectGameEPL {
     position: absolute;
     top: 17.5%;
     left: 15%;
-    border: 1px solid white;
-    width: 25%;
-    height: 25%;
-    border-radius: 15px;
-}
-
-#selectGameZF {
-    position: absolute;
-    top: 17.5%;
-    right: 15%;
     border: 1px solid white;
     width: 25%;
     height: 25%;
@@ -110,17 +190,7 @@ canvas {
     display: none;
 }
 
-.EPLCover {
-    width: 100%;
-    height: 100%;
-    border-radius: 10%;
-}
 
-.ZFCover {
-    width: 100%;
-    height: 100%;
-    border-radius: 10%;
-}
 
 /* Media queries für responsive Anpassungen */
 @media only screen and (max-width: 720px) {

@@ -84,10 +84,10 @@ class CharacterPepe extends MovableObject {
         this.loadImages(this.JUMP_SET);
         this.loadImages(this.DEAD_SET);
         this.loadImages(this.HURT_SET);
-        this.x = 120; this.y = 180;
-        this.width = 100; this.height = 250;
+        this.x = 120; this.y = 163;
+        this.width = 110; this.height = 270;
         this.offsetXL = 20; this.offsetXR = 30;
-        this.offsetYU = 100; this.offsetYD = 5;
+        this.offsetYU = 100; this.offsetYD = 15;
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -100,23 +100,34 @@ class CharacterPepe extends MovableObject {
             this.walkLeft();
             this.takeALeap();
             this.throwTheObject();
+            this.gamePaused();
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
 
         setInterval(() => {
-            this.collisionWithNormalEnemy()
+            if (!gameStop) {
+                this.collisionWithNormalEnemy()
+            }
         }, 1000 / 60);
         setInterval(() => {
-            this.collisionWithSmallEnemy();
+            if (!gameStop) {
+                this.collisionWithSmallEnemy();
+            }
         }, 1000 / 60);
         setInterval(() => {
-            this.collisionWithEndboss();
+            if (!gameStop) {
+                this.collisionWithEndboss();
+            }
         }, 1000 / 60);
         setInterval(() => {
-            this.collisionWithCoin();
+            if (!gameStop) {
+                this.collisionWithCoin();
+            }
         }, 1000 / 60);
         setInterval(() => {
-            this.collisionWithCollectableThrowObeject();
+            if (!gameStop) {
+                this.collisionWithCollectableThrowObeject();
+            }
         }, 1000 / 60);
     }
 
@@ -208,7 +219,7 @@ class CharacterPepe extends MovableObject {
     }
 
     throwTheObject() {
-        if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0) {
+        if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0 && !gameStop) {
             this.lastThrow = new Date().getTime();
             this.createABottle();
             this.world.level.throwObject[0].throw();
@@ -216,13 +227,13 @@ class CharacterPepe extends MovableObject {
     }
 
     takeALeap() {
-        if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround()) {
+        if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround() && !gameStop) {
             this.jump();
         }
     }
 
     walkLeft() {
-        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x) {
+        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x && !gameStop) {
             this.otherDirection = true;
             this.moveLeft();
             this.WALKING_SOUND.play().catch(error => {
@@ -232,12 +243,26 @@ class CharacterPepe extends MovableObject {
     }
 
     walkRight() {
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !gameStop) {
             this.otherDirection = false;
             this.moveRight();
             this.WALKING_SOUND.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
+        }
+    }
+
+    gamePaused() {
+        if (this.world.keyboard.P) {
+            if (!gameStop && !this.pauseControl()) {
+                this.lastActiv = new Date().getTime();
+                gameStop = true;
+                showOverlay('pauseWindow');
+            } else if (gameStop && !this.pauseControl()) {
+                this.lastActiv = new Date().getTime();
+                gameStop = false;
+                hideOverlay('pauseWindow');
+            }
         }
     }
 

@@ -26,14 +26,14 @@ class SmallChicken extends MovableObject {
     }
     animate() {
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !gameStop) {
                 this.moveLeft();
                 this.intervalJump();
             }
         }, 1000 / 60);
 
         setInterval(() => {
-            if (!this.isDead()) {
+            if (!this.isDead() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
             } else if (this.isDead()) {
                 this.playAnimation(this.DEAD_SET)
