@@ -1,6 +1,10 @@
 let gameStop = true;
-let menuMusik = true;
 let inGameMusik = false;
+let MENU_SOUND = new Audio('src/sounds/menu.mp3');
+MENU_SOUND.loop = true;
+let GAME_MUSIC =
+    let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');
+let ZOMBIFIGHTER_SOUND = new Audio('src/sounds/ingame.mp3');
 
 /**
  * Initializes the game by setting up the canvas and the world.
@@ -8,6 +12,7 @@ let inGameMusik = false;
 function init() {
     // Get the canvas element from the DOM
     checkIcon();
+    MENU_SOUND.play();
 }
 
 function startGame() {
@@ -15,6 +20,20 @@ function startGame() {
     canvas = document.getElementById('canvas');
     // Create a new World instance and pass the canvas and keyboard to it
     world = new World(canvas, keyboard);
+}
+function playMenuMusic() {
+    gameMusic.pause();
+    gameMusic.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+    MENU_SOUND.play();
+}
+
+// Funktion, um Ingame-Musik zu spielen
+function playGameMusic() {
+    menuMusic.pause();
+    menuMusic.currentTime = 0; // Setzt die Menümusik zurück zum Anfang
+    gameMusic.play();
+}
+function menuMusik() {
 }
 
 function hideMenuOverlay() {
