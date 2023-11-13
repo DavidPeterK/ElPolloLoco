@@ -1,11 +1,12 @@
 const HURT_TIME = 1.5; // Sekunden
 const THROW_TIME = 3; // Sekunden
 const BLOCK_TIME = 0.5; // Sekunden
+const SLEEP_TIME = 10; // Sekunden
 
 class MovableObject extends DrawableObject {
 
     speed = 0.2; speedY = 0; acceleration = 2;
-    lastHit = 0; lastThrow = 0; lastActiv = 0;
+    lastHit = 0; lastThrow = 0; lastActiv = 0; lastMove = 0;
 
     mainHealth = 100; normalEnemyHealth = 100;
     smallEnemyHealth = 100; endbossHealth = 1000;
@@ -114,7 +115,7 @@ class MovableObject extends DrawableObject {
 
     isDead() {
         if (this instanceof CharacterPepe) {
-            return this.normalEnemyHealth <= 0;
+            return this.mainHealth <= 0;
         }
         if (this instanceof EndbossChicken) {
             return this.endbossHealth <= 0;
@@ -133,6 +134,10 @@ class MovableObject extends DrawableObject {
 
     isHurt() {
         return this.timeSince(this.lastHit) < HURT_TIME;
+    }
+
+    isNotSleeping() {
+        return this.timeSince(this.lastMove) < SLEEP_TIME;
     }
 
     isThrowObjectReady() {

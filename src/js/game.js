@@ -1,3 +1,4 @@
+let gameActiv = false;
 let gameStop = true;
 let MENU_SOUND = new Audio('src/sounds/menu.mp3');
 let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');

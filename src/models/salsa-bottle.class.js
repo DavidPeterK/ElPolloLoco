@@ -24,7 +24,7 @@ class SalsaBottle extends MovableObject {
 
     animation() {
         setInterval(() => {
-            if (this.y > 300) {
+            if (this.y > 300 && !gameStop) {
                 this.playAnimation(this.ACTIV_SET)
             }
         }, 400);

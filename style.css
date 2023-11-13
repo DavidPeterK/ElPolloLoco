@@ -33,6 +33,7 @@ canvas {
     color: white;
     background-image: url('src/img/9_intro_outro_screens/start/startscreen_1.png');
     background-size: cover;
+    background-position: center;
     justify-content: center;
     align-items: center;
     z-index: 3;
@@ -79,7 +80,8 @@ canvas {
     justify-content: center;
     align-items: center;
     z-index: 4;
-    animation: fadeBackground 4s ease-in-out forwards;
+    animation: fadeBackground 3s ease-in-out forwards;
+    animation-delay: 3s;
 }
 
 @keyframes fadeBackground {
