@@ -1,24 +1,12 @@
 class EndbossChicken extends MovableObject {
 
-    speed = 0.3;
+    speed = 3.5;
     world;
 
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G1.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G2.png',
         'src/img/4_enemie_boss_chicken/1_walk/G2.png',
         'src/img/4_enemie_boss_chicken/1_walk/G3.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G3.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
-        'src/img/4_enemie_boss_chicken/1_walk/G4.png',
         'src/img/4_enemie_boss_chicken/1_walk/G4.png'
     ];
 
@@ -73,20 +61,14 @@ class EndbossChicken extends MovableObject {
     waitOfCharacter() {
         setInterval(() => {
             if (this.triggerAnimation == false) {
-                this.wasTriggert();
+                if (this.characterTriggerPosition() && !gameStop) {
+                    //character frozen clip
+                    world.level.level_start_x = 2415;
+                    world.level.level_end_x = 2420;
+                    this.triggerAnimationClip();
+                }
             }
         }, 1000 / 10);
-    }
-
-    wasTriggert() {
-        if (this.characterTriggerPosition() && !gameStop) {
-            //character frozen clip
-            world.level.level_start_x = 2415;
-            world.level.level_end_x = 2420;
-            if (this.triggerAnimation == false) {
-                this.triggerAnimationClip();
-            }
-        }
     }
 
     triggertEnds() {
@@ -94,7 +76,9 @@ class EndbossChicken extends MovableObject {
             if (this.isIntroOver() && !gameStop) {
                 this.playAnimation(this.ATTACK_SET);
                 setTimeout(() => {
-                    this.introEnds();
+                    if (!this.isTriggert) {
+                        this.introEnds();
+                    }
                 }, 2500);
             }
         }, 600);
@@ -113,22 +97,25 @@ class EndbossChicken extends MovableObject {
                     this.moveRight();
                 }
             }
-        }, 100);
+        }, 20);
     }
 
     endbossStatus() {
         setInterval(() => {
-
             if (this.isDead()) {
                 this.playAnimation(this.DEAD_SET);
             }
-            else if (this.isHurt() && !this.isDead()) {
+        }, 1800);
+        setInterval(() => {
+            if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.HURT_SET);
             }
-            else if (this.isCharacterLeftFromBoss() || this.isCharacterRightFromBoss() && !gameStop) {
+        }, 300);
+        setInterval(() => {
+            if (this.isCharacterLeftFromBoss() && !gameStop || this.isCharacterRightFromBoss() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
             }
-        }, 1000);
+        }, 230);
     }
 
     characterTriggerPosition() {
