@@ -112,10 +112,22 @@ class EndbossChicken extends MovableObject {
         }, 300);
 
         setInterval(() => {
-            if (this.isCharacterLeftFromBoss() && !gameStop || this.isCharacterRightFromBoss() && !gameStop) {
+            if (this.isCharacterLeftFromBoss() && !this.closeToCharacter() && !gameStop || this.isCharacterRightFromBoss() && !this.closeToCharacter() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
             }
         }, 230);
+        setInterval(() => {
+            if (this.closeToCharacter() && !gameStop) {
+                this.playAnimation(this.ATTACK_SET);
+            }
+        }, 230);
+    }
+
+    closeToCharacter() {
+        return (world.level.character.x + world.level.character.width - world.level.character.offsetXR) - (this.x + this.offsetXL) < 50 &&
+            (world.level.character.x + world.level.character.width - world.level.character.offsetXR) - (this.x + this.offsetXL) > -150
+            || (this.x + this.width - this.offsetXR) - (world.level.character.x + world.level.character.offsetXL) < 50 &&
+            (this.x + this.width - this.offsetXR) - (world.level.character.x + world.level.character.offsetXL) > -150
     }
 
     characterTriggerPosition() {
