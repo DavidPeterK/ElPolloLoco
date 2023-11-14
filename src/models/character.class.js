@@ -131,31 +131,37 @@ class CharacterPepe extends MovableObject {
     }
 
     characterStatus() {
+
         setInterval(() => {
             if (this.isDead() && !gameStop) {
                 this.playAnimation(this.DEAD_SET);
             }
         }, 160);
+
         setInterval(() => {
             if (this.isHurt() && !this.isDead() && !gameStop) {
                 this.playAnimation(this.HURT_SET);
             }
         }, 200);
+
         setInterval(() => {
             if (this.isNotOnGround() && !gameStop) {
                 this.playAnimation(this.JUMP_SET);
             }
         }, 120);
+
         setInterval(() => {
             if (this.isStillStanding() && this.isNotSleeping() && !gameStop && !this.isDead()) {
                 this.playAnimation(this.STILL_STANDING_SET);
             }
         }, 250);
+
         setInterval(() => {
             if (this.isStillStanding() && !this.isNotSleeping() && !gameStop && !this.isDead()) {
                 this.playAnimation(this.SLEEPING_SET);
             }
         }, 160);
+
         setInterval(() => {
             if (this.world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() || this.world.keyboard.LEFT && !gameStop && !this.isNotOnGround()) {
                 this.lastMove = new Date().getTime();
@@ -233,6 +239,10 @@ class CharacterPepe extends MovableObject {
 
     collectCoin(objects, index) {
         if (objects == this.world.level.coin[index]) {
+            if (!this.COLLECTCOIN_SOUND.paused) {
+                this.COLLECTCOIN_SOUND.pause();
+                this.COLLECTCOIN_SOUND.currentTime = 0;
+            }
             this.COLLECTCOIN_SOUND.play();
             coinStorage += 1;
             this.world.level.coin[index] = null;

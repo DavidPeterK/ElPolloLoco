@@ -16,10 +16,8 @@ function startLevelEPL1() {
 
         [
             new Chicken(450, 365),
-
             new Chicken(450, 365),
-
-            new Chicken(450, 365),
+            new Chicken(450, 365)
         ],
 
         [
@@ -119,6 +117,7 @@ function startLevelEPL1() {
             new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
+
     startGame();
     playGameMusic();
     setTimeout(() => {

@@ -1,8 +1,5 @@
 class EndbossChicken extends MovableObject {
 
-    speed = 3.5;
-    world;
-
     WALKING_SET = [
         'src/img/4_enemie_boss_chicken/1_walk/G1.png',
         'src/img/4_enemie_boss_chicken/1_walk/G2.png',
@@ -55,6 +52,7 @@ class EndbossChicken extends MovableObject {
         this.width = 250; this.height = 400;
         this.offsetXL = 55; this.offsetXR = 50;
         this.offsetYU = 75; this.offsetYD = 30;
+        this.speed = 3.5;
         this.waitOfCharacter();
     }
 
@@ -106,11 +104,13 @@ class EndbossChicken extends MovableObject {
                 this.playAnimation(this.DEAD_SET);
             }
         }, 1800);
+
         setInterval(() => {
             if (this.isHurt() && !this.isDead()) {
                 this.playAnimation(this.HURT_SET);
             }
         }, 300);
+
         setInterval(() => {
             if (this.isCharacterLeftFromBoss() && !gameStop || this.isCharacterRightFromBoss() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
