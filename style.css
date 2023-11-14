@@ -64,7 +64,7 @@ canvas {
     background-color: rgba(0, 0, 0);
     justify-content: center;
     align-items: center;
-    z-index: 3;
+    z-index: 4;
 }
 
 /*LoadingScreen*/
@@ -125,7 +125,8 @@ button {
     width: 17.5%;
     height: 10%;
     color: white;
-    font-size: 20px;
+    font-size: 23px;
+    border-radius: 15px;
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 1px #fff;
     z-index: 3;
@@ -133,21 +134,21 @@ button {
 
 #buttonEnd {
     position: absolute;
-    top: 90%;
+    top: 87%;
     left: 70%;
 }
 
 #buttonOption {
     position: absolute;
     display: block;
-    top: 90%;
+    top: 87%;
     left: 40%;
 }
 
 #buttonStart {
     position: absolute;
     display: block;
-    top: 90%;
+    top: 87%;
     left: 10%;
 }
 
@@ -182,28 +183,28 @@ button {
 
 #musicSpan {
     position: absolute;
-    top: 30%;
+    top: 10%;
     left: 20%;
     font-size: 28px;
 }
 
 #volumeControlMusic {
     position: absolute;
-    top: 32%;
+    top: 12%;
     left: 40%;
     width: 45%;
 }
 
 #soundSpan {
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 20%;
     font-size: 28px;
 }
 
 #volumeControlSound {
     position: absolute;
-    top: 52%;
+    top: 27%;
     left: 40%;
     width: 45%;
 }

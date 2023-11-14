@@ -9,9 +9,9 @@ let coinStorage = 0; let throwObjectsStorage = 0;
 function init() {
     // Get the canvas element from the DOM
     setTimeout(() => {
+        playMenuMusic();
         hideOverlay('loadScreen');
         checkIcon();
-        playMenuMusic();
     }, 4000);
 }
 

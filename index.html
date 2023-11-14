@@ -44,9 +44,9 @@
         <div id="menu-container" class="overlay">
             <button onclick="startLevelEPL1(), hideOverlay('menu-container'), showOverlay('loadScreen')"
                 id="buttonStart">
-                Start
+                START
             </button>
-            <button onclick="hideOverlay('menu-container'), showOverlay('option-container')" id="buttonOption">
+            <button onclick="showOverlay('option-container')" id="buttonOption">
                 OPTION
             </button>
             <button onclick="closeGame()" id="buttonEnd">
@@ -59,8 +59,8 @@
             <span id="soundSpan">Sounds</span>
             <input type="range" id="volumeControlMusic" min="0" max="1" step="0.01" value="0.5">
             <input type="range" id="volumeControlSound" min="0" max="1" step="0.01" value="0.5">
-            <button onclick="hideOverlay('option-container'), showOverlay('menu-container')" id="buttonBack">
-                Back
+            <button onclick="hideOverlay('option-container')" id="buttonBack">
+                BACK
             </button>
         </div>
 
@@ -69,6 +69,9 @@
             <button onclick="hideOverlay('pauseWindow'), showOverlay('menu-container'), playMenuMusic()"
                 id="buttonMainMenu">
                 Main Menu
+            </button>
+            <button onclick="showOverlay('option-container')" id="buttonOption">
+                OPTION
             </button>
             <button onclick="hideOverlay('pauseWindow'), gameStop = false" id="buttonContinue">
                 Continue
