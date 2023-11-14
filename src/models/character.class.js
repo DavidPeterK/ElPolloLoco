@@ -1,12 +1,5 @@
 class CharacterPepe extends MovableObject {
 
-    speed = 5;
-    COLLECTCOIN_SOUND = new Audio('src/sounds/touchCoin.mp3');
-    COLLECTBOTTLE_SOUND = new Audio('src/sounds/touchBottle.mp3');
-    WALKING_SOUND = new Audio('src/sounds/running.mp3');
-    DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
-    ENEMYDAMAGE_SOUND = new Audio('src/sounds/chickenDead.mp3');
-    JUMP_SOUND = new Audio('src/sounds/jump.mp3');
     world;
 
     STILL_STANDING_SET = [
@@ -84,7 +77,7 @@ class CharacterPepe extends MovableObject {
         this.loadImages(this.HURT_SET);
         this.loadImages(this.SLEEPING_SET);
         this.x = 120; this.y = 163;
-        this.width = 110; this.height = 270;
+        this.width = 110; this.height = 270; this.speed = 5;
         this.offsetXL = 25; this.offsetXR = 35;
         this.offsetYU = 120; this.offsetYD = 20;
         this.applyGravity();
@@ -94,7 +87,7 @@ class CharacterPepe extends MovableObject {
 
     animate() {
         setInterval(() => {
-            this.WALKING_SOUND.pause();
+            WALKING_SOUND.pause();
             this.walkRight();
             this.walkLeft();
             this.takeALeap();
@@ -108,21 +101,25 @@ class CharacterPepe extends MovableObject {
                 this.collisionWithNormalEnemy()
             }
         }, 1000 / 60);
+
         setInterval(() => {
             if (!gameStop) {
                 this.collisionWithSmallEnemy();
             }
         }, 1000 / 60);
+
         setInterval(() => {
             if (!gameStop) {
                 this.collisionWithEndboss();
             }
         }, 1000 / 60);
+
         setInterval(() => {
             if (!gameStop) {
                 this.collisionWithCoin();
             }
         }, 1000 / 60);
+
         setInterval(() => {
             if (!gameStop) {
                 this.collisionWithCollectableThrowObeject();
@@ -203,7 +200,7 @@ class CharacterPepe extends MovableObject {
 
     characterGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects) || this.isItSmallEnemy(objects)) {
-            this.DAMAGE_SOUND.play();
+            DAMAGE_SOUND.play();
             this.hit();
             this.world.level.statusBarChar[0].setStatusBar(this.mainHealth);
         }
@@ -212,14 +209,14 @@ class CharacterPepe extends MovableObject {
     normalEnemyGetsDamage(objects, index) {
         if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
-            this.ENEMYDAMAGE_SOUND.play();
+            ENEMYDAMAGE_SOUND.play();
             this.world.level.normalEnemy[index].hit();
         }
     }
 
     smallEnemyGetsDamage(objects, index) {
         if (this.isSmallEnemyAlive(objects, index)) {
-            this.ENEMYDAMAGE_SOUND.play();
+            ENEMYDAMAGE_SOUND.play();
             this.jump();
             this.world.level.smallEnemy[index].hit();
         }
@@ -227,11 +224,11 @@ class CharacterPepe extends MovableObject {
 
     collectAThrowObject(objects, index) {
         if (objects == world.level.collectableThrowObjects[index]) {
-            if (!this.COLLECTBOTTLE_SOUND.paused) {
-                this.COLLECTBOTTLE_SOUND.pause();
-                this.COLLECTBOTTLE_SOUND.currentTime = 0;
+            if (!COLLECTBOTTLE_SOUND.paused) {
+                COLLECTBOTTLE_SOUND.pause();
+                COLLECTBOTTLE_SOUND.currentTime = 0;
             }
-            this.COLLECTBOTTLE_SOUND.play();
+            COLLECTBOTTLE_SOUND.play();
             throwObjectsStorage += 1;
             this.world.level.collectableThrowObjects[index] = null;
         }
@@ -239,11 +236,11 @@ class CharacterPepe extends MovableObject {
 
     collectCoin(objects, index) {
         if (objects == this.world.level.coin[index]) {
-            if (!this.COLLECTCOIN_SOUND.paused) {
-                this.COLLECTCOIN_SOUND.pause();
-                this.COLLECTCOIN_SOUND.currentTime = 0;
+            if (!COLLECTCOIN_SOUND.paused) {
+                COLLECTCOIN_SOUND.pause();
+                COLLECTCOIN_SOUND.currentTime = 0;
             }
-            this.COLLECTCOIN_SOUND.play();
+            COLLECTCOIN_SOUND.play();
             coinStorage += 1;
             this.world.level.coin[index] = null;
         }
@@ -260,7 +257,7 @@ class CharacterPepe extends MovableObject {
     takeALeap() {
         if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround() && !gameStop) {
             this.jump();
-            this.JUMP_SOUND.play();
+            JUMP_SOUND.play();
         }
     }
 
@@ -268,7 +265,7 @@ class CharacterPepe extends MovableObject {
         if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x && !gameStop) {
             this.otherDirection = true;
             this.moveLeft();
-            this.WALKING_SOUND.play().catch(error => {
+            WALKING_SOUND.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
         }
@@ -278,7 +275,7 @@ class CharacterPepe extends MovableObject {
         if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !gameStop) {
             this.otherDirection = false;
             this.moveRight();
-            this.WALKING_SOUND.play().catch(error => {
+            WALKING_SOUND.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
         }
@@ -307,7 +304,7 @@ class CharacterPepe extends MovableObject {
             this.x + 30, this.y + 170);
         world.level.throwObject.push(newThrowObject);
         throwObjectsStorage -= 1;
-        world.level.throwObject[0].FLYING_THROWOBJECT.play().catch(error => {
+        FLYING_THROWOBJECT.play().catch(error => {
             console.warn('Das Abspielen wurde unterbrochen:', error);
         });
 

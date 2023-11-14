@@ -1,7 +1,5 @@
 let gameActiv = false;
 let gameStop = true;
-let MENU_SOUND = new Audio('src/sounds/menu.mp3');
-let ELPOLLOLOCO_SOUND = new Audio('src/sounds/introMusic.mp3');
 let canvas; let keyboard; let world;
 let coinStorage = 0; let throwObjectsStorage = 0;
 
@@ -22,6 +20,27 @@ function startGame() {
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 }
+
+function setMusicVolume() {
+    let musicVolume = document.getElementById('volumeControlMusic').value;
+    MENU_SOUND.volume = musicVolume;
+    ELPOLLOLOCO_SOUND.volume = musicVolume;
+}
+
+// Funktion, um die Soundeffektlautstärke zu ändern
+function setSoundVolume() {
+    let soundVolume = document.getElementById('volumeControlSound').value;
+    WALKING_SOUND.volume = soundVolume;
+    DAMAGE_SOUND.volume = soundVolume;
+    JUMP_SOUND.volume = soundVolume;
+    INTROCHICKEN_SOUND.volume = soundVolume;
+    FLYING_THROWOBJECT.volume = soundVolume;
+    BROKEN_THROWOBJECT.volume = soundVolume;
+    COLLECTBOTTLE_SOUND.volume = soundVolume;
+    COLLECTCOIN_SOUND.volume = soundVolume;
+    ENEMYDAMAGE_SOUND.volume = soundVolume;
+}
+
 function playMenuMusic() {
     if (!ELPOLLOLOCO_SOUND.paused) {
         ELPOLLOLOCO_SOUND.pause();

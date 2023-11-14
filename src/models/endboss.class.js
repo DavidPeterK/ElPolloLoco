@@ -41,8 +41,6 @@ class EndbossChicken extends MovableObject {
         'src/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
-    INTROCHICKEN_SOUND = new Audio('src/sounds/chickenBoss.mp3');
-
     constructor() {
         super().loadImage('src/img/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.WALKING_SET);
@@ -160,7 +158,7 @@ class EndbossChicken extends MovableObject {
         this.isTriggert = true;
         world.level.normalEnemy.push(chickenNormal);
         world.level.smallEnemy.push(chickenSmall);
-        this.INTROCHICKEN_SOUND.play();
+        INTROCHICKEN_SOUND.play();
         world.level.level_start_x = 0;
         world.level.level_end_x = 2776;
         this.bossSkills();

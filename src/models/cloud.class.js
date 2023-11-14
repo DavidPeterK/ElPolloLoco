@@ -1,5 +1,5 @@
 class Cloud extends MovableObject {
-    speed = 0.2;         // speed at which the cloud moves
+
 
     /**
      * Constructor for the Cloud class.
@@ -9,7 +9,7 @@ class Cloud extends MovableObject {
     constructor(image, x) {
         super().loadImage(image);
         this.x = x; this.y = 20;
-        this.width = 500; this.height = 250;
+        this.width = 500; this.height = 250; this.speed = 0.2;
         this.offsetXL = 0; this.offsetXR = 0;
         this.offsetYU = 0; this.offsetYD = 0;
         this.animate();

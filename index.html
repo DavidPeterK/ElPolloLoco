@@ -11,6 +11,7 @@
     <link rel="shortcut icon" href="src/img/8_coin/coin_1.png" type="image/x-icon">
     <link rel="stylesheet" href="./style.css">
 
+    <script src="src/js/sounds.js"></script>
     <script src="src/levels/level-one.js"></script>
     <script src="src/models/level.class.js"></script>
     <script src="src/models/world.class.js"></script>
@@ -37,7 +38,7 @@
 
         <div id="loadScreen" class="loadScreen">
             <img class="loadIcon" src="src/img/8_coin/coin_2.png">
-            <span id="loadSpan">Load....</span>
+            <span id="loadSpan">Load...</span>
         </div>
 
         <div id="menu-container" class="overlay">
@@ -83,6 +84,10 @@
         </div>
 
     </div>
+    <script>
+        document.getElementById('volumeControlMusic').addEventListener('input', setMusicVolume);
+        document.getElementById('volumeControlSound').addEventListener('input', setSoundVolume);
+    </script>
 </body>
 
 </html>

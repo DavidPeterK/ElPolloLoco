@@ -2,8 +2,6 @@ class ThrowableBottle extends MovableObject {
     speed = 0;
     speedY = 25;
     world;
-    FLYING_THROWOBJECT = new Audio('src/sounds/flyingBottle.mp3');
-    BROKEN_THROWOBJECT = new Audio('src/sounds/brokenGlass.mp3');
 
     BROKEN_SET = [
         'src/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
@@ -136,9 +134,9 @@ class ThrowableBottle extends MovableObject {
 
     deleteThrowObject() {
         setTimeout(() => {
-            if (!this.BROKEN_THROWOBJECT.paused) {
-                this.BROKEN_THROWOBJECT.pause();
-                this.BROKEN_THROWOBJECT.currentTime = 0;
+            if (!BROKEN_THROWOBJECT.paused) {
+                BROKEN_THROWOBJECT.pause();
+                BROKEN_THROWOBJECT.currentTime = 0;
             }
             this.collidingStatus = false;
             this.collidingEnemyStatus = false;
@@ -150,16 +148,16 @@ class ThrowableBottle extends MovableObject {
     playBrokeSound() {
         if (this.isAudioPlaying == false) {
             this.isAudioPlaying = true;
-            this.BROKEN_THROWOBJECT.play().catch(error => {
+            BROKEN_THROWOBJECT.play().catch(error => {
                 console.warn('Das Abspielen wurde unterbrochen:', error);
             });
         }
     }
 
     flyingThrowObjectSoundPaused() {
-        if (!this.FLYING_THROWOBJECT.paused) {
-            this.FLYING_THROWOBJECT.pause();
-            this.FLYING_THROWOBJECT.currentTime = 0;
+        if (!FLYING_THROWOBJECT.paused) {
+            FLYING_THROWOBJECT.pause();
+            FLYING_THROWOBJECT.currentTime = 0;
         }
     }
 }
