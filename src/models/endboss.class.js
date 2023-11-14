@@ -41,6 +41,8 @@ class EndbossChicken extends MovableObject {
         'src/img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    INTROCHICKEN_SOUND = new Audio('src/sounds/chickenBoss.mp3');
+
     constructor() {
         super().loadImage('src/img/4_enemie_boss_chicken/1_walk/G1.png');
         this.loadImages(this.WALKING_SET);
@@ -70,6 +72,7 @@ class EndbossChicken extends MovableObject {
     }
 
     triggertEnds() {
+
         setInterval(() => {
             if (this.isIntroOver() && !gameStop) {
                 this.playAnimation(this.ATTACK_SET);
@@ -86,19 +89,23 @@ class EndbossChicken extends MovableObject {
         this.endbossStatus();
         setInterval(() => {
             if (this.isTriggert === true && !gameStop) {
+
                 if (this.isCharacterLeftFromBoss() && !gameStop) {
                     this.otherDirection = false;
                     this.moveLeft()
                 }
+
                 if (this.isCharacterRightFromBoss() && !gameStop) {
                     this.otherDirection = true;
                     this.moveRight();
                 }
+
             }
         }, 20);
     }
 
     endbossStatus() {
+
         setInterval(() => {
             if (this.isDead()) {
                 this.playAnimation(this.DEAD_SET);
@@ -124,10 +131,10 @@ class EndbossChicken extends MovableObject {
     }
 
     closeToCharacter() {
-        return (world.level.character.x + world.level.character.width - world.level.character.offsetXR) - (this.x + this.offsetXL) < 50 &&
-            (world.level.character.x + world.level.character.width - world.level.character.offsetXR) - (this.x + this.offsetXL) > -150
-            || (this.x + this.width - this.offsetXR) - (world.level.character.x + world.level.character.offsetXL) < 50 &&
-            (this.x + this.width - this.offsetXR) - (world.level.character.x + world.level.character.offsetXL) > -150
+        return (world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR) - (this.x + this.offsetXL) < 50 &&
+            (world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR) - (this.x + this.offsetXL) > -150
+            || (this.x + this.width - this.offsetXR) - (world.level.character[0].x + world.level.character[0].offsetXL) < 50 &&
+            (this.x + this.width - this.offsetXR) - (world.level.character[0].x + world.level.character[0].offsetXL) > -150
     }
 
     characterTriggerPosition() {
@@ -148,7 +155,12 @@ class EndbossChicken extends MovableObject {
     }
 
     introEnds() {
+        let chickenNormal = new Chicken(2770, 365);
+        let chickenSmall = new SmallChicken(2770, 300);
         this.isTriggert = true;
+        world.level.normalEnemy.push(chickenNormal);
+        world.level.smallEnemy.push(chickenSmall);
+        this.INTROCHICKEN_SOUND.play();
         world.level.level_start_x = 0;
         world.level.level_end_x = 2776;
         this.bossSkills();
