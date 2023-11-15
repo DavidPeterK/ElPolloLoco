@@ -75,11 +75,69 @@ canvas {
     width: 100%;
     height: 100%;
     color: white;
-    background-color: rgba(0, 0, 0);
-    justify-content: center;
-    align-items: center;
     z-index: 3;
 }
+
+.arrow-left {
+    width: 15%;
+    height: 15%;
+    position: absolute;
+    display: block;
+    top: 83%;
+    left: 0;
+    background-image: url('src/control-img/arrow-left.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.5;
+
+}
+
+.arrow-right {
+    width: 15%;
+    height: 15%;
+    position: absolute;
+    display: block;
+    top: 83%;
+    left: 25%;
+    background-image: url('src/control-img/arrow-right.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.5;
+
+}
+
+.throwObject {
+    width: 15%;
+    height: 15%;
+    position: absolute;
+    display: block;
+    top: 83%;
+    left: 60%;
+    background-image: url('src/control-img/attack.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.5;
+
+}
+
+.arrow-up {
+    width: 15%;
+    height: 15%;
+    position: absolute;
+    display: block;
+    top: 83%;
+    left: 85%;
+    background-image: url('src/control-img/arrow-up.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    opacity: 0.5;
+
+}
+
 
 /*LoadingScreen*/
 .loadScreen {
@@ -110,8 +168,9 @@ canvas {
 
 #loadSpan {
     position: absolute;
-    top: 90%;
-    left: 45%;
+    top: 85%;
+    left: 50%;
+    right: 50%;
     font-weight: bold;
     font-size: 28px;
 }
@@ -136,10 +195,10 @@ canvas {
 
 /*Buttons*/
 button {
-    width: 17.5%;
+    width: 20%;
     height: 10%;
     color: white;
-    font-size: 23px;
+    font-size: 22px;
     border-radius: 15px;
     background: rgba(0, 0, 0, 0.8);
     box-shadow: 1px #fff;
@@ -154,14 +213,14 @@ button:hover {
 #buttonEnd {
     position: absolute;
     top: 87%;
-    left: 70%;
+    left: 72%;
 }
 
 #buttonOption {
     position: absolute;
     display: block;
     top: 87%;
-    left: 40%;
+    left: 42.5%;
 }
 
 #buttonStart {
@@ -174,15 +233,15 @@ button:hover {
 #buttonMainMenu {
     position: absolute;
     display: block;
-    top: 80%;
-    left: 42.5%;
+    top: 87%;
+    left: 74%;
 }
 
 #buttonContinue {
     position: absolute;
     display: block;
-    top: 60%;
-    left: 42.5%;
+    top: 87%;
+    left: 7%;
 }
 
 #pauseSlogen {
@@ -228,6 +287,19 @@ button:hover {
     width: 45%;
 }
 
+#mobileSpan {
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    font-size: 28px;
+}
+
+#mobileOverlayCheckbox {
+    position: absolute;
+    top: 41.5%;
+    left: 60%;
+}
+
 #selectGameEPL {
     position: absolute;
     top: 17.5%;
@@ -236,6 +308,45 @@ button:hover {
     width: 25%;
     height: 25%;
     border-radius: 15px;
+}
+
+#muteIcon {
+    position: absolute;
+    width: 5%;
+    height: 5%;
+    top: 2%;
+    left: 47%;
+    background-image: url('src/control-img/volume-mute.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 3;
+}
+
+#unmuteIcon {
+    position: absolute;
+    width: 5%;
+    height: 5%;
+    top: 2%;
+    left: 47%;
+    background-image: url('src/control-img/volume-up.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 3;
+}
+
+#pauseIcon {
+    position: absolute;
+    width: 5%;
+    height: 5%;
+    top: 2%;
+    left: 53%;
+    background-image: url('src/control-img/pause.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    z-index: 3;
 }
 
 #enter-fullscreen-button {
@@ -274,11 +385,7 @@ button:hover {
         height: auto;
     }
 
-    #buttonEnd {
-        font-size: 2.5vw;
-    }
-
-    #buttonOption {
+    button {
         font-size: 2.5vw;
     }
 

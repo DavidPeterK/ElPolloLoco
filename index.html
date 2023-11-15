@@ -56,9 +56,11 @@
 
         <div id="option-container" class="options d-none">
             <span id="musicSpan">Music</span>
-            <span id="soundSpan">Sounds</span>
             <input type="range" id="volumeControlMusic" min="0" max="1" step="0.01" value="0.5">
+            <span id="soundSpan">Sounds</span>
             <input type="range" id="volumeControlSound" min="0" max="1" step="0.01" value="0.5">
+            <span id="mobileSpan">Mobile Overlay</span>
+            <input type="checkbox" id="mobileOverlayCheckbox" onclick="toggleMobileOverlay()" checked>
             <button onclick="hideOverlay('option-container')" id="buttonBack">
                 BACK
             </button>
@@ -66,24 +68,44 @@
 
         <div id="pauseWindow" class="pauseWindow d-none">
             <span id="pauseSlogen">Pause</span>
-            <button onclick="hideOverlay('pauseWindow'), showOverlay('menu-container'), playMenuMusic()"
+            <button
+                onclick="hideOverlay('pauseWindow'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
                 id="buttonMainMenu">
                 MAIN MENU
             </button>
             <button onclick="showOverlay('option-container')" id="buttonOption">
                 OPTION
             </button>
-            <button onclick="hideOverlay('pauseWindow'), gameStop = false" id="buttonContinue">
+            <button onclick="hideOverlay('pauseWindow'), showMobileOverlay(), gameStop = false" id="buttonContinue">
                 CONTINUE
             </button>
         </div>
 
         <div id="control-container" class="control d-none">
-            <div class="arrow-left"></div>
-            <div class="arrow-right"></div>
-            <div class="throwObject"></div>
-            <div class="arrow-up"></div>
+            <div ontouchstart="touchStart('arrow-left')" ontouchend="touchEnd('arrow-left')"
+                ontouchcancel="touchCancel('arrow-left')" class="arrow-left">
+            </div>
+
+            <div ontouchstart="touchStart('arrow-right')" ontouchend="touchEnd('arrow-right')"
+                ontouchcancel="touchCancel(event, 'arrow-right')" class="arrow-right">
+            </div>
+
+            <div ontouchstart="touchStart('throwObject')" ontouchend="touchEnd('throwObject')"
+                ontouchcancel="touchCancel('throwObject')" class="throwObject">
+            </div>
+
+            <div ontouchstart="touchStart('arrow-up')" ontouchend="touchEnd('arrow-up')"
+                ontouchcancel="touchCancel('arrow-up')" class="arrow-up">
+            </div>
         </div>
+
+        <div id="mutePauseContainer" class="d-none">
+            <div id="pauseIcon" onclick="gameStop =true, showOverlay('pauseWindow'), hideOverlay('control-container')">
+            </div>
+        </div>
+
+        <div id="muteIcon" onclick="muteGame = true, setMusicVolume(), setSoundVolume()" class="d-none"></div>
+        <div id="unmuteIcon" onclick="muteGame = false, setMusicVolume(), setSoundVolume()"></div>
 
         <div id="enter-fullscreen-button" onclick="enterFullScreen(document.getElementById('game-container'))">
             <img src="src/img/icons/up-right-and-down-left-from-center-solid.svg">

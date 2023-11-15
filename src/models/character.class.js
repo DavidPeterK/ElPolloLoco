@@ -287,10 +287,14 @@ class CharacterPepe extends MovableObject {
                 this.lastActiv = new Date().getTime();
                 gameStop = true;
                 showOverlay('pauseWindow');
+                hideOverlay('control-container')
+                hideOverlay('mutePauseContainer')
             } else if (gameStop && !this.pauseControl()) {
                 this.lastActiv = new Date().getTime();
                 gameStop = false;
                 hideOverlay('pauseWindow');
+                showMobileOverlay();
+                showOverlay('mutePauseContainer');
             }
         }
     }

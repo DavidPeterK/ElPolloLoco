@@ -2,6 +2,8 @@ let gameActiv = false;
 let gameStop = true;
 let canvas; let keyboard; let world;
 let coinStorage = 0; let throwObjectsStorage = 0;
+let mobileOverlay = true;
+let muteGame = false;
 
 /**
  * Initializes the game by setting up the canvas and the world.
@@ -23,22 +25,48 @@ function startGame() {
 
 function setMusicVolume() {
     let musicVolume = document.getElementById('volumeControlMusic').value;
-    MENU_SOUND.volume = musicVolume;
-    ELPOLLOLOCO_SOUND.volume = musicVolume;
+    if (muteGame) {
+        showOverlay('unmuteIcon');
+        hideOverlay('muteIcon');
+        MENU_SOUND.volume = 0;
+        ELPOLLOLOCO_SOUND.volume = 0;
+    } else {
+        hideOverlay('unmuteIcon');
+        showOverlay('muteIcon');
+        MENU_SOUND.volume = musicVolume;
+        ELPOLLOLOCO_SOUND.volume = musicVolume;
+
+    }
 }
 
 // Funktion, um die Soundeffektlautstärke zu ändern
 function setSoundVolume() {
     let soundVolume = document.getElementById('volumeControlSound').value;
-    WALKING_SOUND.volume = soundVolume;
-    DAMAGE_SOUND.volume = soundVolume;
-    JUMP_SOUND.volume = soundVolume;
-    INTROCHICKEN_SOUND.volume = soundVolume;
-    FLYING_THROWOBJECT.volume = soundVolume;
-    BROKEN_THROWOBJECT.volume = soundVolume;
-    COLLECTBOTTLE_SOUND.volume = soundVolume;
-    COLLECTCOIN_SOUND.volume = soundVolume;
-    ENEMYDAMAGE_SOUND.volume = soundVolume;
+    if (muteGame) {
+        showOverlay('unmuteIcon');
+        hideOverlay('muteIcon');
+        WALKING_SOUND.volume = 0;
+        DAMAGE_SOUND.volume = 0;
+        JUMP_SOUND.volume = 0;
+        INTROCHICKEN_SOUND.volume = 0;
+        FLYING_THROWOBJECT.volume = 0;
+        BROKEN_THROWOBJECT.volume = 0;
+        COLLECTBOTTLE_SOUND.volume = 0;
+        COLLECTCOIN_SOUND.volume = 0;
+        ENEMYDAMAGE_SOUND.volume = 0;
+    } else {
+        hideOverlay('unmuteIcon');
+        showOverlay('muteIcon');
+        WALKING_SOUND.volume = soundVolume;
+        DAMAGE_SOUND.volume = soundVolume;
+        JUMP_SOUND.volume = soundVolume;
+        INTROCHICKEN_SOUND.volume = soundVolume;
+        FLYING_THROWOBJECT.volume = soundVolume;
+        BROKEN_THROWOBJECT.volume = soundVolume;
+        COLLECTBOTTLE_SOUND.volume = soundVolume;
+        COLLECTCOIN_SOUND.volume = soundVolume;
+        ENEMYDAMAGE_SOUND.volume = soundVolume;
+    }
 }
 
 function playMenuMusic() {
@@ -72,13 +100,24 @@ function hideOverlay(id) {
 function showOverlay(id) {
     let overLay = document.getElementById(id);
     overLay.classList.remove('d-none');
+}
 
+function showMobileOverlay() {
+    if (mobileOverlay) {
+        let overLay = document.getElementById('control-container');
+        overLay.classList.remove('d-none');
+    }
 }
 
 // Toggle-Funktion für Overlays
 function toggleDisplay(elementId) {
     let element = document.getElementById(elementId);
     element.style.display = (element.style.display === 'block') ? 'none' : 'block';
+}
+
+function toggleMobileOverlay() {
+    var checkbox = document.getElementById("mobileOverlayCheckbox");
+    mobileOverlay = checkbox.checked;
 }
 
 function isFullScreen() {
@@ -151,5 +190,50 @@ function exitFullScreen() {
         document.webkitExitFullscreen();
     } else if (document.msExitFullscreen) { /* IE/Edge */
         document.msExitFullscreen();
+    }
+}
+
+function touchStart(id) {
+    if (id === 'arraw-left') {
+        keyboard.LEFT = true;
+    }
+    if (id === 'arrow-right') {
+        keyboard.RIGHT = true;
+    }
+    if (id === 'throwObject') {
+        keyboard.D = true;
+    }
+    if (id === 'arrow-up') {
+        keyboard.UP = true;
+    }
+}
+
+function touchEnd(id) {
+    if (id === 'arraw-left') {
+        keyboard.LEFT = false;
+    }
+    if (id === 'arrow-right') {
+        keyboard.RIGHT = false;
+    }
+    if (id === 'throwObject') {
+        keyboard.D = false;
+    }
+    if (id === 'arrow-up') {
+        keyboard.UP = false;
+    }
+}
+
+function touchCancel(id) {
+    if (id === 'arraw-left') {
+        keyboard.LEFT = false;
+    }
+    if (id === 'arrow-right') {
+        keyboard.RIGHT = false;
+    }
+    if (id === 'throwObject') {
+        keyboard.D = false;
+    }
+    if (id === 'arrow-up') {
+        keyboard.UP = false;
     }
 }

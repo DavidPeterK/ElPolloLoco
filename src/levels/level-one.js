@@ -122,6 +122,8 @@ function startLevelEPL1() {
     playGameMusic();
     setTimeout(() => {
         hideOverlay('loadScreen');
+        showMobileOverlay();
+        showOverlay('mutePauseContainer')
         gameStop = false;
         gameActiv = true;
     }, 3500);
