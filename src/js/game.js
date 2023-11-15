@@ -74,6 +74,7 @@ function showOverlay(id) {
     overLay.classList.remove('d-none');
 
 }
+
 // Toggle-Funktion für Overlays
 function toggleDisplay(elementId) {
     let element = document.getElementById(elementId);

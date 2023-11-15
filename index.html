@@ -68,14 +68,21 @@
             <span id="pauseSlogen">Pause</span>
             <button onclick="hideOverlay('pauseWindow'), showOverlay('menu-container'), playMenuMusic()"
                 id="buttonMainMenu">
-                Main Menu
+                MAIN MENU
             </button>
             <button onclick="showOverlay('option-container')" id="buttonOption">
                 OPTION
             </button>
             <button onclick="hideOverlay('pauseWindow'), gameStop = false" id="buttonContinue">
-                Continue
+                CONTINUE
             </button>
+        </div>
+
+        <div id="control-container" class="control d-none">
+            <div class="arrow-left"></div>
+            <div class="arrow-right"></div>
+            <div class="throwObject"></div>
+            <div class="arrow-up"></div>
         </div>
 
         <div id="enter-fullscreen-button" onclick="enterFullScreen(document.getElementById('game-container'))">
