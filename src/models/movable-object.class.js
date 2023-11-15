@@ -1,4 +1,4 @@
-const HURT_TIME = 1.5; // Sekunden
+const HURT_TIME = 2; // Sekunden
 const THROW_TIME = 3; // Sekunden
 const BLOCK_TIME = 0.5; // Sekunden
 const SLEEP_TIME = 10; // Sekunden

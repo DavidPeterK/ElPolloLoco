@@ -11,6 +11,8 @@ let muteGame = false;
 function init() {
     // Get the canvas element from the DOM
     setTimeout(() => {
+        setMusicVolume();
+        setSoundVolume();
         playMenuMusic();
         hideOverlay('loadScreen');
         checkIcon();
@@ -43,8 +45,8 @@ function setMusicVolume() {
 function setSoundVolume() {
     let soundVolume = document.getElementById('volumeControlSound').value;
     if (muteGame) {
-        showOverlay('unmuteIcon');
-        hideOverlay('muteIcon');
+        hideOverlay('unmuteIcon');
+        showOverlay('muteIcon');
         WALKING_SOUND.volume = 0;
         DAMAGE_SOUND.volume = 0;
         JUMP_SOUND.volume = 0;
@@ -55,8 +57,8 @@ function setSoundVolume() {
         COLLECTCOIN_SOUND.volume = 0;
         ENEMYDAMAGE_SOUND.volume = 0;
     } else {
-        hideOverlay('unmuteIcon');
-        showOverlay('muteIcon');
+        showOverlay('unmuteIcon');
+        hideOverlay('muteIcon');
         WALKING_SOUND.volume = soundVolume;
         DAMAGE_SOUND.volume = soundVolume;
         JUMP_SOUND.volume = soundVolume;

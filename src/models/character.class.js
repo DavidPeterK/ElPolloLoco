@@ -55,9 +55,9 @@ class CharacterPepe extends MovableObject {
         'src/img/2_character_pepe/5_dead/D-53.png',
         'src/img/2_character_pepe/5_dead/D-54.png',
         'src/img/2_character_pepe/5_dead/D-55.png',
-        'src/img/2_character_pepe/5_dead/D-56.png',
-        'src/img/2_character_pepe/5_dead/D-57.png'
+        'src/img/2_character_pepe/5_dead/D-56.png'
     ];
+
 
     HURT_SET = [
         'src/img/2_character_pepe/4_hurt/H-41.png',
@@ -128,10 +128,19 @@ class CharacterPepe extends MovableObject {
     }
 
     characterStatus() {
-
+        let isEnd = false;
         setInterval(() => {
             if (this.isDead() && !gameStop) {
-                this.playAnimation(this.DEAD_SET);
+
+                if (!isEnd) {
+                    this.playAnimation(this.DEAD_SET);
+
+                } else {
+                    this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');
+                }
+                setTimeout(() => {
+                    isEnd = true;
+                }, 800);
             }
         }, 160);
 
@@ -160,7 +169,7 @@ class CharacterPepe extends MovableObject {
         }, 160);
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() || this.world.keyboard.LEFT && !gameStop && !this.isNotOnGround()) {
+            if (this.world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() && !this.isDead() || this.world.keyboard.LEFT && !gameStop && !this.isNotOnGround() && !this.isDead()) {
                 this.lastMove = new Date().getTime();
                 this.playAnimation(this.WALKING_SET);
             }
@@ -262,7 +271,7 @@ class CharacterPepe extends MovableObject {
     }
 
     walkLeft() {
-        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x && !gameStop) {
+        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x && !gameStop && !this.isDead()) {
             this.otherDirection = true;
             this.moveLeft();
             WALKING_SOUND.play().catch(error => {
@@ -272,7 +281,7 @@ class CharacterPepe extends MovableObject {
     }
 
     walkRight() {
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !gameStop) {
+        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !gameStop && !this.isDead()) {
             this.otherDirection = false;
             this.moveRight();
             WALKING_SOUND.play().catch(error => {
