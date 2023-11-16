@@ -38,6 +38,11 @@
 
         <div id="gameOverScreen" class="gameOverScreen d-none">
             <img class="gameOverImage" src="src/img/9_intro_outro_screens/game_over/game over.png">
+            <button
+                onclick="hideOverlay('gameOverScreen'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
+                id="buttonMainMenuGameOver">
+                MAIN MENU
+            </button>
         </div>
 
         <div id="loadScreen" class="loadScreen">

@@ -259,6 +259,13 @@ button:hover {
     left: 10%;
 }
 
+#buttonMainMenuGameOver {
+    position: absolute;
+    display: block;
+    top: 87%;
+    left: 40%;
+}
+
 #buttonMainMenu {
     position: absolute;
     display: block;
@@ -418,6 +425,9 @@ button:hover {
         font-size: 2.5vw;
     }
 
+    #musicSpan,
+    #soundSpan,
+    #mobileSpan,
     #loadSpan {
         font-size: 2.5vw;
         right: 46%;

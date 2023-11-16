@@ -131,15 +131,15 @@ class CharacterPepe extends MovableObject {
         let isEnd = false;
         setInterval(() => {
             if (this.isDead() && !gameStop) {
-
                 if (!isEnd) {
                     this.playAnimation(this.DEAD_SET);
-
                 } else {
                     this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');
                 }
                 setTimeout(() => {
                     isEnd = true;
+                    LOSE_SOUND.play();
+                    this.gameOver();
                 }, 800);
             }
         }, 160);
@@ -321,6 +321,14 @@ class CharacterPepe extends MovableObject {
             console.warn('Das Abspielen wurde unterbrochen:', error);
         });
 
+    }
+
+    gameOver() {
+        setTimeout(() => {
+            gameStop = true;
+            hideOverlay('control-container');
+            showOverlay('gameOverScreen');
+        }, 1000);
     }
 
 }
