@@ -423,7 +423,6 @@ button:hover {
 
 
 
-/* Media queries für responsive Anpassungen */
 @media only screen and (max-width: 720px) {
     #game-container {
         width: 100%;
@@ -463,16 +462,11 @@ button:hover {
     height: auto;
 }
 
-/* New styles for fullscreen mode */
 .fullscreen {
     width: 100vw;
-    /* Set width to 100% of the viewport width */
     height: 100vh;
-    /* Set height to 100% of the viewport height */
     max-width: 100%;
-    /* Ensure it does not exceed the viewport width */
     max-height: 100%;
-    /* Ensure it does not exceed the viewport height */
 }
 
 canvas.fullscreen {
