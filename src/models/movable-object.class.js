@@ -13,7 +13,7 @@ class MovableObject extends DrawableObject {
     level = levelEPL1;
     thisLeftOffset; thisRightOffset;
 
-    isAudioPlaying = false;
+    isAudioPlaying = false; nullStatus = false;
     collidingStatus = false; collidingEnemyStatus = false; otherDirection = false;
     triggerAnimation = false; isTriggert = false;
 
@@ -40,6 +40,35 @@ class MovableObject extends DrawableObject {
 
     }
 
+    hit() {
+        if (this instanceof CharacterPepe) {
+            this.mainHealth -= 20;
+            this.lastHit = new Date().getTime();
+            if (this.mainHealth < 0) {
+                this.mainHealth = 0;
+            }
+        }
+        if (this instanceof EndbossChicken) {
+            this.endbossHealth -= 200;
+            this.lastHit = new Date().getTime();
+            if (this.endbossHealth < 0) {
+                this.endbossHealth = 0;
+            }
+        }
+        if (this instanceof Chicken) {
+            this.normalEnemyHealth -= 100;
+            if (this.normalEnemyHealth < 0) {
+                this.normalEnemyHealth = 0;
+            }
+        }
+        if (this instanceof SmallChicken) {
+            this.smallEnemyHealth -= 100;
+            if (this.smallEnemyHealth < 0) {
+                this.smallEnemyHealth = 0;
+            }
+        }
+    }
+
     isColliding(object) {
         if (object !== null) {
             this.whatIsMyDirection();
@@ -50,38 +79,6 @@ class MovableObject extends DrawableObject {
             } else {
                 return null;  // Keine Kollision
             }
-        } else { return null }
-    }
-
-    hit() {
-        if (this instanceof CharacterPepe) {
-            this.mainHealth -= 20;
-            if (this.mainHealth < 0) {
-                this.mainHealth = 0;
-            }
-        }
-        if (this instanceof EndbossChicken) {
-            this.endbossHealth -= 200;
-            if (this.endbossHealth < 0) {
-                this.endbossHealth = 0;
-            }
-
-        }
-        if (this instanceof Chicken) {
-            this.normalEnemyHealth -= 100;
-            if (this.normalEnemyHealth < 0) {
-                this.normalEnemyHealth = 0;
-            }
-
-        }
-        if (this instanceof SmallChicken) {
-            this.smallEnemyHealth -= 100;
-            if (this.smallEnemyHealth < 0) {
-                this.smallEnemyHealth = 0;
-            }
-
-        } else {
-            this.lastHit = new Date().getTime();
         }
     }
 
@@ -160,22 +157,10 @@ class MovableObject extends DrawableObject {
         this.speedY = 25;
     }
 
-    isItNormalEnemy(objects) {
-        return world.level.normalEnemy.includes(objects);
-    }
-
-    isItSmallEnemy(objects) {
-        return world.level.smallEnemy.includes(objects);
-    }
-
     collisionWithNormalEnemy() {
         world.level.normalEnemy.forEach((normalEnemys, index) => {
             if (normalEnemys !== null) {
-                if (normalEnemys.isDead()) {
-                    this.deleteNormalEnemy(index);
-                } else if (!normalEnemys.isDead()) {
-                    this.collisionDirection(normalEnemys, index);
-                }
+                this.collisionDirection(normalEnemys, index);
             }
         });
     }
@@ -183,11 +168,7 @@ class MovableObject extends DrawableObject {
     collisionWithSmallEnemy() {
         world.level.smallEnemy.forEach((smallEnemys, index) => {
             if (smallEnemys !== null) {
-                if (smallEnemys.isDead()) {
-                    this.deleteSmallEnemy(index);
-                } else if (!smallEnemys.isDead()) {
-                    this.collisionDirection(smallEnemys, index);
-                }
+                this.collisionDirection(smallEnemys, index);
             }
         });
     }
@@ -209,41 +190,39 @@ class MovableObject extends DrawableObject {
     }
 
     collisionWithCollectableThrowObeject() {
-        world.level.collectableThrowObjects.forEach((collectThrowObjects, index) => {
-            if (collectThrowObjects !== null) {
-                this.collisionDirection(collectThrowObjects, index);
+        world.level.collectableThrowObjects.forEach((collectThrowObject, index) => {
+            if (collectThrowObject !== null) {
+                this.collisionDirection(collectThrowObject, index);
             }
         });
     }
 
     deleteNormalEnemy(index) {
         setTimeout((currentIndex) => {
-            world.level.normalEnemy[currentIndex] = null;
-        }, 1400, index);
+            world.level.normalEnemy[currentIndex].y = 800;
+        }, 1000, index);
     }
 
     deleteSmallEnemy(index) {
         setTimeout((currentIndex) => {
-            world.level.smallEnemy[currentIndex] = null;
-        }, 1400, index);
+            world.level.smallEnemy[currentIndex].y = 800;
+        }, 1000, index);
     }
 
-    /////////////////////////////////////////////////////
+    isItNormalEnemy(objects) {
+        return world.level.normalEnemy.includes(objects);
+    }
+
     isNormalEnemyAlive(objects, index) {
         return objects == world.level.normalEnemy[index] && !world.level.normalEnemy[index].isDead();
     }
-    ////////////////////////////////////////////////////
+
+    isItSmallEnemy(objects) {
+        return world.level.smallEnemy.includes(objects);
+    }
+
     isSmallEnemyAlive(objects, index) {
         return objects == world.level.smallEnemy[index] && !world.level.smallEnemy[index].isDead();
-    }
-    ////////////////////////////////////////////////////
-
-    isItCoin(objects) {
-        return world.level.coin.includes(objects);
-    }
-
-    isItCollectableThrowObject(objects) {
-        return world.level.collectableThrowObjects.includes(objects);
     }
 
     isItEndboss(objects) {
@@ -254,6 +233,14 @@ class MovableObject extends DrawableObject {
         return objects == world.level.endboss[0] && !world.level.endboss[0].isDead();
     }
 
+    isItCoin(objects) {
+        return world.level.coin.includes(objects);
+    }
+
+    isItCollectableThrowObject(objects) {
+        return world.level.collectableThrowObjects.includes(objects);
+    }
+
     isCharacterLeftFromBoss() {
         return world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR < this.x + this.offsetXL && !this.isDead() && !this.isHurt();
     }
@@ -262,4 +249,19 @@ class MovableObject extends DrawableObject {
         return world.level.character[0].x + world.level.character[0].offsetXL > this.x + this.width - this.offsetXL && !this.isDead() && !this.isHurt();
     }
 
+    gameOver() {
+        setTimeout(() => {
+            gameStop = true;
+            hideOverlay('control-container');
+            showOverlay('gameOverScreen');
+        }, 1000);
+    }
+
+    gameWin() {
+        setTimeout(() => {
+            gameStop = true;
+            hideOverlay('control-container');
+            showOverlay('gameWinScreen');
+        }, 1000);
+    }
 }

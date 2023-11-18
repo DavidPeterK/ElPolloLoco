@@ -45,6 +45,15 @@
             </button>
         </div>
 
+        <div id="gameWinScreen" class="gameWinScreen d-none">
+            <img class="gameWinImage" src="src/img/9_intro_outro_screens/game-win/win.png">
+            <button
+                onclick="hideOverlay('gameWinScreen'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
+                id="buttonMainMenuGameWin">
+                MAIN MENU
+            </button>
+        </div>
+
         <div id="loadScreen" class="loadScreen">
             <img class="loadIcon" src="src/img/8_coin/coin_2.png">
             <span id="loadSpan">Load...</span>

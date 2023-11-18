@@ -80,14 +80,16 @@ class ThrowableBottle extends MovableObject {
     }
 
     throwObjectTouchNormalEnemy(objects, index) {
-        if (objects == world.level.normalEnemy[index]) {
+        if (this.isNormalEnemyAlive(objects, index)) {
             world.level.normalEnemy[index].hit();
+            this.deleteNormalEnemy(index);
         }
     }
 
     throwObjectTouchSmallEnemy(objects, index) {
-        if (objects == world.level.smallEnemy[index]) {
+        if (this.isSmallEnemyAlive(objects, index)) {
             world.level.smallEnemy[index].hit();
+            this.deleteSmallEnemy(index);
         }
     }
 

@@ -1,6 +1,5 @@
 class CharacterPepe extends MovableObject {
 
-    world;
 
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -83,6 +82,7 @@ class CharacterPepe extends MovableObject {
         this.applyGravity();
         this.animate();
         this.characterStatus();
+        this.worldCollisions();
     }
 
     animate() {
@@ -93,9 +93,11 @@ class CharacterPepe extends MovableObject {
             this.takeALeap();
             this.throwTheObject();
             this.gamePaused();
-            this.world.camera_x = -this.x + 100;
+            world.camera_x = -this.x + 100;
         }, 1000 / 60);
+    }
 
+    worldCollisions() {
         setInterval(() => {
             if (!gameStop) {
                 this.collisionWithNormalEnemy()
@@ -169,7 +171,7 @@ class CharacterPepe extends MovableObject {
         }, 160);
 
         setInterval(() => {
-            if (this.world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() && !this.isDead() || this.world.keyboard.LEFT && !gameStop && !this.isNotOnGround() && !this.isDead()) {
+            if (world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() && !this.isDead() || world.keyboard.LEFT && !gameStop && !this.isNotOnGround() && !this.isDead()) {
                 this.lastMove = new Date().getTime();
                 this.playAnimation(this.WALKING_SET);
             }
@@ -208,10 +210,10 @@ class CharacterPepe extends MovableObject {
     }
 
     characterGetsDamage(objects, index) {
-        if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects) || this.isItSmallEnemy(objects)) {
+        if (this.isNormalEnemyAlive(objects, index) || this.isEndbossAlive(objects) || this.isSmallEnemyAlive(objects, index)) {
             DAMAGE_SOUND.play();
             this.hit();
-            this.world.level.statusBarChar[0].setStatusBar(this.mainHealth);
+            world.level.statusBarChar[0].setStatusBar(this.mainHealth);
         }
     }
 
@@ -219,7 +221,8 @@ class CharacterPepe extends MovableObject {
         if (this.isNormalEnemyAlive(objects, index)) {
             this.jump();
             ENEMYDAMAGE_SOUND.play();
-            this.world.level.normalEnemy[index].hit();
+            world.level.normalEnemy[index].hit();
+            this.deleteNormalEnemy(index);
         }
     }
 
@@ -227,7 +230,8 @@ class CharacterPepe extends MovableObject {
         if (this.isSmallEnemyAlive(objects, index)) {
             ENEMYDAMAGE_SOUND.play();
             this.jump();
-            this.world.level.smallEnemy[index].hit();
+            world.level.smallEnemy[index].hit();
+            this.deleteSmallEnemy(index);
         }
     }
 
@@ -239,39 +243,39 @@ class CharacterPepe extends MovableObject {
             }
             COLLECTBOTTLE_SOUND.play();
             throwObjectsStorage += 1;
-            this.world.level.collectableThrowObjects[index] = null;
+            world.level.collectableThrowObjects[index] = null;
         }
     }
 
     collectCoin(objects, index) {
-        if (objects == this.world.level.coin[index]) {
+        if (objects == world.level.coin[index]) {
             if (!COLLECTCOIN_SOUND.paused) {
                 COLLECTCOIN_SOUND.pause();
                 COLLECTCOIN_SOUND.currentTime = 0;
             }
             COLLECTCOIN_SOUND.play();
             coinStorage += 1;
-            this.world.level.coin[index] = null;
+            world.level.coin[index] = null;
         }
     }
 
     throwTheObject() {
-        if (this.world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0 && !gameStop) {
+        if (world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0 && !gameStop) {
             this.lastThrow = new Date().getTime();
             this.createABottle();
-            this.world.level.throwObject[0].throw();
+            world.level.throwObject[0].throw();
         }
     }
 
     takeALeap() {
-        if ((this.world.keyboard.SPACE && !this.isNotOnGround() || this.world.keyboard.UP) && !this.isNotOnGround() && !gameStop) {
+        if ((world.keyboard.SPACE && !this.isNotOnGround() || world.keyboard.UP) && !this.isNotOnGround() && !gameStop) {
             this.jump();
             JUMP_SOUND.play();
         }
     }
 
     walkLeft() {
-        if (this.world.keyboard.LEFT && this.x > this.world.level.level_start_x && !gameStop && !this.isDead()) {
+        if (world.keyboard.LEFT && this.x > world.level.level_start_x && !gameStop && !this.isDead()) {
             this.otherDirection = true;
             this.moveLeft();
             WALKING_SOUND.play().catch(error => {
@@ -281,7 +285,7 @@ class CharacterPepe extends MovableObject {
     }
 
     walkRight() {
-        if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !gameStop && !this.isDead()) {
+        if (world.keyboard.RIGHT && this.x < world.level.level_end_x && !gameStop && !this.isDead()) {
             this.otherDirection = false;
             this.moveRight();
             WALKING_SOUND.play().catch(error => {
@@ -291,7 +295,7 @@ class CharacterPepe extends MovableObject {
     }
 
     gamePaused() {
-        if (this.world.keyboard.P && gameActiv) {
+        if (world.keyboard.P && gameActiv) {
             if (!gameStop && !this.pauseControl()) {
                 this.lastActiv = new Date().getTime();
                 gameStop = true;
@@ -309,7 +313,7 @@ class CharacterPepe extends MovableObject {
     }
 
     isStillStanding() {
-        return !this.isNotOnGround() && !this.world.keyboard.RIGHT && !this.world.keyboard.LEFT;
+        return !this.isNotOnGround() && !world.keyboard.RIGHT && !world.keyboard.LEFT;
     }
 
     createABottle() {
@@ -322,13 +326,4 @@ class CharacterPepe extends MovableObject {
         });
 
     }
-
-    gameOver() {
-        setTimeout(() => {
-            gameStop = true;
-            hideOverlay('control-container');
-            showOverlay('gameOverScreen');
-        }, 1000);
-    }
-
 }

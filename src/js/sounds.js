@@ -21,5 +21,6 @@ let COLLECTCOIN_SOUND = new Audio('src/sounds/touchCoin.mp3');
 //ENEMY
 let ENEMYDAMAGE_SOUND = new Audio('src/sounds/chickenDead.mp3');
 
-//GAME OVER
+//GAME OVER & WIN
 let LOSE_SOUND = new Audio('src/sounds/gameLose.mp3');
+let WIN_SOUND = new Audio('src/sounds/gameWin.mp3');

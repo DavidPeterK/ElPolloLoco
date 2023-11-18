@@ -13,9 +13,9 @@ function init() {
     setTimeout(() => {
         setMusicVolume();
         setSoundVolume();
-        playMenuMusic();
         hideOverlay('loadScreen');
         checkIcon();
+        playMenuMusic();
     }, 4000);
 }
 

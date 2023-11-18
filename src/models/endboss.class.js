@@ -70,7 +70,6 @@ class EndbossChicken extends MovableObject {
     }
 
     triggertEnds() {
-
         setInterval(() => {
             if (this.isIntroOver() && !gameStop) {
                 this.playAnimation(this.ATTACK_SET);
@@ -87,31 +86,37 @@ class EndbossChicken extends MovableObject {
         this.endbossStatus();
         setInterval(() => {
             if (this.isTriggert === true && !gameStop) {
-
                 if (this.isCharacterLeftFromBoss() && !gameStop) {
                     this.otherDirection = false;
                     this.moveLeft()
                 }
-
                 if (this.isCharacterRightFromBoss() && !gameStop) {
                     this.otherDirection = true;
                     this.moveRight();
                 }
-
             }
         }, 20);
     }
 
     endbossStatus() {
-
+        let isEnd = false;
         setInterval(() => {
-            if (this.isDead()) {
-                this.playAnimation(this.DEAD_SET);
+            if (this.isDead() && !gameStop) {
+                if (!isEnd) {
+                    this.playAnimation(this.DEAD_SET);
+                } else {
+                    this.loadImage('src/img/4_enemie_boss_chicken/5_dead/G26.png');
+                }
+                setTimeout(() => {
+                    isEnd = true;
+                    WIN_SOUND.play();
+                    this.gameWin();
+                }, 1800);
             }
-        }, 1800);
+        }, 600);
 
         setInterval(() => {
-            if (this.isHurt() && !this.isDead()) {
+            if (this.isHurt() && !this.isDead() && !gameStop) {
                 this.playAnimation(this.HURT_SET);
             }
         }, 300);
@@ -121,8 +126,9 @@ class EndbossChicken extends MovableObject {
                 this.playAnimation(this.WALKING_SET);
             }
         }, 230);
+
         setInterval(() => {
-            if (this.closeToCharacter() && !gameStop) {
+            if (this.closeToCharacter() && !gameStop && !this.isDead()) {
                 this.playAnimation(this.ATTACK_SET);
             }
         }, 230);
