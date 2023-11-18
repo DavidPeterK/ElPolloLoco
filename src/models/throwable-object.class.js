@@ -29,16 +29,18 @@ class ThrowableBottle extends MovableObject {
         this.offsetXL = 10; this.offsetXR = 10;
         this.offsetYU = 0; this.offsetYD = 0;
         this.applyGravity();
-        this.checkMoments();
+        this.worldCollisions();
     }
 
-    checkMoments() {
+    worldCollisions() {
         setInterval(() => {
             this.collisionWithNormalEnemy()
         }, 1000 / 60);
+
         setInterval(() => {
             this.collisionWithSmallEnemy();
         }, 1000 / 60);
+
         setInterval(() => {
             this.collisionWithEndboss();
         }, 1000 / 60);

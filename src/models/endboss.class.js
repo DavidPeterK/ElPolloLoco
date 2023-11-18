@@ -102,16 +102,7 @@ class EndbossChicken extends MovableObject {
         let isEnd = false;
         setInterval(() => {
             if (this.isDead() && !gameStop) {
-                if (!isEnd) {
-                    this.playAnimation(this.DEAD_SET);
-                } else {
-                    this.loadImage('src/img/4_enemie_boss_chicken/5_dead/G26.png');
-                }
-                setTimeout(() => {
-                    isEnd = true;
-                    WIN_SOUND.play();
-                    this.gameWin();
-                }, 1800);
+                this.endAnimation(isEnd);
             }
         }, 600);
 
@@ -149,7 +140,6 @@ class EndbossChicken extends MovableObject {
         return this.triggerAnimation == true && this.isTriggert == false;
     }
 
-
     triggerAnimationClip() {
         this.playAnimation(this.ALERT_SET);
         setTimeout(() => {
@@ -168,5 +158,18 @@ class EndbossChicken extends MovableObject {
         world.level.level_start_x = 0;
         world.level.level_end_x = 2776;
         this.bossSkills();
+    }
+
+    endAnimation(isEnd) {
+        if (!isEnd) {
+            this.playAnimation(this.DEAD_SET);
+        } else {
+            this.loadImage('src/img/4_enemie_boss_chicken/5_dead/G26.png');
+        }
+        setTimeout(() => {
+            isEnd = true;
+            WIN_SOUND.play();
+            this.gameWin();
+        }, 1800);
     }
 }

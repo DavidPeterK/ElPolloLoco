@@ -133,16 +133,7 @@ class CharacterPepe extends MovableObject {
         let isEnd = false;
         setInterval(() => {
             if (this.isDead() && !gameStop) {
-                if (!isEnd) {
-                    this.playAnimation(this.DEAD_SET);
-                } else {
-                    this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');
-                }
-                setTimeout(() => {
-                    isEnd = true;
-                    LOSE_SOUND.play();
-                    this.gameOver();
-                }, 800);
+                this.loseAnimation(isEnd);
             }
         }, 160);
 
@@ -324,6 +315,18 @@ class CharacterPepe extends MovableObject {
         FLYING_THROWOBJECT.play().catch(error => {
             console.warn('Das Abspielen wurde unterbrochen:', error);
         });
+    }
 
+    loseAnimation(isEnd) {
+        if (!isEnd) {
+            this.playAnimation(this.DEAD_SET);
+        } else {
+            this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');
+        }
+        setTimeout(() => {
+            isEnd = true;
+            LOSE_SOUND.play();
+            this.gameOver();
+        }, 800);
     }
 }
