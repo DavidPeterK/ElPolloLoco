@@ -10,7 +10,7 @@ class World {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
-        this.level = levelEPL1;
+        this.level = level;
         this.draw();
     }
 

@@ -1,10 +1,10 @@
 class StatusBar extends DrawableObject {
-    mainHealth = 100;
-    endbossHealth = 1000;
     world;
     type;
     coinStorage;
     collectableThrowObjectsStorage;
+    mainHealth;
+    endbossHealth;
 
 
     STATUS_COIN = [

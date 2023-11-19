@@ -1,4 +1,4 @@
-let levelEPL1;
+let level;
 
 const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
 const LAYER_PATH = 'src/img/5_background/layers/';
@@ -117,7 +117,8 @@ function startLevelEPL1() {
             new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
-
+    level = '';
+    level.push(levelEPL1);
     startGame();
     playGameMusic();
     setTimeout(() => {
@@ -126,5 +127,7 @@ function startLevelEPL1() {
         showOverlay('mutePauseContainer')
         gameStop = false;
         gameActiv = true;
+        coinStorage = 0;
+        throwObjectsStorage = 0;
     }, 3500);
 }
