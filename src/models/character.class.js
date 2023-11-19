@@ -68,25 +68,20 @@ class CharacterPepe extends MovableObject {
 
     constructor() {
         super().loadImage('src/img/2_character_pepe/1_idle/idle/I-1.png');
-        this.loadImages(this.STILL_STANDING_SET);
-        this.loadImages(this.WALKING_SET);
-        this.loadImages(this.JUMP_SET);
-        this.loadImages(this.DEAD_SET);
-        this.loadImages(this.HURT_SET);
-        this.loadImages(this.SLEEPING_SET);
+        this.loadImages(this.STILL_STANDING_SET); this.loadImages(this.WALKING_SET);
+        this.loadImages(this.JUMP_SET); this.loadImages(this.DEAD_SET);
+        this.loadImages(this.HURT_SET); this.loadImages(this.SLEEPING_SET);
         this.x = 120; this.y = 163;
         this.width = 110; this.height = 270; this.speed = 5;
         this.offsetXL = 25; this.offsetXR = 35;
-        this.offsetYU = 120; this.offsetYD = 20;
+        this.offsetYU = 120; this.offsetYD = 30;
         this.mainHealth = 100; this.isEnd = false;
-        this.applyGravity();
-        this.animate();
-        this.characterStatus();
-        this.worldCollisions();
+        this.applyGravity(); this.animate();
+        this.characterStatus(); this.worldCollisions();
     }
 
     animate() {
-        const update = () => {
+        setInterval(() => {
             if (!gameStop) {
                 WALKING_SOUND.pause();
                 this.walkRight();
@@ -96,9 +91,7 @@ class CharacterPepe extends MovableObject {
                 this.gamePaused();
                 world.camera_x = -this.x + 100;
             }
-            requestAnimationFrame(update);
-        };
-        requestAnimationFrame(update);
+        }, 1000 / 60);
     }
 
     worldCollisions() {
@@ -116,42 +109,12 @@ class CharacterPepe extends MovableObject {
     }
 
     characterStatus() {
-        setInterval(() => {
-            if (this.isDead() && !gameStop) {
-                this.loseAnimation();
-            }
-        }, 160);
-
-        setInterval(() => {
-            if (this.isHurt() && !this.isDead() && !gameStop) {
-                this.playAnimation(this.HURT_SET);
-            }
-        }, 200);
-
-        setInterval(() => {
-            if (this.isNotOnGround() && !gameStop) {
-                this.playAnimation(this.JUMP_SET);
-            }
-        }, 120);
-
-        setInterval(() => {
-            if (this.isStillStanding() && this.isNotSleeping() && !gameStop && !this.isDead()) {
-                this.playAnimation(this.STILL_STANDING_SET);
-            }
-        }, 250);
-
-        setInterval(() => {
-            if (this.isStillStanding() && !this.isNotSleeping() && !gameStop && !this.isDead()) {
-                this.playAnimation(this.SLEEPING_SET);
-            }
-        }, 160);
-
-        setInterval(() => {
-            if (world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() && !this.isDead() || world.keyboard.LEFT && !gameStop && !this.isNotOnGround() && !this.isDead()) {
-                this.lastMove = new Date().getTime();
-                this.playAnimation(this.WALKING_SET);
-            }
-        }, 100);
+        this.deadAnimation();
+        this.damageAnimation();
+        this.jumpAnimation();
+        this.noMoveAnimation();
+        this.sleepingAnimation();
+        this.walkingAnimation();
     }
 
     collisionDirection(objects, index) {
@@ -211,30 +174,6 @@ class CharacterPepe extends MovableObject {
         }
     }
 
-    collectAThrowObject(objects, index) {
-        if (objects == world.level.collectableThrowObjects[index]) {
-            if (!COLLECTBOTTLE_SOUND.paused) {
-                COLLECTBOTTLE_SOUND.pause();
-                COLLECTBOTTLE_SOUND.currentTime = 0;
-            }
-            COLLECTBOTTLE_SOUND.play();
-            throwObjectsStorage += 1;
-            world.level.collectableThrowObjects[index] = null;
-        }
-    }
-
-    collectCoin(objects, index) {
-        if (objects == world.level.coin[index]) {
-            if (!COLLECTCOIN_SOUND.paused) {
-                COLLECTCOIN_SOUND.pause();
-                COLLECTCOIN_SOUND.currentTime = 0;
-            }
-            COLLECTCOIN_SOUND.play();
-            coinStorage += 1;
-            world.level.coin[index] = null;
-        }
-    }
-
     throwTheObject() {
         if (world.keyboard.D && !this.isThrowing() && throwObjectsStorage > 0 && !gameStop) {
             this.lastThrow = new Date().getTime();
@@ -272,24 +211,12 @@ class CharacterPepe extends MovableObject {
 
     gamePaused() {
         if (world.keyboard.P && gameActiv) {
-            if (!gameStop && !this.pauseControl()) {
-                this.lastActiv = new Date().getTime();
-                gameStop = true;
-                showOverlay('pauseWindow');
-                hideOverlay('control-container')
-                hideOverlay('mutePauseContainer')
-            } else if (gameStop && !this.pauseControl()) {
-                this.lastActiv = new Date().getTime();
-                gameStop = false;
-                hideOverlay('pauseWindow');
-                showMobileOverlay();
-                showOverlay('mutePauseContainer');
-            }
+            this.togglePause();
         }
     }
 
     isStillStanding() {
-        return !this.isNotOnGround() && !world.keyboard.RIGHT && !world.keyboard.LEFT;
+        return !this.isNotOnGround() && !world.keyboard.RIGHT && !world.keyboard.LEFT && !this.isHurt();
     }
 
     createABottle() {
@@ -302,16 +229,83 @@ class CharacterPepe extends MovableObject {
         });
     }
 
-    loseAnimation(isEnd) {
+    loseAnimation() {
         if (!this.isEnd) {
             this.playAnimation(this.DEAD_SET);
         } else {
             this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');
         }
         setTimeout(() => {
-            isEnd = true;
+            this.isEnd = true;
             LOSE_SOUND.play();
             this.gameOver();
         }, 800);
+    }
+
+    togglePause() {
+        if (!gameStop && !this.pauseControl()) {
+            this.lastActiv = new Date().getTime();
+            gameStop = true;
+            showOverlay('pauseWindow');
+            hideOverlay('control-container')
+            hideOverlay('mutePauseContainer')
+        } else if (gameStop && !this.pauseControl()) {
+            this.lastActiv = new Date().getTime();
+            gameStop = false;
+            hideOverlay('pauseWindow');
+            showMobileOverlay();
+            showOverlay('mutePauseContainer');
+        }
+    }
+
+    walkingAnimation() {
+        setInterval(() => {
+            if (world.keyboard.RIGHT && !gameStop && !this.isNotOnGround() && !this.isDead() && !this.isHurt() || world.keyboard.LEFT && !gameStop && !this.isNotOnGround() && !this.isDead() && !this.isHurt()) {
+                this.lastMove = new Date().getTime();
+                this.playAnimation(this.WALKING_SET);
+            }
+        }, 100);
+    }
+
+    sleepingAnimation() {
+        setInterval(() => {
+            if (this.isStillStanding() && !this.isNotSleeping() && !gameStop && !this.isDead()) {
+                this.playAnimation(this.SLEEPING_SET);
+            }
+        }, 160);
+    }
+
+    noMoveAnimation() {
+        setInterval(() => {
+            if (this.isStillStanding() && this.isNotSleeping() && !gameStop && !this.isDead()) {
+                this.playAnimation(this.STILL_STANDING_SET);
+            }
+        }, 250);
+    }
+
+    jumpAnimation() {
+        setInterval(() => {
+            if (this.isNotOnGround() && !gameStop && !this.isHurt()) {
+                this.lastMove = new Date().getTime();
+                this.playAnimation(this.JUMP_SET);
+            }
+        }, 120);
+    }
+
+    damageAnimation() {
+        setInterval(() => {
+            if (this.isHurt() && !this.isDead() && !gameStop) {
+                this.lastMove = new Date().getTime();
+                this.playAnimation(this.HURT_SET);
+            }
+        }, 450);
+    }
+
+    deadAnimation() {
+        setInterval(() => {
+            if (this.isDead() && !gameStop) {
+                this.loseAnimation();
+            }
+        }, 160);
     }
 }

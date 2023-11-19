@@ -8,7 +8,8 @@ let DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
 let JUMP_SOUND = new Audio('src/sounds/jump.mp3');
 
 //ENDBOSS CHICKEN
-let INTROCHICKEN_SOUND = new Audio('src/sounds/chickenBoss.mp3');
+let INTROCHICKEN_SOUND = new Audio('src/sounds/endbossSpawnAnimation.mp3');
+let INTROCHICKEN_MUSIC = new Audio('src/sounds/endBossSpawn.mp3');
 
 //BOTTLE (THROWOBJECT)
 let FLYING_THROWOBJECT = new Audio('src/sounds/flyingBottle.mp3');

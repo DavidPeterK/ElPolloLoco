@@ -1,11 +1,36 @@
+/* sniglet-regular - latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Sniglet';
+    font-style: normal;
+    font-weight: 400;
+    src: url('src/fonts/sniglet-v17-latin-regular.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* sniglet-800 - latin */
+@font-face {
+    font-display: swap;
+    /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+    font-family: 'Sniglet';
+    font-style: normal;
+    font-weight: 800;
+    src: url('src/fonts/sniglet-v17-latin-800.woff2') format('woff2');
+    /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 body {
     margin: 0;
     padding: 0;
     display: flex;
+    font-family: Sniglet;
+    font-weight: 800;
     justify-content: center;
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    background-color: black;
 }
 
 #game-container {
@@ -201,7 +226,7 @@ canvas {
 #loadSpan {
     position: absolute;
     top: 85%;
-    right: 43.5%;
+    right: 42, 5%;
     font-weight: bold;
     font-size: 28px;
 }
@@ -226,6 +251,7 @@ canvas {
 
 /*Buttons*/
 button {
+    font-family: Sniglet;
     width: 20%;
     height: 10%;
     color: white;
@@ -381,6 +407,16 @@ button:hover {
     z-index: 3;
 }
 
+#volumeControlSound,
+#volumeControlMusic,
+#enter-fullscreen-button,
+#exit-fullscreen-button,
+#pauseIcon,
+#muteIcon,
+#unmuteIcon:hover {
+    cursor: pointer;
+}
+
 #pauseIcon {
     position: absolute;
     width: 5%;
@@ -430,15 +466,15 @@ button:hover {
     }
 
     button {
-        font-size: 2.5vw;
+        font-size: 2.9vw;
     }
 
     #musicSpan,
     #soundSpan,
     #mobileSpan,
     #loadSpan {
-        font-size: 2.5vw;
-        right: 46%;
+        font-size: 2.9vw;
+        right: 44%;
     }
 }
 

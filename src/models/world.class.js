@@ -15,15 +15,15 @@ class World {
     }
 
     draw() {
-        //alle bilder im canvas löschen
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        //bilder aus classen rendern (zeichnen) ebene für ebene
+
         this.backGroundObjects();
         this.gameObjects();
         this.fixedObjects();
+
         this.ctx.translate(-this.camera_x, 0);
-        //funktionen so oft und schnell wiederholen wie die grafikkarte es aushält 
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -93,14 +93,9 @@ class World {
     }
 
     numbersForCollectables() {
-        // Einstellen des Stils für den Text
         this.ctx.font = '40px Arial';
         this.ctx.fillStyle = 'white';
-
-        // Zeichnen der Anzahl der ThrowObjects
         this.ctx.fillText(`${throwObjectsStorage}`, 110, 162);
-
-        // Zeichnen der Anzahl der Coins
         this.ctx.fillText(`${coinStorage}`, 110, 102);
     }
 }

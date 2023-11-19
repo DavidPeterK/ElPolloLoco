@@ -92,7 +92,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
             this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 20;
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 30;
     }
 
     whatIsMyDirection() {
@@ -194,6 +194,30 @@ class MovableObject extends DrawableObject {
                 this.collisionDirection(collectThrowObject, index);
             }
         });
+    }
+
+    collectAThrowObject(objects, index) {
+        if (objects == world.level.collectableThrowObjects[index]) {
+            if (!COLLECTBOTTLE_SOUND.paused) {
+                COLLECTBOTTLE_SOUND.pause();
+                COLLECTBOTTLE_SOUND.currentTime = 0;
+            }
+            COLLECTBOTTLE_SOUND.play();
+            throwObjectsStorage += 2;
+            world.level.collectableThrowObjects[index] = null;
+        }
+    }
+
+    collectCoin(objects, index) {
+        if (objects == world.level.coin[index]) {
+            if (!COLLECTCOIN_SOUND.paused) {
+                COLLECTCOIN_SOUND.pause();
+                COLLECTCOIN_SOUND.currentTime = 0;
+            }
+            COLLECTCOIN_SOUND.play();
+            coinStorage += 1;
+            world.level.coin[index] = null;
+        }
     }
 
     deleteNormalEnemy(index) {

@@ -38,18 +38,14 @@
 
         <div id="gameOverScreen" class="gameOverScreen d-none">
             <img class="gameOverImage" src="src/img/9_intro_outro_screens/game_over/game over.png">
-            <button
-                onclick="hideOverlay('gameOverScreen'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
-                id="buttonMainMenuGameOver">
+            <button onclick="restartGame()" id="buttonMainMenuGameOver">
                 MAIN MENU
             </button>
         </div>
 
         <div id="gameWinScreen" class="gameWinScreen d-none">
             <img class="gameWinImage" src="src/img/9_intro_outro_screens/game-win/win.png">
-            <button
-                onclick="hideOverlay('gameWinScreen'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
-                id="buttonMainMenuGameWin">
+            <button onclick="restartGame()" id="buttonMainMenuGameWin">
                 MAIN MENU
             </button>
         </div>

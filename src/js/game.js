@@ -25,6 +25,10 @@ function startGame() {
     world = new World(canvas, keyboard, levelEPL1);
 }
 
+function restartGame() {
+    location.reload();
+}
+
 function setMusicVolume() {
     let musicVolume = document.getElementById('volumeControlMusic').value;
     if (muteGame) {
@@ -88,6 +92,15 @@ function playGameMusic() {
     }
     ELPOLLOLOCO_SOUND.play();
     ELPOLLOLOCO_SOUND.loop = true;
+}
+
+function playEndbossMusic() {
+    if (!ELPOLLOLOCO_SOUND.paused) {
+        ELPOLLOLOCO_SOUND.pause();
+        ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+    }
+    INTROCHICKEN_MUSIC.play();
+    INTROCHICKEN_MUSIC.loop = true;
 }
 
 function closeGame() {

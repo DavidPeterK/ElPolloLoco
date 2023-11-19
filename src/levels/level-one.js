@@ -5,7 +5,6 @@ const LAYER_PATH = 'src/img/5_background/layers/';
 
 
 function startLevelEPL1() {
-    levelEPL1 = '';
     levelEPL1 = new Level(
         [
             new CharacterPepe(),
@@ -16,13 +15,21 @@ function startLevelEPL1() {
         ],
 
         [
-            new Chicken(450, 365),
-            new Chicken(450, 365),
-            new Chicken(450, 365)
+            new Chicken(450),
+            new Chicken(550),
+            new Chicken(650),
+            new Chicken(750),
+            new Chicken(950),
+            new Chicken(1500),
+            new Chicken(2000)
         ],
 
         [
-            new SmallChicken(400, 300),
+            new SmallChicken(400),
+            new SmallChicken(900),
+            new SmallChicken(1400),
+            new SmallChicken(2400),
+            new SmallChicken(2800),
         ],
 
         [
@@ -92,30 +99,20 @@ function startLevelEPL1() {
         ],
 
         [
-            new Coin(420, 280),
-            new Coin(520, 180),
-            new Coin(620, 80),
-            new Coin(720, 180),
-            new Coin(820, 280),
-            new Coin(900, 280),
-            new Coin(1000, 280),
-            new Coin(1100, 280),
-            new Coin(1200, 280),
-            new Coin(1300, 280),
-            new Coin(1420, 280),
-            new Coin(1520, 180),
-            new Coin(1620, 80),
-            new Coin(1720, 180),
+            new Coin(420, 280), new Coin(520, 180),
+            new Coin(620, 80), new Coin(720, 180),
+            new Coin(820, 280), new Coin(900, 280),
+            new Coin(1000, 280), new Coin(1100, 280),
+            new Coin(1200, 280), new Coin(1300, 280),
+            new Coin(1420, 280), new Coin(1520, 180),
+            new Coin(1620, 80), new Coin(1720, 180),
             new Coin(1820, 280),
         ],
 
         [
-            new SalsaBottle(320, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(620, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(920, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(1220, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(1520, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
-            new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(320, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), new SalsaBottle(620, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(920, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), new SalsaBottle(1220, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
+            new SalsaBottle(1520, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'), new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
     startGame();
@@ -126,7 +123,5 @@ function startLevelEPL1() {
         showOverlay('mutePauseContainer')
         gameStop = false;
         gameActiv = true;
-        coinStorage = 0;
-        throwObjectsStorage = 0;
     }, 3500);
 }
