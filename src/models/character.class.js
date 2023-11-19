@@ -78,6 +78,7 @@ class CharacterPepe extends MovableObject {
         this.width = 110; this.height = 270; this.speed = 5;
         this.offsetXL = 25; this.offsetXR = 35;
         this.offsetYU = 120; this.offsetYD = 20;
+        this.mainHealth = 100; this.isEnd = false;
         this.applyGravity();
         this.animate();
         this.characterStatus();
@@ -115,10 +116,9 @@ class CharacterPepe extends MovableObject {
     }
 
     characterStatus() {
-        let isEnd = false;
         setInterval(() => {
             if (this.isDead() && !gameStop) {
-                this.loseAnimation(isEnd);
+                this.loseAnimation();
             }
         }, 160);
 
@@ -303,7 +303,7 @@ class CharacterPepe extends MovableObject {
     }
 
     loseAnimation(isEnd) {
-        if (!isEnd) {
+        if (!this.isEnd) {
             this.playAnimation(this.DEAD_SET);
         } else {
             this.loadImage('src/img/2_character_pepe/5_dead/D-56.png');

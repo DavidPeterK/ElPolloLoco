@@ -12,7 +12,7 @@ class MovableObject extends DrawableObject {
     smallEnemyHealth = 100; endbossHealth = 1000;
     thisLeftOffset; thisRightOffset;
 
-    isAudioPlaying = false; nullStatus = false;
+    isAudioPlaying = false; nullStatus = false; isEnd = false;
     collidingStatus = false; collidingEnemyStatus = false; otherDirection = false;
     triggerAnimation = false; isTriggert = false;
 
@@ -251,6 +251,7 @@ class MovableObject extends DrawableObject {
     gameOver() {
         setTimeout(() => {
             gameStop = true;
+            this.mainHealth = 100;
             hideOverlay('control-container');
             showOverlay('gameOverScreen');
         }, 1000);

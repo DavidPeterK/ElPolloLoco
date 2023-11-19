@@ -1,10 +1,11 @@
-let level;
+let levelEPL1;
 
 const CLOUD_PATH = 'src/img/5_background/layers/4_clouds/';
 const LAYER_PATH = 'src/img/5_background/layers/';
 
 
 function startLevelEPL1() {
+    levelEPL1 = '';
     levelEPL1 = new Level(
         [
             new CharacterPepe(),
@@ -117,8 +118,6 @@ function startLevelEPL1() {
             new SalsaBottle(2120, 'src/img/6_salsa_bottle/1_salsa_bottle_on_ground.png'),
         ],
     );
-    level = '';
-    level.push(levelEPL1);
     startGame();
     playGameMusic();
     setTimeout(() => {

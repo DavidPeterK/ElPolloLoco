@@ -22,7 +22,7 @@ function init() {
 function startGame() {
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, levelEPL1);
 }
 
 function setMusicVolume() {

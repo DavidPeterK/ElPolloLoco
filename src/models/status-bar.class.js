@@ -3,7 +3,7 @@ class StatusBar extends DrawableObject {
     type;
     coinStorage;
     collectableThrowObjectsStorage;
-    mainHealth;
+    mainHealth = 100;
     endbossHealth;
 
 
