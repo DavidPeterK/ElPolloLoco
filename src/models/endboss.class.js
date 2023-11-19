@@ -133,19 +133,25 @@ class EndbossChicken extends MovableObject {
         this.playAnimation(this.ALERT_SET);
         setTimeout(() => {
             this.triggerAnimation = true;
+            INTROCHICKEN_END.play();
             this.triggertEnds();
         }, 2500);
     }
 
     introEnds() {
-        let chickenNormal = new Chicken(2670);
-        let chickenSmall = new SmallChicken(2670, 300);
         this.isTriggert = true;
-        world.level.normalEnemy.push(chickenNormal);
-        world.level.smallEnemy.push(chickenSmall);
+        this.createEnemys();
+        this.createEnemys();
         world.level.level_start_x = 0;
         world.level.level_end_x = 2776;
         this.bossSkills();
+    }
+
+    createEnemys() {
+        let chickenNormal = new Chicken(this.x);
+        let chickenSmall = new SmallChicken(this.x);
+        world.level.normalEnemy.push(chickenNormal);
+        world.level.smallEnemy.push(chickenSmall);
     }
 
     attackAnimation() {

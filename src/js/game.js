@@ -8,6 +8,7 @@ let mobileOverlay = true; let muteGame = false;
  */
 function init() {
     setTimeout(() => {
+        playMenuMusic();
         setMusicVolume();
         setSoundVolume();
         hideOverlay('loadScreen');

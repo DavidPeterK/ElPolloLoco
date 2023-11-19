@@ -1,8 +1,7 @@
-const HURT_TIME = 2; // Sekunden
-const THROW_TIME = 3; // Sekunden
-const BLOCK_TIME = 0.5; // Sekunden
-const SLEEP_TIME = 10; // Sekunden
-
+const HURT_TIME = 2;
+const THROW_TIME = 3;
+const BLOCK_TIME = 0.5;
+const SLEEP_TIME = 10;
 class MovableObject extends DrawableObject {
 
     speed = 0.2; speedY = 0; acceleration = 2;

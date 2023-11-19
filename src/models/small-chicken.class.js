@@ -15,23 +15,27 @@ class SmallChicken extends MovableObject {
         this.loadImages(this.WALKING_SET);
         this.loadImages(this.DEAD_SET);
         this.x = x + Math.random() * 500;
-        this.y = 300;
+        this.y = 375;
         this.width = 70; this.height = 55;
         this.offsetXL = 10; this.offsetXR = 10;
-        this.offsetYU = 15; this.offsetYD = 0;
-        this.speed = 0.5 + Math.random() * 0.5;
+        this.offsetYU = 20; this.offsetYD = 0;
+        this.speed = 0.5 + Math.random() * 1.5;
         this.smallEnemyHealth = 100;
+        this.smallChickenMove();
         this.animate();
         this.applyGravity();
     }
-    animate() {
+
+    smallChickenMove() {
         setInterval(() => {
             if (!this.isDead() && !gameStop) {
                 this.moveLeft();
                 this.intervalJump();
             }
         }, 1000 / 60);
+    }
 
+    animate() {
         setInterval(() => {
             if (!this.isDead() && !gameStop) {
                 this.playAnimation(this.WALKING_SET);
@@ -42,9 +46,15 @@ class SmallChicken extends MovableObject {
     }
 
     intervalJump() {
-        if (!this.isNotOnGround()) {
-            this.speedY += 10
+        let JUMP_TIME = 1 + Math.random() * 0.8
+        if (!this.isNotOnGround() && !this.isJumped(JUMP_TIME)) {
+            this.lastJump = new Date().getTime();
+            this.speedY += 23;
         }
+    }
+
+    isJumped(JUMP_TIME) {
+        return this.timeSince(this.lastJump) < JUMP_TIME;
     }
 
 

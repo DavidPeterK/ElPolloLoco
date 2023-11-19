@@ -8,6 +8,7 @@ const DAMAGE_SOUND = new Audio('src/sounds/characterDamage.mp3');
 const JUMP_SOUND = new Audio('src/sounds/jump.mp3');
 
 //ENDBOSS CHICKEN
+const INTROCHICKEN_END = new Audio('src/sounds/chickenBoss.mp3');
 const INTROCHICKEN_SOUND = new Audio('src/sounds/endbossSpawnAnimation.mp3');
 const INTROCHICKEN_MUSIC = new Audio('src/sounds/endBossSpawn.mp3');
 

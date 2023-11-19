@@ -12,16 +12,17 @@ function startLevelEPL1() {
         ],
 
         [
-            new Chicken(450), new Chicken(550),
-            new Chicken(650), new Chicken(750),
-            new Chicken(950), new Chicken(1500),
-            new Chicken(2000)
+            new Chicken(550), new Chicken(750),
+            new Chicken(950), new Chicken(1350),
+            new Chicken(1750), new Chicken(2100),
+            new Chicken(2700)
         ],
 
         [
-            new SmallChicken(400), new SmallChicken(900),
-            new SmallChicken(1400), new SmallChicken(2400),
-            new SmallChicken(2800),
+            new SmallChicken(500), new SmallChicken(900),
+            new SmallChicken(1100), new SmallChicken(1400),
+            new SmallChicken(1800), new SmallChicken(2400),
+            new SmallChicken(2700),
         ],
 
         [
