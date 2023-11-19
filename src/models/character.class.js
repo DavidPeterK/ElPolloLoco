@@ -1,6 +1,5 @@
 class CharacterPepe extends MovableObject {
 
-
     STILL_STANDING_SET = [
         'src/img/2_character_pepe/1_idle/idle/I-1.png',
         'src/img/2_character_pepe/1_idle/idle/I-2.png',
@@ -86,47 +85,33 @@ class CharacterPepe extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
-            WALKING_SOUND.pause();
-            this.walkRight();
-            this.walkLeft();
-            this.takeALeap();
-            this.throwTheObject();
-            this.gamePaused();
-            world.camera_x = -this.x + 100;
-        }, 1000 / 60);
+        const update = () => {
+            if (!gameStop) {
+                WALKING_SOUND.pause();
+                this.walkRight();
+                this.walkLeft();
+                this.takeALeap();
+                this.throwTheObject();
+                this.gamePaused();
+                world.camera_x = -this.x + 100;
+            }
+            requestAnimationFrame(update);
+        };
+        requestAnimationFrame(update);
     }
 
     worldCollisions() {
-        setInterval(() => {
+        const checkCollisions = () => {
             if (!gameStop) {
-                this.collisionWithNormalEnemy()
-            }
-        }, 1000 / 60);
-
-        setInterval(() => {
-            if (!gameStop) {
+                this.collisionWithNormalEnemy();
                 this.collisionWithSmallEnemy();
-            }
-        }, 1000 / 60);
-
-        setInterval(() => {
-            if (!gameStop) {
                 this.collisionWithEndboss();
-            }
-        }, 1000 / 60);
-
-        setInterval(() => {
-            if (!gameStop) {
                 this.collisionWithCoin();
+                this.collisionWithCollectableThrowObject();
             }
-        }, 1000 / 60);
-
-        setInterval(() => {
-            if (!gameStop) {
-                this.collisionWithCollectableThrowObeject();
-            }
-        }, 1000 / 60);
+            requestAnimationFrame(checkCollisions);
+        };
+        requestAnimationFrame(checkCollisions);
     }
 
     characterStatus() {

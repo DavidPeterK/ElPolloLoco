@@ -1,6 +1,5 @@
 class BackgroundObject extends MovableObject {
 
-    x;                   // x-coordinate of the background object
     y = 0;               // y-coordinate, initialized to 0
     width = 720;         // default width
     height = 480;        // default height

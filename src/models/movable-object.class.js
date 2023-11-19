@@ -10,7 +10,6 @@ class MovableObject extends DrawableObject {
 
     mainHealth = 100; normalEnemyHealth = 100;
     smallEnemyHealth = 100; endbossHealth = 1000;
-    level = levelEPL1;
     thisLeftOffset; thisRightOffset;
 
     isAudioPlaying = false; nullStatus = false;
@@ -189,7 +188,7 @@ class MovableObject extends DrawableObject {
         });
     }
 
-    collisionWithCollectableThrowObeject() {
+    collisionWithCollectableThrowObject() {
         world.level.collectableThrowObjects.forEach((collectThrowObject, index) => {
             if (collectThrowObject !== null) {
                 this.collisionDirection(collectThrowObject, index);
