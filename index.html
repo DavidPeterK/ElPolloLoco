@@ -31,7 +31,7 @@
     <script src="src/js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body onload="init(), playMenuMusic()">
     <div id="game-container">
 
         <canvas id="canvas" width="720" height="480"></canvas>
@@ -56,8 +56,7 @@
         </div>
 
         <div id="menu-container" class="overlay">
-            <button onclick="startLevelEPL1(), hideOverlay('menu-container'), showOverlay('loadScreen')"
-                id="buttonStart">
+            <button onclick="startGame(), hideOverlay('menu-container'), showOverlay('loadScreen')" id="buttonStart">
                 START
             </button>
             <button onclick="showOverlay('option-container')" id="buttonOption">

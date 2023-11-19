@@ -1,28 +1,33 @@
-let gameActiv = false;
-let gameStop = true;
-let canvas; let keyboard; let world;
+let gameActiv = false; let gameStop = true;
+let canvas; let keyboard; let world; let levelEPL1;
 let coinStorage = 0; let throwObjectsStorage = 0;
-let mobileOverlay = true;
-let muteGame = false;
+let mobileOverlay = true; let muteGame = false;
 
 /**
  * Initializes the game by setting up the canvas and the world.
  */
 function init() {
-    // Get the canvas element from the DOM
     setTimeout(() => {
         setMusicVolume();
         setSoundVolume();
         hideOverlay('loadScreen');
         checkIcon();
-        playMenuMusic();
     }, 4000);
 }
 
 function startGame() {
+    startLevelEPL1()
     keyboard = new Keyboard();
     canvas = document.getElementById('canvas');
-    world = new World(canvas, keyboard, levelEPL1);
+    world = new World(canvas, keyboard);
+    playGameMusic();
+    setTimeout(() => {
+        hideOverlay('loadScreen');
+        showMobileOverlay();
+        showOverlay('mutePauseContainer')
+        gameStop = false;
+        gameActiv = true;
+    }, 3500);
 }
 
 function restartGame() {

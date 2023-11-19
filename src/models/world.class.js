@@ -6,22 +6,20 @@ class World {
     camera_x = 0;
 
 
-    constructor(canvas, keyboard, level) {
+    constructor(canvas, keyboard) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
-        this.level = level;
+        this.level = levelEPL1;
         this.draw();
     }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-
         this.backGroundObjects();
         this.gameObjects();
         this.fixedObjects();
-
         this.ctx.translate(-this.camera_x, 0);
 
         let self = this;
@@ -52,13 +50,9 @@ class World {
     }
 
     flipImage(draw) {
-        //save speichert alle ctx werte und mit restore() können wir mit diesen speicher fortfahren
         this.ctx.save();
-        //bei bewegungung nach links wird die breite des bildes auf der stelle festgehalten
         this.ctx.translate(draw.width, 0);
-        //spiegelt das bild (links bewegung)
         this.ctx.scale(-1, 1);
-        //bei spiegelung wird die x koordinate mit gespiegelt und damit setzt man dies zurück
         draw.x = draw.x * -1;
     }
 

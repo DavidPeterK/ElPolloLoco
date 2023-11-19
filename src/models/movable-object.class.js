@@ -16,7 +16,10 @@ class MovableObject extends DrawableObject {
     collidingStatus = false; collidingEnemyStatus = false; otherDirection = false;
     triggerAnimation = false; isTriggert = false;
 
-
+    /**
+    * Applies gravity to the object, affecting its vertical position.
+    * This method is called at regular intervals to simulate the effect of gravity.
+    */
     applyGravity() {
         setInterval(() => {
             if (this.isNotOnGround() && !gameStop || this.speedY > 0 && !gameStop) {
@@ -26,6 +29,10 @@ class MovableObject extends DrawableObject {
         }, 1000 / 35);
     }
 
+    /**
+     * Checks if the object is not on the ground.
+     * Different types of objects have different ground levels, and this method checks against those.
+     */
     isNotOnGround() {
         if (this instanceof ThrowableBottle) {
             return this.y < 420 - this.height;
@@ -36,10 +43,20 @@ class MovableObject extends DrawableObject {
         if (this instanceof CharacterPepe) {
             return this.y < 163;
         }
-
     }
 
+    /**
+     * Handles the impact of a hit on the object.
+     * It reduces the health of the object based on the type of object and updates the last hit time.
+     */
     hit() {
+        this.charHit();
+        this.normalEnemyHit();
+        this.smallEnemyHit();
+        this.endbossHit();
+    }
+
+    charHit() {
         if (this instanceof CharacterPepe) {
             this.mainHealth -= 20;
             this.lastHit = new Date().getTime();
@@ -47,19 +64,18 @@ class MovableObject extends DrawableObject {
                 this.mainHealth = 0;
             }
         }
-        if (this instanceof EndbossChicken) {
-            this.endbossHealth -= 200;
-            this.lastHit = new Date().getTime();
-            if (this.endbossHealth < 0) {
-                this.endbossHealth = 0;
-            }
-        }
+    }
+
+    normalEnemyHit() {
         if (this instanceof Chicken) {
             this.normalEnemyHealth -= 100;
             if (this.normalEnemyHealth < 0) {
                 this.normalEnemyHealth = 0;
             }
         }
+    }
+
+    smallEnemyHit() {
         if (this instanceof SmallChicken) {
             this.smallEnemyHealth -= 100;
             if (this.smallEnemyHealth < 0) {
@@ -68,6 +84,21 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    endbossHit() {
+        if (this instanceof EndbossChicken) {
+            this.endbossHealth -= 200;
+            this.lastHit = new Date().getTime();
+            if (this.endbossHealth < 0) {
+                this.endbossHealth = 0;
+            }
+        }
+    }
+
+    /**
+     * Determines if the object is colliding with another object.
+     * It checks for general and falling collisions and returns the type of collision if any.
+     * @param {Object} object - The object to check for collision with.
+     */
     isColliding(object) {
         if (object !== null) {
             this.whatIsMyDirection();
