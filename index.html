@@ -74,7 +74,34 @@
             <input type="range" id="volumeControlSound" min="0" max="1" step="0.01" value="0.5">
             <span id="mobileSpan">Mobile Overlay</span>
             <input type="checkbox" id="mobileOverlayCheckbox" onclick="toggleMobileOverlay()" checked>
+            <button onclick="hideOverlay('option-container'), showOverlay('how-to-play-container')"
+                id="buttonHowToPlay">
+                !HOW TO PLAY!
+            </button>
             <button onclick="hideOverlay('option-container')" id="buttonBack">
+                BACK
+            </button>
+        </div>
+
+        <div id="how-to-play-container" class="howToPlay d-none">
+            <h2>HOW TO PLAY</h2>
+            <div class="keyFunction">
+                <span class="key">D</span><span>"Throw Object"</span>
+            </div>
+            <div class="keyFunction">
+                <span class="key">P</span><span>"Pause"</span>
+            </div>
+            <div class="keyFunction">
+                <span class="key">Arrow Up & Space</span><span>"Jump"</span>
+            </div>
+            <div class="keyFunction">
+                <span class="key">Arrow Left</span><span>"Move Left"</span>
+            </div>
+            <div class="keyFunction">
+                <span class="key">Arrow Right</span><span>"Move Right"</span>
+            </div>
+
+            <button onclick="showOverlay('option-container'), hideOverlay('how-to-play-container')" id="buttonBack">
                 BACK
             </button>
         </div>
