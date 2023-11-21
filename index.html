@@ -37,7 +37,7 @@
         <canvas id="canvas" width="720" height="480"></canvas>
 
         <div id="gameOverScreen" class="gameOverScreen d-none">
-            <img class="gameOverImage" src="src/img/9_intro_outro_screens/game_over/game over.png">
+            <img class="gameOverImage" src="src/img/9_intro_outro_screens/game_over/game-over.png">
             <button onclick="restartGame()" id="buttonMainMenuGameOver">
                 MAIN MENU
             </button>
@@ -146,9 +146,7 @@
 
         <div id="pauseWindow" class="pauseWindow d-none">
             <span id="pauseSlogen">Pause</span>
-            <button
-                onclick="hideOverlay('pauseWindow'), hideOverlay('mutePauseContainer'), showOverlay('menu-container'), playMenuMusic()"
-                id="buttonMainMenu">
+            <button onclick="restartGame()" id="buttonMainMenu">
                 MAIN MENU
             </button>
             <button onclick="showOverlay('option-container')" id="buttonOption">
@@ -165,7 +163,7 @@
             </div>
 
             <div ontouchstart="touchStart('arrow-right')" ontouchend="touchEnd('arrow-right')"
-                ontouchcancel="touchCancel(event, 'arrow-right')" class="arrow-right">
+                ontouchcancel="touchCancel('arrow-right')" class="arrow-right">
             </div>
 
             <div ontouchstart="touchStart('throwObject')" ontouchend="touchEnd('throwObject')"

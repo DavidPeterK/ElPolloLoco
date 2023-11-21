@@ -215,7 +215,7 @@ function exitFullScreen() {
 }
 
 function touchStart(id) {
-    if (id === 'arraw-left') {
+    if (id === 'arrow-left') {
         keyboard.LEFT = true;
     }
     if (id === 'arrow-right') {
@@ -230,7 +230,7 @@ function touchStart(id) {
 }
 
 function touchEnd(id) {
-    if (id === 'arraw-left') {
+    if (id === 'arrow-left') {
         keyboard.LEFT = false;
     }
     if (id === 'arrow-right') {
@@ -245,7 +245,7 @@ function touchEnd(id) {
 }
 
 function touchCancel(id) {
-    if (id === 'arraw-left') {
+    if (id === 'arrow-left') {
         keyboard.LEFT = false;
     }
     if (id === 'arrow-right') {
