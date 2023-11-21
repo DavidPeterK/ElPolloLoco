@@ -76,7 +76,7 @@
             <input type="checkbox" id="mobileOverlayCheckbox" onclick="toggleMobileOverlay()" checked>
             <button onclick="hideOverlay('option-container'), showOverlay('how-to-play-container')"
                 id="buttonHowToPlay">
-                !HOW TO PLAY!
+                ! HOW TO PLAY !
             </button>
             <button onclick="hideOverlay('option-container')" id="buttonBack">
                 BACK
@@ -85,20 +85,58 @@
 
         <div id="how-to-play-container" class="howToPlay d-none">
             <h2>HOW TO PLAY</h2>
-            <div class="keyFunction">
-                <span class="key">D</span><span>"Throw Object"</span>
-            </div>
-            <div class="keyFunction">
-                <span class="key">P</span><span>"Pause"</span>
-            </div>
-            <div class="keyFunction">
-                <span class="key">Arrow Up & Space</span><span>"Jump"</span>
-            </div>
-            <div class="keyFunction">
-                <span class="key">Arrow Left</span><span>"Move Left"</span>
-            </div>
-            <div class="keyFunction">
-                <span class="key">Arrow Right</span><span>"Move Right"</span>
+            <div class="how-to-play-flex">
+                <div class="how-to-play-column">
+                    <div class="square">
+                        <span class="key">D</span>
+                    </div>
+                    <div class="square">
+                        <span class="key">P</span>
+                    </div>
+                    <div class="square">
+                        <span>Arrow Up & Space</span>
+                    </div>
+                    <div class="square">
+                        <span>Arrow Left</span>
+                    </div>
+                    <div class="square">
+                        <span>Arrow Right</span>
+                    </div>
+                </div>
+                <div class="how-to-play-column">
+                    <div class="square">
+                        <img class="how-to-play-bottle" src="src/img/6_salsa_bottle/salsa_bottle.png">
+                    </div>
+                    <div class="square">
+                        <img class="how-to-play-pause" src="src/control-img/pause-white.svg">
+                    </div>
+                    <div class="square">
+                        <img class="how-to-play-pepe" src="src/img/2_character_pepe/3_jump/J-36.png">
+                    </div>
+                    <div class="square">
+                        <img class="how-to-play-pepeLeft" src="src/img/2_character_pepe/2_walk/W-23.png">
+                    </div>
+                    <div class="square">
+                        <img class="how-to-play-pepeRight" src="src/img/2_character_pepe/2_walk/W-23.png">
+                    </div>
+                </div>
+                <div class="how-to-play-column">
+                    <div class="square">
+                        <span>"Throw Object"</span>
+                    </div>
+                    <div class="square">
+                        <span>"Pause"</span>
+                    </div>
+                    <div class="square">
+                        <span>"Jump"</span>
+                    </div>
+                    <div class="square">
+                        <span>"Move Left"</span>
+                    </div>
+                    <div class="square">
+                        <span>"Move Right"</span>
+                    </div>
+                </div>
             </div>
 
             <button onclick="showOverlay('option-container'), hideOverlay('how-to-play-container')" id="buttonBack">

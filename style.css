@@ -121,9 +121,10 @@ canvas {
     z-index: 4;
 }
 
+/*HOW TO PLAY*/
 .howToPlay {
     position: absolute;
-    display: block;
+    display: flex;
     flex-direction: column;
     align-items: center;
     top: 0;
@@ -135,14 +136,79 @@ canvas {
     z-index: 4;
 }
 
-.keyFunction {
-    display: block;
+h2 {
+    text-decoration: underline;
+    font-size: 32px;
+}
+
+.how-to-play-flex {
+    display: flex;
+    width: 100%;
+    height: 55%;
     justify-content: space-between;
-    width: 85%;
+    font-size: 22px;
+    font-weight: normal;
+
+}
+
+.how-to-play-column {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    align-items: flex-start;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+}
+
+.how-to-play-bottle {
+    width: 20%;
+    height: auto;
+    object-fit: contain;
+}
+
+.how-to-play-pause {
+    width: 10%;
+    height: auto;
+    object-fit: contain;
+}
+
+.how-to-play-pepe {
+    width: 20%;
+    height: auto;
+    margin-top: -20px;
+}
+
+.how-to-play-pepeLeft {
+    width: 21%;
+    height: auto;
+    transform: rotateY(180deg);
+    margin-top: -24px;
+
+}
+
+.how-to-play-pepeRight {
+    width: 21%;
+    height: auto;
+    margin-top: -24px;
 }
 
 .key {
-    font-size: 22px;
+    border: 2px solid white;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 5px;
+
 }
 
 .control {
@@ -278,7 +344,7 @@ button {
     color: white;
     font-size: 22px;
     border-radius: 15px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.6);
     box-shadow: 1px #fff;
     z-index: 3;
 }
@@ -349,6 +415,15 @@ button:hover {
     display: block;
     top: 80%;
     left: 42.5%;
+}
+
+#buttonHowToPlay {
+    position: absolute;
+    display: block;
+    width: 30%;
+    top: 55%;
+    left: 37.5%;
+    border: #fff 1px solid;
 }
 
 #musicSpan {
@@ -490,6 +565,11 @@ button:hover {
         font-size: 2.9vw;
     }
 
+    h2 {
+        font-size: 3.4vw;
+    }
+
+    .how-to-play-flex,
     #musicSpan,
     #soundSpan,
     #mobileSpan,
@@ -507,6 +587,34 @@ button:hover {
 }
 
 /* Sicherstellen, dass das Spiel im Vollbildmodus korrekt dargestellt wird */
+:fullscreen #volumeControlSound,
+:-webkit-full-screen #volumeControlSound {
+    top: 25.5%;
+}
+
+:fullscreen #volumeControlMusic,
+:-webkit-full-screen #volumeControlMusic {
+    top: 10.5%;
+}
+
+:fullscreen .how-to-play-pepeRight,
+:-webkit-full-screen .how-to-play-pepeRight {
+    width: 15%;
+    height: auto;
+}
+
+:fullscreen .how-to-play-pepeLeft,
+:-webkit-full-screen .how-to-play-pepeLeft {
+    width: 15%;
+    height: auto;
+}
+
+:fullscreen .how-to-play-pepe,
+:-webkit-full-screen .how-to-play-pepe {
+    width: 15%;
+    height: auto;
+}
+
 :fullscreen #game-container,
 :-webkit-full-screen #game-container {
     width: 100vw;
