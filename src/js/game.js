@@ -42,12 +42,13 @@ function setMusicVolume() {
         hideOverlay('muteIcon');
         MENU_SOUND.volume = 0;
         ELPOLLOLOCO_SOUND.volume = 0;
+        INTROCHICKEN_MUSIC.volume = 0;
     } else {
         hideOverlay('unmuteIcon');
         showOverlay('muteIcon');
         MENU_SOUND.volume = musicVolume;
         ELPOLLOLOCO_SOUND.volume = musicVolume;
-
+        INTROCHICKEN_MUSIC.volume = musicVolume;
     }
 }
 
@@ -57,28 +58,42 @@ function setSoundVolume() {
     if (muteGame) {
         hideOverlay('unmuteIcon');
         showOverlay('muteIcon');
-        WALKING_SOUND.volume = 0;
-        DAMAGE_SOUND.volume = 0;
-        JUMP_SOUND.volume = 0;
-        INTROCHICKEN_SOUND.volume = 0;
-        FLYING_THROWOBJECT.volume = 0;
-        BROKEN_THROWOBJECT.volume = 0;
-        COLLECTBOTTLE_SOUND.volume = 0;
-        COLLECTCOIN_SOUND.volume = 0;
-        ENEMYDAMAGE_SOUND.volume = 0;
+        muteSounds();
     } else {
         showOverlay('unmuteIcon');
         hideOverlay('muteIcon');
-        WALKING_SOUND.volume = soundVolume;
-        DAMAGE_SOUND.volume = soundVolume;
-        JUMP_SOUND.volume = soundVolume;
-        INTROCHICKEN_SOUND.volume = soundVolume;
-        FLYING_THROWOBJECT.volume = soundVolume;
-        BROKEN_THROWOBJECT.volume = soundVolume;
-        COLLECTBOTTLE_SOUND.volume = soundVolume;
-        COLLECTCOIN_SOUND.volume = soundVolume;
-        ENEMYDAMAGE_SOUND.volume = soundVolume;
+        setSoundsVolume(soundVolume);
     }
+}
+
+function setSoundsVolume(soundVolume) {
+    WALKING_SOUND.volume = soundVolume;
+    DAMAGE_SOUND.volume = soundVolume;
+    JUMP_SOUND.volume = soundVolume;
+    INTROCHICKEN_SOUND.volume = soundVolume;
+    INTROCHICKEN_END.volume = soundVolume;
+    FLYING_THROWOBJECT.volume = soundVolume;
+    BROKEN_THROWOBJECT.volume = soundVolume;
+    COLLECTBOTTLE_SOUND.volume = soundVolume;
+    COLLECTCOIN_SOUND.volume = soundVolume;
+    ENEMYDAMAGE_SOUND.volume = soundVolume;
+    LOSE_SOUND.volume = soundVolume;
+    WIN_SOUND.volume = soundVolume;
+}
+
+function muteSounds() {
+    WALKING_SOUND.volume = 0;
+    DAMAGE_SOUND.volume = 0;
+    JUMP_SOUND.volume = 0;
+    INTROCHICKEN_SOUND.volume = 0;
+    INTROCHICKEN_END.volume = 0;
+    FLYING_THROWOBJECT.volume = 0;
+    BROKEN_THROWOBJECT.volume = 0;
+    COLLECTBOTTLE_SOUND.volume = 0;
+    COLLECTCOIN_SOUND.volume = 0;
+    ENEMYDAMAGE_SOUND.volume = 0;
+    LOSE_SOUND.volume = 0;
+    WIN_SOUND.volume = 0;
 }
 
 function playMenuMusic() {

@@ -49,7 +49,7 @@ class CharacterPepe extends MovableObject {
         this.loadImages(this.JUMP_SET); this.loadImages(this.DEAD_SET);
         this.loadImages(this.HURT_SET); this.loadImages(this.SLEEPING_SET);
         this.setupCharacterDefaults();
-        this.applyGravity(); this.animate();
+        this.applyGravity(); this.animate(); this.checkPreviousY();
         this.characterStatus(); this.worldCollisions();
     }
 

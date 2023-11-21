@@ -10,7 +10,7 @@ class MovableObject extends DrawableObject {
     mainHealth = 100; normalEnemyHealth = 100;
     smallEnemyHealth = 100; endbossHealth = 1000;
     thisLeftOffset; thisRightOffset;
-
+    previousY;
     isAudioPlaying = false; nullStatus = false; isEnd = false;
     collidingStatus = false; collidingEnemyStatus = false; otherDirection = false;
     triggerAnimation = false; isTriggert = false;
@@ -26,6 +26,12 @@ class MovableObject extends DrawableObject {
                 this.speedY -= this.acceleration;
             }
         }, 1000 / 35);
+    }
+
+    checkPreviousY() {
+        setInterval(() => {
+            this.previousY = this.y;
+        }, 100);
     }
 
     /**
@@ -122,7 +128,7 @@ class MovableObject extends DrawableObject {
         return this.x + this.thisLeftOffset < object.x + object.width - object.offsetXR &&
             this.x + this.width - this.thisRightOffset > object.x + object.offsetXL &&
             this.y + this.offsetYU < object.y + object.height - object.offsetYD &&
-            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 30;
+            this.y + this.height - this.offsetYD > object.y + object.offsetYU - 30 && this.previousY < this.y;
     }
 
     whatIsMyDirection() {
