@@ -18,6 +18,13 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Initiates the animation process for the object.
+     * This method sets two intervals: one for moving the object to the left (if it's not dead and the game is not stopped)
+     * and another for playing the walking animation under the same conditions. If the object is dead,
+     * it loads the dead image instead. This method ensures the continuous animation of the object
+     * based on its state (alive or dead) and the game status.
+     */
     animate() {
         setInterval(() => {
             if (!this.isDead() && !gameStop) {

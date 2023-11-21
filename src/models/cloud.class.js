@@ -1,6 +1,5 @@
 class Cloud extends MovableObject {
 
-
     /**
      * Constructor for the Cloud class.
      * @param {string} image - Path to the image resource.

@@ -15,11 +15,15 @@ class Coin extends MovableObject {
         this.animate();
     }
 
-
+    /**
+     * Regularly triggers a specific animation for the object.
+     * This method uses a setInterval function to continuously play the animation defined in the ACTIV_SET.
+     * The interval is set to 650 milliseconds, creating a loop that ensures the animation
+     * is played repeatedly at a consistent rate.
+     */
     animate() {
         setInterval(() => {
             this.playAnimation(this.ACTIV_SET);
         }, 650);
     }
-
 }

@@ -65,6 +65,11 @@ class EndbossChicken extends MovableObject {
         this.waitOfCharacter();
     }
 
+    /**
+     * Sets up a periodic check to trigger a specific animation and music when certain conditions are met.
+     * The function checks at intervals if the character has reached a specific position and if the game is not stopped.
+     * When the conditions are satisfied, it sets the level start and end positions, triggers an animation clip, and starts playing music.
+     */
     waitOfCharacter() {
         setInterval(() => {
             if (this.triggerAnimation == false) {
@@ -78,6 +83,10 @@ class EndbossChicken extends MovableObject {
         }, 1000 / 10);
     }
 
+    /**
+     * Regularly checks if the introductory sequence is over and if so, triggers the attack animation.
+     * After a set delay, it calls a method to end the intro sequence unless it has already been triggered.
+     */
     triggertEnds() {
         setInterval(() => {
             if (this.isIntroOver() && !gameStop) {
@@ -91,6 +100,11 @@ class EndbossChicken extends MovableObject {
         }, 800);
     }
 
+    /**
+     * Manages the skills of the boss character.
+     * The function continuously checks if the boss is triggered and the game is not stopped.
+     * If true, it moves the boss towards the character based on the character's position relative to the boss.
+     */
     bossSkills() {
         this.endbossStatus();
         setInterval(() => {
@@ -107,6 +121,10 @@ class EndbossChicken extends MovableObject {
         }, 20);
     }
 
+    /**
+     * Manages the animation states of the endboss.
+     * This method controls various animations of the endboss such as dead, damaged, walking, and attacking animations.
+     */
     endbossStatus() {
         this.deadAnimation();
         this.damageAnimation();
@@ -114,6 +132,12 @@ class EndbossChicken extends MovableObject {
         this.attackAnimation();
     }
 
+    /**
+     * Determines if the endboss is close to the character.
+     * This method calculates the distance between the endboss and the character and returns true if they are within a certain range.
+     * 
+     * @returns {boolean} - True if the endboss is close to the character, false otherwise.
+     */
     closeToCharacter() {
         return (world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR) - (this.x + this.offsetXL) < 50 &&
             (world.level.character[0].x + world.level.character[0].width - world.level.character[0].offsetXR) - (this.x + this.offsetXL) > -150
@@ -121,14 +145,30 @@ class EndbossChicken extends MovableObject {
             (this.x + this.width - this.offsetXR) - (world.level.character[0].x + world.level.character[0].offsetXL) > -150
     }
 
+    /**
+     * Checks if the character is in a specific position to trigger an event.
+     * This is typically used to start a certain sequence or animation when the character reaches a particular point.
+     * 
+     * @returns {boolean} - True if the character is in the triggering position, false otherwise.
+     */
     characterTriggerPosition() {
         return this.x > 2770 && world.level.character[0].x > 2415 && this.triggerAnimation == false;
     }
 
+    /**
+     * Determines if the introductory sequence is over.
+     * This method checks if certain conditions have been met to conclude that the introduction sequence has ended.
+     * 
+     * @returns {boolean} - True if the introduction is over, false otherwise.
+     */
     isIntroOver() {
         return this.triggerAnimation == true && this.isTriggert == false;
     }
 
+    /**
+     * Triggers a specific animation clip and sets up the end of the introduction sequence.
+     * This method plays an alert animation and after a delay, changes the state to indicate that the intro sequence is over.
+     */
     triggerAnimationClip() {
         this.playAnimation(this.ALERT_SET);
         setTimeout(() => {
@@ -138,6 +178,11 @@ class EndbossChicken extends MovableObject {
         }, 2500);
     }
 
+    /**
+     * Handles the conclusion of the introduction sequence.
+     * It sets the endboss to be active, creates enemy characters, and adjusts the level boundaries.
+     * Also, it initiates the boss's skills and actions post-introduction.
+     */
     introEnds() {
         this.isTriggert = true;
         this.createEnemys();
@@ -147,6 +192,10 @@ class EndbossChicken extends MovableObject {
         this.bossSkills();
     }
 
+    /**
+     * Creates new enemy characters (normal and small chickens) at the current position of the invoking object.
+     * The newly created enemies are added to their respective arrays in the game level for further interaction.
+     */
     createEnemys() {
         let chickenNormal = new Chicken(this.x);
         let chickenSmall = new SmallChicken(this.x);
@@ -154,6 +203,11 @@ class EndbossChicken extends MovableObject {
         world.level.smallEnemy.push(chickenSmall);
     }
 
+    /**
+     * Sets an interval to trigger the attack animation when certain conditions are met.
+     * This method checks if the character is close to the enemy, the game is not stopped, and the enemy is not dead.
+     * The attack animation is played repeatedly within the set interval.
+     */
     attackAnimation() {
         setInterval(() => {
             if (this.closeToCharacter() && !gameStop && !this.isDead()) {
@@ -162,6 +216,10 @@ class EndbossChicken extends MovableObject {
         }, 230);
     }
 
+    /**
+     * Periodically triggers the walking animation based on the character's relative position to the boss.
+     * The animation is played if the character is to the left or right of the boss and not too close.
+     */
     walkingAnimation() {
         setInterval(() => {
             if (this.isCharacterLeftFromBoss() && !this.closeToCharacter() && !gameStop || this.isCharacterRightFromBoss() && !this.closeToCharacter() && !gameStop) {
@@ -170,6 +228,10 @@ class EndbossChicken extends MovableObject {
         }, 230);
     }
 
+    /**
+     * Regularly triggers the damage animation if the character is hurt, alive, and the game is not stopped.
+     * This creates a visual effect of the character being damaged.
+     */
     damageAnimation() {
         setInterval(() => {
             if (this.isHurt() && !this.isDead() && !gameStop) {
@@ -178,6 +240,10 @@ class EndbossChicken extends MovableObject {
         }, 300);
     }
 
+    /**
+     * Sets an interval to execute the death animation sequence when the character is dead.
+     * This method also ensures that the game is not stopped when triggering the dead animation.
+     */
     deadAnimation() {
         setInterval(() => {
             if (this.isDead() && !gameStop) {
@@ -186,6 +252,10 @@ class EndbossChicken extends MovableObject {
         }, 600);
     }
 
+    /**
+     * Plays the introductory music for the endboss if it hasn't been played already.
+     * It ensures that the music starts only once when the endboss is encountered.
+     */
     musicOn() {
         if (!this.endbossMusic) {
             this.endbossMusic = true;
@@ -194,6 +264,10 @@ class EndbossChicken extends MovableObject {
         }
     }
 
+    /**
+     * Manages the animation sequence for when the character or enemy dies.
+     * It plays the death animation and, after a delay, triggers the game win sequence and plays the win sound.
+     */
     endAnimation() {
         if (!this.isEnd) {
             this.playAnimation(this.DEAD_SET);

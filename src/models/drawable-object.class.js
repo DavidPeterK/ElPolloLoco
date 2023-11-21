@@ -41,6 +41,13 @@ class DrawableObject {
         });
     }
 
+    /**
+     * Plays the animation by cycling through a series of images.
+     * This method sequentially accesses images in an array to create an animation effect.
+     * The current image is determined by the remainder of currentImage divided by the number of images.
+     *
+     * @param {Array} images - An array of image paths used for the animation.
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -48,6 +55,13 @@ class DrawableObject {
         this.currentImage++;
     }
 
+    /**
+     * Draws a hitbox around the object if it's one of the specified types.
+     * This method is used for debugging or visualizing the collision area of the object.
+     * It creates a rectangular outline based on the object's dimensions and offset values.
+     *
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context to draw the hitbox.
+     */
     drawHitBox(ctx) {
         if (this.objectsWithHitBox()) {
             ctx.beginPath();
@@ -63,6 +77,12 @@ class DrawableObject {
         }
     }
 
+    /**
+     * Determines if the object should have a hitbox drawn.
+     * This method checks the type of the object against a list of specified types that require a hitbox.
+     *
+     * @returns {boolean} - True if the object is one of the types that requires a hitbox, false otherwise.
+     */
     objectsWithHitBox() {
         return this instanceof CharacterPepe
             || this instanceof EndbossChicken
@@ -72,6 +92,4 @@ class DrawableObject {
             || this instanceof SalsaBottle
             || this instanceof Coin
     }
-
-
 }

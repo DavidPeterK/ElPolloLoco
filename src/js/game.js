@@ -4,7 +4,8 @@ let coinStorage = 0; let throwObjectsStorage = 0;
 let mobileOverlay = true; let muteGame = false;
 
 /**
- * Initializes the game by setting up the canvas and the world.
+ * Initializes the game setup.
+ * This function sets up initial game settings like music, sound volumes, and UI elements.
  */
 function init() {
     setTimeout(() => {
@@ -16,6 +17,10 @@ function init() {
     }, 4000);
 }
 
+/**
+ * Starts the game.
+ * This function initializes the level, sets up the keyboard and game world, and plays the game music.
+ */
 function startGame() {
     startLevelEPL1()
     keyboard = new Keyboard();
@@ -31,10 +36,16 @@ function startGame() {
     }, 3500);
 }
 
+/**
+ * Restarts the game by reloading the webpage.
+ */
 function restartGame() {
     location.reload();
 }
 
+/**
+ * Sets the music volume for the game based on user input and mute status.
+ */
 function setMusicVolume() {
     let musicVolume = document.getElementById('volumeControlMusic').value;
     if (muteGame) {
@@ -52,7 +63,9 @@ function setMusicVolume() {
     }
 }
 
-// Funktion, um die Soundeffektlautstärke zu ändern
+/**
+ * Sets the sound effects volume for the game based on user input and mute status.
+ */
 function setSoundVolume() {
     let soundVolume = document.getElementById('volumeControlSound').value;
     if (muteGame) {
@@ -66,6 +79,11 @@ function setSoundVolume() {
     }
 }
 
+/**
+ * Sets the volume for various game sounds.
+ * 
+ * @param {number} soundVolume - The volume level to set for game sounds.
+ */
 function setSoundsVolume(soundVolume) {
     WALKING_SOUND.volume = soundVolume;
     DAMAGE_SOUND.volume = soundVolume;
@@ -81,6 +99,9 @@ function setSoundsVolume(soundVolume) {
     WIN_SOUND.volume = soundVolume;
 }
 
+/**
+ * Mutes all game sounds.
+ */
 function muteSounds() {
     WALKING_SOUND.volume = 0;
     DAMAGE_SOUND.volume = 0;
@@ -96,48 +117,75 @@ function muteSounds() {
     WIN_SOUND.volume = 0;
 }
 
+/**
+ * Plays the menu music and sets it to loop.
+ */
 function playMenuMusic() {
     if (!ELPOLLOLOCO_SOUND.paused) {
         ELPOLLOLOCO_SOUND.pause();
-        ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+        ELPOLLOLOCO_SOUND.currentTime = 0;
     }
-    MENU_SOUND.play();
+    MENU_SOUND.play().then(() => {
+    }).catch((err) => {
+        console.warn(`Failed to play menu music: ${err.message}`);
+    });
     MENU_SOUND.loop = true;
 }
 
-// Funktion, um Ingame-Musik zu spielen
+/**
+ * Plays the main game music and sets it to loop.
+ */
 function playGameMusic() {
     if (!MENU_SOUND.paused) {
         MENU_SOUND.pause();
-        MENU_SOUND.currentTime = 0; // Setzt die Menümusik zurück zum Anfang      
+        MENU_SOUND.currentTime = 0;
     }
     ELPOLLOLOCO_SOUND.play();
     ELPOLLOLOCO_SOUND.loop = true;
 }
 
+/**
+ * Plays the endboss music and sets it to loop.
+ */
 function playEndbossMusic() {
     if (!ELPOLLOLOCO_SOUND.paused) {
         ELPOLLOLOCO_SOUND.pause();
-        ELPOLLOLOCO_SOUND.currentTime = 0; // Setzt die Ingame-Musik zurück zum Anfang
+        ELPOLLOLOCO_SOUND.currentTime = 0;
     }
     INTROCHICKEN_MUSIC.play();
     INTROCHICKEN_MUSIC.loop = true;
 }
 
+/**
+ * Closes the game window.
+ */
 function closeGame() {
     window.close();
 }
 
+/**
+ * Hides a specified overlay element.
+ * 
+ * @param {string} id - The ID of the overlay element to hide.
+ */
 function hideOverlay(id) {
     let overLay = document.getElementById(id);
     overLay.classList.add('d-none');
 }
 
+/**
+ * Shows a specified overlay element.
+ * 
+ * @param {string} id - The ID of the overlay element to show.
+ */
 function showOverlay(id) {
     let overLay = document.getElementById(id);
     overLay.classList.remove('d-none');
 }
 
+/**
+ * Shows the mobile controls overlay if applicable.
+ */
 function showMobileOverlay() {
     if (mobileOverlay) {
         let overLay = document.getElementById('control-container');
@@ -145,26 +193,31 @@ function showMobileOverlay() {
     }
 }
 
-// Toggle-Funktion für Overlays
-function toggleDisplay(elementId) {
-    let element = document.getElementById(elementId);
-    element.style.display = (element.style.display === 'block') ? 'none' : 'block';
-}
-
+/**
+ * Toggles the visibility of the mobile controls overlay.
+ */
 function toggleMobileOverlay() {
     var checkbox = document.getElementById("mobileOverlayCheckbox");
     mobileOverlay = checkbox.checked;
 }
 
+/**
+ * Checks if the current window is in full screen mode.
+ * 
+ * @returns {boolean} True if the window is in full screen mode, false otherwise.
+ */
 function isFullScreen() {
     return (
         document.fullscreenElement ||       // Standard-Property
-        document.webkitFullscreenElement || // Chrome, Safari und Opera Property
+        document.webkitFullscreenElement || // Chrome, Safari and Opera Property
         document.mozFullScreenElement ||    // Firefox Property
-        document.msFullscreenElement        // Internet Explorer und Edge Property
-    ) != null; // Wenn eines dieser Properties existiert, ist der Vollbildmodus aktiv
+        document.msFullscreenElement        // Internet Explorer and Edge Property
+    ) != null;
 }
 
+/**
+ * Regularly checks and updates the fullscreen icon based on the current fullscreen status.
+ */
 function checkIcon() {
     let maxScreenIcon = document.getElementById('enter-fullscreen-button');
     let normalScreenIcon = document.getElementById('exit-fullscreen-button');
@@ -179,44 +232,23 @@ function checkIcon() {
     }, 500);
 }
 
-// Funktion zum Anzeigen des Ladescreens
-function showLoadingScreen() {
-    document.getElementById('loading-screen').style.display = 'block';
-}
-
-// Funktion zum Ausblenden des Ladescreens
-function hideLoadingScreen() {
-    document.getElementById('loading-screen').style.display = 'none';
-}
-
-function enterFullScreen(element) {
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    }
-}
-
-document.addEventListener('fullscreenchange', (event) => {
-    // Get the canvas element
-    let canvas = document.getElementById('canvas');
-    // Check if we are in fullscreen mode
-    if (document.fullscreenElement) {
-        canvas.classList.add('fullscreen');
-    } else {
-        canvas.classList.remove('fullscreen');
-    }
-});
-
-// Modify the enterFullScreen function to handle changes
+/**
+ * Enters fullscreen mode for a specified element.
+ * 
+ * @param {HTMLElement} element - The element to display in fullscreen mode.
+ */
 function enterFullScreen(element) {
     if (element.requestFullscreen) {
         element.requestFullscreen().then(() => {
-            // Additional adjustments if needed after entering fullscreen
         }).catch((err) => {
             console.warn(`Failed to enter fullscreen mode: ${err.message}`);
         });
     }
 }
 
+/**
+ * Exits fullscreen mode.
+ */
 function exitFullScreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -229,6 +261,11 @@ function exitFullScreen() {
     }
 }
 
+/**
+ * Handles the touch start event for mobile controls.
+ * 
+ * @param {string} id - The ID of the touched control element.
+ */
 function touchStart(id) {
     if (id === 'arrow-left') {
         keyboard.LEFT = true;
@@ -244,6 +281,11 @@ function touchStart(id) {
     }
 }
 
+/**
+ * Handles the touch end event for mobile controls.
+ * 
+ * @param {string} id - The ID of the touched control element.
+ */
 function touchEnd(id) {
     if (id === 'arrow-left') {
         keyboard.LEFT = false;
@@ -259,6 +301,11 @@ function touchEnd(id) {
     }
 }
 
+/**
+ * Handles the touch cancel event for mobile controls.
+ * 
+ * @param {string} id - The ID of the touched control element.
+ */
 function touchCancel(id) {
     if (id === 'arrow-left') {
         keyboard.LEFT = false;

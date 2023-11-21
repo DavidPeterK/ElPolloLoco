@@ -12,6 +12,13 @@ class Keyboard {
         document.addEventListener('keyup', this.onKeyUp.bind(this));
     }
 
+    /**
+     * Handles the 'keydown' event for the game.
+     * This method sets the corresponding boolean flags to true based on the key pressed.
+     * It's used for controlling the character or game actions based on keyboard input.
+     *
+     * @param {KeyboardEvent} event - The keyboard event object containing information about the key pressed.
+     */
     onKeyDown(event) {
         switch (event.keyCode) {
             case 37:
@@ -38,6 +45,13 @@ class Keyboard {
         }
     }
 
+    /**
+     * Handles the 'keyup' event for the game.
+     * This method sets the corresponding boolean flags to false when a key is released.
+     * It's used to stop certain actions or movements that are controlled by keyboard input.
+     *
+     * @param {KeyboardEvent} event - The keyboard event object containing information about the key released.
+     */
     onKeyUp(event) {
         switch (event.keyCode) {
             case 37:
