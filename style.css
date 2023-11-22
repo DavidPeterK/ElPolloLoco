@@ -345,7 +345,7 @@ button {
     width: 20%;
     height: 10%;
     color: white;
-    font-size: 22px;
+    font-size: 20px;
     border-radius: 15px;
     background: rgba(0, 0, 0, 0.6);
     box-shadow: 1px #fff;
@@ -466,8 +466,10 @@ button:hover {
 
 #mobileOverlayCheckbox {
     position: absolute;
-    top: 41.5%;
+    top: 41%;
     left: 60%;
+    width: 4%;
+    height: 4%;
 }
 
 #selectGameEPL {
@@ -587,6 +589,24 @@ button:hover {
         height: 100%;
         width: auto;
     }
+
+    button {
+        font-size: 2.9vw;
+    }
+
+    h2 {
+        font-size: 3.4vw;
+    }
+
+    .how-to-play-flex,
+    #musicSpan,
+    #soundSpan,
+    #mobileSpan,
+    #loadSpan {
+        font-size: 2.9vw;
+        right: 44%;
+    }
+
 }
 
 /* Sicherstellen, dass das Spiel im Vollbildmodus korrekt dargestellt wird */
@@ -627,7 +647,7 @@ button:hover {
 :fullscreen canvas,
 :-webkit-full-screen canvas {
     width: 100%;
-    height: auto;
+    height: 100vh;
 }
 
 .fullscreen {
